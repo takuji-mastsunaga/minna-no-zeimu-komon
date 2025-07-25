@@ -1,0 +1,825 @@
+/* ========== 基本設定 ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #ffffff;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ========== ヘッダー ========== */
+.header {
+    background-color: #374151;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: relative;
+}
+
+/* ========== ロゴ ========== */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 6px;
+}
+
+.logo h1 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+}
+
+.logo h1 a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ========== ナビゲーション ========== */
+.nav-desktop {
+    display: none;
+    gap: 1.5rem;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    color: #d1d5db;
+}
+
+.cta-desktop {
+    display: none;
+}
+
+/* ========== ボタン ========== */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background-color: #fbbf24;
+    color: #000;
+}
+
+.btn-primary:hover {
+    background-color: #f59e0b;
+}
+
+.btn-gradient {
+    background: linear-gradient(135deg, #4b5563, #374151);
+    color: white;
+    font-size: 1.25rem;
+    padding: 16px 32px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn-gradient:hover {
+    background: linear-gradient(135deg, #374151, #1f2937);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+}
+
+.btn-application {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    width: 100%;
+    padding: 16px 24px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    border-radius: 50px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn-application:hover:not(:disabled) {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+    transform: translateY(-1px);
+}
+
+.btn-application:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ========== モバイルメニュー ========== */
+.mobile-menu-toggle {
+    display: flex;
+    flex-direction: column;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.mobile-menu-toggle span {
+    width: 24px;
+    height: 3px;
+    background-color: white;
+    margin: 2px 0;
+    transition: 0.3s;
+}
+
+.mobile-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #374151;
+    border-top: 1px solid #4b5563;
+    padding: 16px 20px;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.mobile-menu.active {
+    display: flex;
+}
+
+.mobile-nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.mobile-nav-link:hover {
+    color: #d1d5db;
+}
+
+.mobile-cta {
+    margin-top: 16px;
+}
+
+/* ========== ヒーロー ========== */
+.hero {
+    width: 100%;
+    overflow: hidden;
+}
+
+.hero-image {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    max-width: 100%;
+}
+
+/* ========== About セクション ========== */
+.about {
+    padding: 64px 0;
+    background-color: white;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 64px;
+}
+
+.section-header h2 {
+    font-size: 2.25rem;
+    margin-bottom: 16px;
+    color: #1f2937;
+}
+
+.section-subtitle {
+    font-size: 1.125rem;
+    color: #6b7280;
+}
+
+.about-content {
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
+.about-text {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: #374151;
+    margin-bottom: 32px;
+}
+
+.about-text p {
+    margin-bottom: 24px;
+}
+
+.highlight {
+    color: #374151;
+    font-weight: 600;
+}
+
+.about-highlight {
+    background-color: #f9fafb;
+    padding: 32px;
+    border-radius: 12px;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: #374151;
+}
+
+.about-highlight p {
+    margin-bottom: 16px;
+}
+
+.about-highlight p:last-child {
+    margin-bottom: 0;
+}
+
+/* ========== サービス ========== */
+.services {
+    padding: 64px 0;
+    background-color: #f9fafb;
+}
+
+.services-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+}
+
+.service-item {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: center;
+}
+
+.service-item.reverse .service-content {
+    order: 2;
+}
+
+.service-item.reverse .service-image {
+    order: 1;
+}
+
+.service-content {
+    order: 1;
+}
+
+.service-image {
+    order: 2;
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.service-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.service-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.service-number {
+    font-size: 2.25rem;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.service-icon {
+    width: 48px;
+    height: 48px;
+    background-color: #f3f4f6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.service-header h3 {
+    font-size: 1.5rem;
+    color: #1f2937;
+    flex: 1;
+    min-width: 200px;
+}
+
+.service-content p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: #374151;
+}
+
+/* ========== 料金 ========== */
+.pricing {
+    padding: 64px 0;
+    background-color: #f9fafb;
+}
+
+.pricing-card {
+    max-width: 768px;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.pricing-header {
+    text-align: center;
+    background-color: #374151;
+    color: white;
+    padding: 32px;
+}
+
+.badge {
+    background-color: #fbbf24;
+    color: #000;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: inline-block;
+}
+
+.price {
+    margin-bottom: 8px;
+}
+
+.price-main {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.price-period {
+    font-size: 1.125rem;
+    opacity: 0.8;
+    margin-left: 8px;
+}
+
+.price-note {
+    color: #bfdbfe;
+    font-size: 1rem;
+}
+
+.pricing-content {
+    padding: 32px;
+}
+
+.pricing-table table {
+    width: 100%;
+    margin-bottom: 32px;
+}
+
+.pricing-table th {
+    text-align: left;
+    padding: 12px 0;
+    font-size: 1.125rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.pricing-table th:last-child {
+    text-align: right;
+}
+
+.pricing-table td {
+    padding: 16px 0;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 1rem;
+}
+
+.pricing-table td:last-child {
+    text-align: right;
+}
+
+.price-highlight {
+    color: #374151;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.annual-cost {
+    background-color: #374151;
+    color: white;
+    padding: 24px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.annual-cost p {
+    font-size: 1.125rem;
+    margin-bottom: 8px;
+}
+
+.annual-price {
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+
+.important-notes {
+    background-color: #fef3c7;
+    border-left: 4px solid #f59e0b;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.important-notes h4 {
+    color: #92400e;
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.important-notes ul {
+    color: #b45309;
+    font-size: 0.875rem;
+    list-style: none;
+    padding: 0;
+}
+
+.important-notes li {
+    margin-bottom: 4px;
+}
+
+/* ========== コスト比較 ========== */
+.cost-comparison {
+    padding: 64px 0;
+    background-color: #f9fafb;
+}
+
+.comparison-image {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.comparison-img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.comparison-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.comparison-card {
+    background: white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    padding: 24px;
+    min-height: 300px;
+}
+
+.comparison-card.featured {
+    background: linear-gradient(135deg, #fdf2f8, #f3e8ff);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    border: 2px solid #ec4899;
+    position: relative;
+}
+
+.comparison-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.comparison-header h3 {
+    font-size: 1.25rem;
+    color: #1f2937;
+    margin-bottom: 16px;
+}
+
+.comparison-price {
+    font-size: 2.25rem;
+    color: #6b7280;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.comparison-price.special {
+    color: #ec4899;
+    font-size: 2.5rem;
+}
+
+.comparison-period {
+    color: #9ca3af;
+    font-size: 1rem;
+}
+
+.best-price-badge {
+    background-color: #ec4899;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 16px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-top: 12px;
+    display: inline-block;
+}
+
+.comparison-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.comparison-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 1rem;
+}
+
+.comparison-card.featured .comparison-item {
+    border-bottom-color: rgba(236, 72, 153, 0.1);
+}
+
+.special-price {
+    color: #ec4899;
+    font-weight: 700;
+}
+
+.system-note {
+    margin-top: 16px;
+    padding: 12px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+}
+
+.system-note small {
+    color: #374151;
+    font-size: 0.875rem;
+}
+
+/* ========== コンタクト ========== */
+.contact {
+    padding: 64px 0;
+    background: linear-gradient(135deg, #374151, #1f2937);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-header {
+    text-align: center;
+    margin-bottom: 64px;
+}
+
+.contact-logo {
+    margin-bottom: 24px;
+}
+
+.contact-logo-img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    padding: 12px;
+    margin: 0 auto;
+    display: block;
+}
+
+.contact-header h2 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 32px;
+}
+
+.contact-header p {
+    font-size: 1.125rem;
+    font-weight: 500;
+}
+
+.terms-agreement {
+    max-width: 1024px;
+    margin: 0 auto 48px;
+}
+
+.checkbox-wrapper {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(4px);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.terms-checkbox {
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+    cursor: pointer;
+    accent-color: #374151;
+}
+
+.terms-label {
+    color: #1f2937;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.terms-link {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+.terms-link:hover {
+    color: #1d4ed8;
+}
+
+.application-forms {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.application-card {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(4px);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.application-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.application-icon {
+    width: 48px;
+    height: 48px;
+    background-color: #2563eb;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.application-header h3 {
+    font-size: 1.5rem;
+    color: #1f2937;
+    font-weight: 700;
+}
+
+.error-message {
+    background-color: #fef2f2;
+    border-left: 4px solid #ef4444;
+    padding: 16px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 16px;
+}
+
+.error-message p {
+    color: #dc2626;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.error-message p:last-child {
+    margin-bottom: 0;
+}
+
+.invoice-note {
+    color: #d97706 !important;
+}
+
+/* ========== フッター ========== */
+.footer {
+    padding: 32px 0;
+    background-color: white;
+    border-top: 1px solid #e5e7eb;
+}
+
+.footer-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-content p {
+    color: #6b7280;
+    font-size: 1rem;
+}
+
+.footer-link {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+.footer-link:hover {
+    color: #1d4ed8;
+}
+
+.copyright {
+    font-size: 0.875rem !important;
+    color: #9ca3af !important;
+}
+
+/* ========== レスポンシブ対応 ========== */
+@media (min-width: 640px) {
+    .cta-desktop {
+        display: block;
+    }
+    
+    .hero-img {
+        object-fit: contain;
+    }
+    
+    .service-item {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .comparison-cards {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    
+    .application-forms {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 1024px) {
+    .mobile-menu-toggle {
+        display: none;
+    }
+    
+    .nav-desktop {
+        display: flex;
+    }
+    
+    .comparison-cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
