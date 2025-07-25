@@ -7,22 +7,10 @@
       "use": "@vercel/static"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/terms",
-      "dest": "/terms.html"
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "status": 404,
-      "dest": "/index.html"
+      "source": "/terms",
+      "destination": "/terms.html"
     }
   ],
   "headers": [
@@ -53,4 +41,4 @@
       ]
     }
   ]
-} 
+}
