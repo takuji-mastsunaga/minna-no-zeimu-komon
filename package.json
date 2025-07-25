@@ -1,0 +1,37 @@
+{
+  "name": "minna-no-zeimu-komon",
+  "version": "1.0.0",
+  "description": "みんなの税務顧問 - サブスクリプション型税理士顧問サービスのランディングページ",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve . --listen 3000",
+    "build": "echo 'Static site - no build step required'",
+    "start": "npx serve .",
+    "vercel-dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "landing-page",
+    "subscription",
+    "stripe",
+    "tax-advisor",
+    "accounting",
+    "japan"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/minna-no-zeimu-komon.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/minna-no-zeimu-komon/issues"
+  },
+  "homepage": "https://github.com/your-username/minna-no-zeimu-komon#readme"
+} 
