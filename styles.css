@@ -656,8 +656,8 @@ body {
 }
 
 .checkbox-wrapper {
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(4px);
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
     border-radius: 16px;
     padding: 24px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -672,14 +672,16 @@ body {
 }
 
 .terms-label {
-    color: #1f2937;
+    color: #1f2937 !important;
     font-size: 1.125rem;
     line-height: 1.8;
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 600;
     display: flex;
     align-items: flex-start;
     gap: 16px;
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
 .terms-link {
