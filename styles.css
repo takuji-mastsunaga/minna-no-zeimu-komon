@@ -46,7 +46,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 56px; /* Reduced height */
+    height: 48px; /* Further reduced height */
     position: relative;
 }
 
@@ -72,7 +72,7 @@ body {
 }
 
 .logo h1 {
-    font-size: 1.125rem;
+    font-size: 1rem; /* Reduced font size */
     font-weight: 600;
     color: #1f2937;
 }
@@ -106,7 +106,7 @@ body {
 /* ========== ボタン ========== */
 .btn {
     display: inline-block;
-    padding: 8px 16px;
+    padding: 6px 14px; /* Reduced padding */
     border-radius: 6px;
     text-decoration: none;
     font-weight: 500;
