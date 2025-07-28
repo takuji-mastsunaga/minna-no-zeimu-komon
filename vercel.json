@@ -1,20 +1,15 @@
 {
   "version": 2,
-  "name": "minna-no-zeimu-komon",
   "builds": [
     {
       "src": "**/*",
       "use": "@vercel/static"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/terms",
-      "dest": "/terms.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/terms",
+      "destination": "/terms.html"
     }
   ],
   "headers": [
@@ -35,8 +30,5 @@
         }
       ]
     }
-  ],
-  "github": {
-    "enabled": true
-  }
+  ]
 }
