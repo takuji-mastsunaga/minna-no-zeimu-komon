@@ -365,14 +365,6 @@ body {
     align-items: center;
 }
 
-.service-item.reverse .service-content {
-    order: 2;
-}
-
-.service-item.reverse .service-image {
-    order: 1;
-}
-
 .service-content {
     order: 1;
 }
@@ -986,6 +978,14 @@ body {
         object-fit: contain;
     }
     
+    .service-item.reverse .service-content {
+        order: 2;
+    }
+
+    .service-item.reverse .service-image {
+        order: 1;
+    }
+
     .service-item {
         grid-template-columns: 1fr 1fr;
     }
