@@ -308,29 +308,28 @@
 
                 <!-- Our Service -->
                 <div class="comparison-card featured">
-                    <div class="plan-header">
+                    <div class="comparison-header">
                         <h3>みんなの税務顧問</h3>
-                        <p class="plan-subtitle">Mina no Zeimu Komon</p>
-                    </div>
-                    <div class="price-bar">
-                        <p>¥109,080<small>（税込）</small>/年間〜</p>
+                        <div class="comparison-price special">¥109,080<small>（税込）</small></div>
+                        <p class="comparison-period">年間</p>
+                        <div class="best-price-badge">最安値</div>
                     </div>
                     <div class="comparison-details">
                         <div class="comparison-item">
-                            <span>✓</span>
-                            <span>月額顧問料 ¥980<small>（税込）</small></span>
+                            <span>月額顧問料</span>
+                            <span class="special-price">¥980<small>（税込）</small></span>
                         </div>
                         <div class="comparison-item">
-                            <span>✓</span>
-                            <span>月間記帳代行料 ¥2,980～<small>（税込）</small></span>
+                            <span>月間記帳代行料</span>
+                            <span>¥2,980～<small>（税込）</small></span>
                         </div>
                         <div class="comparison-item">
-                            <span>✓</span>
-                            <span>申告料 ¥49,800<small>（税込）</small></span>
+                            <span>申告料</span>
+                            <span>¥49,800<small>（税込）</small></span>
                         </div>
                         <div class="comparison-item">
-                            <span>✓</span>
-                            <span>月間会計システム料 ¥980<small>（税込）</small></span>
+                            <span>月間会計システム料</span>
+                            <span>¥980<small>（税込）</small></span>
                         </div>
                     </div>
                     <div class="system-note">

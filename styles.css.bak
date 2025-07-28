@@ -538,55 +538,10 @@ body {
 }
 
 .comparison-card.featured {
-    background: white;
+    background: linear-gradient(135deg, #fdf2f8, #f3e8ff);
     box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-    border: 2px solid #e5e7eb;
+    border: 2px solid #ec4899;
     position: relative;
-    padding: 0;
-}
-
-.plan-header {
-    text-align: center;
-    padding: 24px;
-}
-
-.plan-header h3 {
-    font-size: 1.5rem;
-    color: #d97706; /* Orange color */
-    font-weight: 700;
-}
-
-.plan-header .plan-subtitle {
-    font-size: 1rem;
-    color: #6b7280;
-}
-
-.price-bar {
-    background-color: #d97706; /* Darker Orange */
-    color: white;
-    text-align: center;
-    padding: 16px;
-    font-size: 1.75rem;
-    font-weight: 700;
-}
-
-.price-bar p {
-    margin: 0;
-}
-
-.comparison-card.featured .comparison-details {
-    padding: 24px;
-}
-
-.comparison-card.featured .comparison-item {
-    justify-content: flex-start;
-    gap: 12px;
-}
-
-.comparison-card.featured .comparison-item span:first-child {
-    color: #d97706; /* Orange checkmark */
-    font-weight: 700;
-    font-size: 1.25rem;
 }
 
 .comparison-header {
@@ -615,6 +570,17 @@ body {
 .comparison-period {
     color: #9ca3af;
     font-size: 1rem;
+}
+
+.best-price-badge {
+    background-color: #ec4899;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 16px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-top: 12px;
+    display: inline-block;
 }
 
 .comparison-details {
