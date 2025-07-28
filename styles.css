@@ -484,7 +484,10 @@ body {
 }
 
 .important-notes-modern {
-    padding: 24px;
+    background-color: #fbbf24;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 24px;
 }
 
 .important-notes-modern h4 {
@@ -497,7 +500,7 @@ body {
     list-style: none;
     padding: 0;
     font-size: 0.875rem;
-    color: #6b7280;
+    color: #1f2937;
 }
 
 .important-notes-modern li {
@@ -505,7 +508,7 @@ body {
 }
 
 .plan-cta {
-    padding: 24px;
+    padding: 0 24px 24px;
 }
 
 .btn-modern-plan {
