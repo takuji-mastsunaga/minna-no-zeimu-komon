@@ -472,6 +472,12 @@ body {
     font-weight: 700;
 }
 
+.annual-cost-note {
+    font-size: 0.875rem;
+    margin-top: 8px;
+    color: #e5e7eb;
+}
+
 .important-notes {
     background-color: #fef3c7;
     border-left: 4px solid #f59e0b;
