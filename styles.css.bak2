@@ -363,169 +363,144 @@ body {
     color: #374151;
 }
 
-/* ========== Modern Pricing Section ========== */
-.pricing.modern {
-    background-color: #f0f9ff;
+/* ========== 料金 ========== */
+.pricing {
     padding: 64px 0;
+    background-color: #f9fafb;
 }
 
-.plan-card {
-    background-color: white;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    max-width: 500px;
+.pricing-card {
+    max-width: 768px;
     margin: 0 auto;
+    background: white;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
 }
 
-.plan-card-header {
-    background-color: #14b8a6; /* Teal color */
-    color: white;
-    padding: 24px;
+.pricing-header {
     text-align: center;
+    background-color: #374151;
+    color: white;
+    padding: 32px;
 }
 
-.plan-tag {
-    display: inline-block;
-    border: 1px solid white;
+.badge {
+    background-color: #fbbf24;
+    color: #000;
     padding: 4px 12px;
     border-radius: 16px;
     font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: inline-block;
+}
+
+.price {
     margin-bottom: 8px;
 }
 
-.plan-title {
-    font-size: 1.75rem;
+.price-main {
+    font-size: 3rem;
     font-weight: 700;
 }
 
-.price-info {
-    padding: 24px;
-    border-bottom: 1px solid #e5e7eb;
+.price-period {
+    font-size: 1.125rem;
+    opacity: 0.8;
+    margin-left: 8px;
 }
 
-.price-main-line {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 8px;
-}
-
-.price-label {
-    background-color: #ef4444; /* Red */
-    color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.875rem;
-    font-weight: 700;
-}
-
-.price-amount {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #1f2937;
-}
-
-.price-unit {
-    font-size: 1rem;
-    color: #6b7280;
-}
-
-.price-sub-line {
-    text-align: center;
-    margin-top: 8px;
-    font-size: 0.875rem;
-    color: #6b7280;
-}
-
-.plan-features {
-    list-style: none;
-    padding: 24px;
-}
-
-.plan-features li {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
+.price-note {
+    color: #fbbf24;
     font-size: 1rem;
 }
 
-.checkmark {
-    color: #14b8a6; /* Teal color */
+.pricing-content {
+    padding: 32px;
+}
+
+.pricing-table table {
+    width: 100%;
+    margin-bottom: 32px;
+}
+
+.pricing-table th {
+    text-align: left;
+    padding: 12px 0;
+    font-size: 1.125rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.pricing-table th:last-child {
+    text-align: right;
+}
+
+.pricing-table td {
+    padding: 16px 0;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 1rem;
+}
+
+.pricing-table td:last-child {
+    text-align: right;
+}
+
+.price-highlight {
+    color: #374151;
     font-size: 1.25rem;
-    font-weight: 700;
+    font-weight: 600;
 }
 
-.annual-total-box {
-    background-color: #f8fafc;
+.annual-cost {
+    background-color: #374151;
+    color: white;
     padding: 24px;
-    margin: 0 24px;
     border-radius: 8px;
     text-align: center;
+    margin-bottom: 24px;
 }
 
-.annual-total-label {
-    font-size: 1rem;
-    color: #6b7280;
-    margin-bottom: 4px;
-}
-
-.annual-total-price {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: #1f2937;
-    margin-bottom: 4px;
-}
-
-.annual-total-note {
-    font-size: 0.875rem;
-    color: #6b7280;
-}
-
-.important-notes-modern {
-    padding: 24px;
-}
-
-.important-notes-modern h4 {
+.annual-cost p {
     font-size: 1.125rem;
-    margin-bottom: 12px;
-    color: #1f2937;
+    margin-bottom: 8px;
 }
 
-.important-notes-modern ul {
+.annual-price {
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+
+.annual-cost-note {
+    font-size: 0.875rem;
+    margin-top: 8px;
+    color: #e5e7eb;
+}
+
+.important-notes {
+    background-color: #fef3c7;
+    border-left: 4px solid #f59e0b;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.important-notes h4 {
+    color: #92400e;
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.important-notes ul {
+    color: #b45309;
+    font-size: 0.875rem;
     list-style: none;
     padding: 0;
-    font-size: 0.875rem;
-    color: #6b7280;
 }
 
-.important-notes-modern li {
-    margin-bottom: 8px;
+.important-notes li {
+    margin-bottom: 4px;
 }
-
-.plan-cta {
-    padding: 24px;
-}
-
-.btn-modern-plan {
-    display: block;
-    width: 100%;
-    background-color: #14b8a6; /* Teal color */
-    color: white;
-    padding: 16px;
-    border-radius: 8px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 1.125rem;
-    font-weight: 700;
-    transition: background-color 0.3s;
-}
-
-.btn-modern-plan:hover {
-    background-color: #0f766e; /* Darker Teal */
-}
-
 
 /* ========== コスト比較 ========== */
 .cost-comparison {
