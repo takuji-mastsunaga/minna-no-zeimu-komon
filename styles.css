@@ -248,39 +248,34 @@ body {
 }
 
 .elegant-line {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background-color: #e5e7eb;
+    display: none; /* Hide on mobile by default */
 }
 
 .elegant-content {
     max-width: 800px;
     margin: 0 auto;
-    text-align: center;
+    text-align: left; /* Left align on mobile */
     position: relative;
 }
 
 .elegant-title {
     font-family: 'Noto Serif JP', serif;
-    font-size: 3rem;
+    font-size: 2.5rem; /* Adjust for mobile */
     font-weight: 500;
     color: #1f2937;
-    margin-bottom: 48px;
+    margin-bottom: 32px;
     line-height: 1.5;
 }
 
 .elegant-text {
     font-family: 'Noto Serif JP', serif;
-    font-size: 1.125rem;
+    font-size: 1rem; /* Adjust for mobile */
     color: #374151;
-    line-height: 2.2;
+    line-height: 2;
 }
 
 .elegant-text p {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 /* ========== About セクション ========== */
@@ -996,6 +991,28 @@ body {
     
     .application-forms {
         grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 768px) {
+    /* Apply elegant styles only on larger screens */
+    .elegant-line {
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background-color: #e5e7eb;
+    }
+    .elegant-content {
+        text-align: center;
+    }
+    .elegant-title {
+        font-size: 3rem;
+    }
+    .elegant-text {
+        font-size: 1.125rem;
     }
 }
 
