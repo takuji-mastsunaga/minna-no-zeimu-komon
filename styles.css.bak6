@@ -240,49 +240,6 @@ body {
     max-width: 100%;
 }
 
-/* ========== Elegant About Section ========== */
-.about.elegant {
-    padding: 100px 0;
-    position: relative;
-    background-color: #fff;
-}
-
-.elegant-line {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background-color: #e5e7eb;
-}
-
-.elegant-content {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
-    position: relative;
-}
-
-.elegant-title {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 3rem;
-    font-weight: 500;
-    color: #1f2937;
-    margin-bottom: 48px;
-    line-height: 1.5;
-}
-
-.elegant-text {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 1.125rem;
-    color: #374151;
-    line-height: 2.2;
-}
-
-.elegant-text p {
-    margin-bottom: 2rem;
-}
-
 /* ========== About セクション ========== */
 .about {
     padding: 64px 0;
