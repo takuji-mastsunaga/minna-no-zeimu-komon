@@ -261,7 +261,7 @@ body {
 
 .elegant-title {
     font-family: 'Noto Serif JP', serif;
-    font-size: 2rem; /* Further adjust for mobile */
+    font-size: 1.8rem; /* Final adjustment for mobile */
     font-weight: 500;
     color: #1f2937;
     margin-bottom: 32px;
