@@ -28,10 +28,9 @@ body {
 
 /* ========== ヘッダー ========== */
 .header {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    position: sticky;
+    top: -220px; /* Adjust this value to control overlap */
+    margin: 20px auto;
     width: 95%;
     max-width: 1200px;
     z-index: 50;
@@ -40,14 +39,20 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    transition: top 0.3s;
 }
 
 .nav-wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 64px;
+    height: 56px; /* Reduced height */
     position: relative;
+}
+
+/* Add a class to adjust header position when not at the top */
+.header.scrolled {
+    top: 20px;
 }
 
 /* ========== ロゴ ========== */
@@ -219,6 +224,7 @@ body {
 .hero {
     width: 100%;
     overflow: hidden;
+    margin-top: -80px; /* Pull the hero image up */
 }
 
 .hero-image {
