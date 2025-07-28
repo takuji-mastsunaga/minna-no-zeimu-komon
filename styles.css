@@ -839,27 +839,27 @@ body {
     border-radius: 16px;
     padding: 24px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
 }
 
 .terms-checkbox {
     width: 24px;
     height: 24px;
-    margin-right: 16px;
+    margin-right: 0;
+    flex-shrink: 0;
+    margin-top: 5px; /* Adjust vertical alignment */
     cursor: pointer;
     accent-color: #14b8a6;
 }
 
 .terms-label {
-    color: #1f2937 !important;
+    color: #1f2d37 !important;
     font-size: 1.125rem;
     line-height: 1.8;
     cursor: pointer;
     font-weight: 600;
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    opacity: 1 !important;
-    visibility: visible !important;
 }
 
 .terms-link {
