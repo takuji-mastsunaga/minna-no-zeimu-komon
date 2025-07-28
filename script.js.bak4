@@ -41,20 +41,17 @@ if (termsCheckbox && applyNoTaxBtn && applyWithTaxBtn && errorNoTax && errorWith
     termsCheckbox.addEventListener('change', function() {
         const isChecked = this.checked;
         
-        // ボタンの有効/無効とクラス切り替え
+        // ボタンの有効/無効を切り替え
         applyNoTaxBtn.disabled = !isChecked;
         applyWithTaxBtn.disabled = !isChecked;
         
+        // エラーメッセージの表示/非表示
         if (isChecked) {
-            applyNoTaxBtn.classList.add('active');
-            applyWithTaxBtn.classList.add('active');
-            errorNoTax.classList.add('hidden');
-            errorWithTax.classList.add('hidden');
+            errorNoTax.style.display = 'none';
+            errorWithTax.style.display = 'none';
         } else {
-            applyNoTaxBtn.classList.remove('active');
-            applyWithTaxBtn.classList.remove('active');
-            errorNoTax.classList.remove('hidden');
-            errorWithTax.classList.remove('hidden');
+            errorNoTax.style.display = 'block';
+            errorWithTax.style.display = 'block';
         }
     });
 }
@@ -87,7 +84,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (applyNoTaxBtn) applyNoTaxBtn.disabled = true;
     if (applyWithTaxBtn) applyWithTaxBtn.disabled = true;
     
-    // エラーメッセージは初期表示のまま（クラスで制御）
+    // 初期状態でエラーメッセージを表示
+    if (errorNoTax) errorNoTax.style.display = 'block';
+    if (errorWithTax) errorWithTax.style.display = 'block';
 });
 
 // スクロール時のアニメーション効果（簡易版）

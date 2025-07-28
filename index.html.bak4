@@ -342,7 +342,7 @@
                     </div>
                     <div class="application-content">
                         <button id="apply-no-tax" class="btn btn-application" disabled>申し込む</button>
-                        <div id="error-no-tax" class="error-message">
+                        <div id="error-no-tax" class="error-message" style="display: none;">
                             <p>利用規約への同意が必要です</p>
                         </div>
                     </div>
@@ -356,7 +356,7 @@
                     </div>
                     <div class="application-content">
                         <button id="apply-with-tax" class="btn btn-application" disabled>申し込む</button>
-                        <div id="error-with-tax" class="error-message">
+                        <div id="error-with-tax" class="error-message" style="display: none;">
                             <p>利用規約への同意が必要です</p>
                             <p class="invoice-note">インボイス登録をされている方は、こちらを選択してください。</p>
                         </div>
