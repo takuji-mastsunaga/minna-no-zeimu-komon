@@ -684,42 +684,15 @@ body {
 /* ========== コンタクト ========== */
 .contact {
     padding: 64px 0;
-    background: #e0f2f1; /* Light Teal background */
-    color: #1f2937; /* Dark text for contrast */
+    background: linear-gradient(135deg, #374151, #1f2937);
+    color: white;
     position: relative;
     overflow: hidden;
-}
-
-.contact::before,
-.contact::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.15;
-    filter: blur(50px);
-}
-
-.contact::before {
-    background: linear-gradient(135deg, #14b8a6, #81d8d0);
-    width: 400px;
-    height: 400px;
-    top: -150px;
-    left: -150px;
-}
-
-.contact::after {
-    background: linear-gradient(135deg, #81d8d0, #a7e9e4);
-    width: 300px;
-    height: 300px;
-    bottom: -100px;
-    right: -100px;
 }
 
 .contact-header {
     text-align: center;
     margin-bottom: 64px;
-    position: relative;
-    z-index: 1;
 }
 
 .contact-logo {
@@ -730,7 +703,7 @@ body {
     width: 64px;
     height: 64px;
     object-fit: contain;
-    background: rgba(0,0,0,0.05);
+    background: rgba(255,255,255,0.1);
     border-radius: 50%;
     padding: 12px;
     margin: 0 auto;
@@ -741,29 +714,24 @@ body {
     font-size: 2.25rem;
     font-weight: 700;
     margin-bottom: 32px;
-    color: #1f2937;
 }
 
 .contact-header p {
     font-size: 1.125rem;
     font-weight: 500;
-    color: #374151;
 }
 
 .terms-agreement {
     max-width: 1024px;
     margin: 0 auto 48px;
-    position: relative;
-    z-index: 1;
 }
 
 .checkbox-wrapper {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
     border-radius: 16px;
     padding: 24px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .terms-checkbox {
@@ -771,7 +739,7 @@ body {
     height: 24px;
     margin-right: 16px;
     cursor: pointer;
-    accent-color: #14b8a6;
+    accent-color: #374151;
 }
 
 .terms-label {
@@ -788,12 +756,12 @@ body {
 }
 
 .terms-link {
-    color: #0f766e;
+    color: #2563eb;
     text-decoration: underline;
 }
 
 .terms-link:hover {
-    color: #14b8a6;
+    color: #1d4ed8;
 }
 
 .application-forms {
@@ -802,17 +770,14 @@ body {
     gap: 32px;
     max-width: 1200px;
     margin: 0 auto;
-    position: relative;
-    z-index: 1;
 }
 
 .application-card {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(4px);
     border-radius: 16px;
     padding: 32px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .application-header {
@@ -823,7 +788,7 @@ body {
 .application-icon {
     width: 48px;
     height: 48px;
-    background-color: #14b8a6;
+    background-color: #2563eb;
     border-radius: 50%;
     display: flex;
     align-items: center;

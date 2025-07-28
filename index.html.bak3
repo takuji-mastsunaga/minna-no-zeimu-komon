@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>みんなの税務顧問 - ※月額980円の税理士顧問サービス</title>
+    <meta name="description" content="年商1,000万円以下の事業者に特化した月額980円の税務顧問サービス。AIを活用し従来では考えられない低価格を実現。">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <img src="images/logo_character.png" alt="みんなの税務顧問ロゴ" class="logo-img">
+                    <h1><a href="#top">みんなの税務顧問</a></h1>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <nav class="nav-desktop">
+                    <a href="#services" class="nav-link">サービス内容</a>
+                    <a href="#plans" class="nav-link">料金</a>
+                    <a href="#cost-comparison" class="nav-link">コスト比較</a>
+                </nav>
+                
+                <!-- Desktop CTA Button -->
+                <div class="cta-desktop">
+                    <a href="#contact" class="btn btn-primary">申込はこちら</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <!-- Mobile Menu -->
+                <nav class="mobile-menu" id="mobileMenu">
+                    <a href="#services" class="mobile-nav-link">サービス内容</a>
+                    <a href="#plans" class="mobile-nav-link">料金</a>
+                    <a href="#cost-comparison" class="mobile-nav-link">コスト比較</a>
+                    <a href="#contact" class="btn btn-primary mobile-cta">申込はこちら</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Image -->
+    <section class="hero">
+        <div class="hero-image">
+            <img src="images/thumbnail.png" alt="みんなの税務顧問ヘッダー" class="hero-img">
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>みんなの税務顧問とは？</h2>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <p>個人事業主やスタートアップなど小規模なビジネスを営む多くの方が、税に関する悩みを抱えながらも、費用の関係から税務顧問を諦め、たった一人で奮闘している現状があります。</p>
+                    <p>私たちはそんな「挑戦するすべての人」を応援したい。</p>
+                    <p>事業の規模に関わらず、すべての事業者が安心して本業に集中できる環境を創りたいという想いから、年商1,000万円以下の事業者に特化した、<span class="highlight">※顧問料980円<small>（税込）</small></span>の税務顧問サービス「みんなの税務顧問」をスタートします。</p>
+                </div>
+                
+                <div class="about-highlight">
+                    <p>最新のAIを駆使し、内部の業務を最大限まで効率化したことで、従来の税理士業界ではありえなかった金額でのサービス提供が実現しました。</p>
+                    <p>これまで経済的な理由で専門家のサポートを諦めていた方々に、圧倒的な低価格で「税理士がついている安心感」を届けます。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>サービス内容</h2>
+            </div>
+            
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-item">
+                    <div class="service-content">
+                        <div class="service-header">
+                            <span class="service-number">01</span>
+                            <div class="service-icon">💬</div>
+                            <h3>チャットで気軽に税務相談</h3>
+                        </div>
+                        <p>「これって経費になる？」といった素朴な疑問をいつでも気軽に相談できます。もう一人で悩む必要はありません。</p>
+                    </div>
+                    <div class="service-image">
+                        <img src="images/da9046bd154d5c5d5aa6fe24c018c917a876e21c.png" alt="パソコンでタイピングしているイメージ - チャット相談">
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-item reverse">
+                    <div class="service-image">
+                        <img src="images/9400dfec02a7efa4228dd8cb91e2ea73a0116147.png" alt="書類を確認しながらパソコンで記帳作業を行う様子">
+                    </div>
+                    <div class="service-content">
+                        <div class="service-header">
+                            <span class="service-number">02</span>
+                            <div class="service-icon">📚</div>
+                            <h3>記帳も丸投げでOK</h3>
+                        </div>
+                        <p>お客さまは領収書やレシートをフォルダに保存いただくだけで大丈夫です。会計ソフトへの仕訳入力はすべて当社で行います。マネーフォワードかfreeeをご利用いただきます。</p>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="service-item">
+                    <div class="service-content">
+                        <div class="service-header">
+                            <span class="service-number">03</span>
+                            <div class="service-icon">📋</div>
+                            <h3>安心の確定申告サポート</h3>
+                        </div>
+                        <p>複雑で分かりにくい確定申告も、税理士が責任をもって作成＆申告を行います。</p>
+                    </div>
+                    <div class="service-image">
+                        <img src="images/39b362c7f87cb5bd4dabed955630639350e9ee88.png" alt="確定申告書類">
+                    </div>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="service-item reverse">
+                    <div class="service-image">
+                        <img src="images/e728ecb4de244760020b86d2b77a5b765e0354f4.png" alt="財務分析資料とグラフ - 財務レポート">
+                    </div>
+                    <div class="service-content">
+                        <div class="service-header">
+                            <span class="service-number">04</span>
+                            <div class="service-icon">📊</div>
+                            <h3>財務レポートの提出</h3>
+                        </div>
+                        <p>毎月の財務状況をレポート形式で提出します。直近の財務状況の課題を踏まえアドバイスを提供します。</p>
+                    </div>
+                </div>
+
+                <!-- Service 5 -->
+                <div class="service-item">
+                    <div class="service-content">
+                        <div class="service-header">
+                            <span class="service-number">05</span>
+                            <div class="service-icon">📈</div>
+                            <h3>節税・資金繰りに関する情報提供</h3>
+                        </div>
+                        <p>知っておくべき財務や税務の基礎知識を分かりやすくお伝えし、健全なキャッシュフローの維持をサポートします。</p>
+                    </div>
+                    <div class="service-image">
+                        <img src="images/a9b71790fa3ee174a78b94516fae902ecdf2dced.png" alt="TAXの3D文字と電卓 - 節税・資金繰り情報">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="plans" class="pricing modern">
+        <div class="container">
+            <div class="plan-card">
+                <div class="plan-card-header">
+                    <span class="plan-tag">年商1,000万円以下の事業者向け</span>
+                    <h2 class="plan-title">みんなの税務顧問</h2>
+                </div>
+                <div class="price-info">
+                    <div class="price-main-line">
+                        <span class="price-label">特別価格</span>
+                        <span class="price-amount">¥980</span>
+                        <span class="price-unit">～/月<small>（税込）</small></span>
+                    </div>
+                    <div class="price-sub-line">
+                        <span>2年目以降は¥4,980<small>（税込）</small>/月</span>
+                    </div>
+                </div>
+                <ul class="plan-features">
+                    <li><span class="checkmark">✔</span>月額顧問料: ¥980<small>（税込）</small></li>
+                    <li><span class="checkmark">✔</span>月間記帳代行料: ¥2,980～<small>（税込）</small></li>
+                    <li><span class="checkmark">✔</span>申告料: ¥49,800<small>（税込）</small></li>
+                    <li><span class="checkmark">✔</span>消費税申告（別途）: ¥29,800<small>（税込）</small></li>
+                    <li><span class="checkmark">✔</span>月間会計システム料: ¥980<small>（税込）</small></li>
+                </ul>
+                <div class="annual-total-box">
+                    <p class="annual-total-label">年間料金目安</p>
+                    <p class="annual-total-price">¥109,080<small>（税込）</small>～</p>
+                    <p class="annual-total-note">※消費税申告料は含まれておりません。</p>
+                </div>
+                <div class="important-notes-modern">
+                    <h4>重要事項</h4>
+                    <ul>
+                        <li>2年間の契約解除はできません</li>
+                        <li>上記年間料金目安は1年目の料金です。2年目以降の年間料金目安は、¥157,080<small>（税込）</small>～となります。</li>
+                        <li>年末調整、法定調書、償却資産税、税務届出は上記料金には含まれません</li>
+                    </ul>
+                </div>
+                <div class="plan-cta">
+                    <a href="#contact" class="btn-modern-plan">申し込む</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cost Comparison Section -->
+    <section id="cost-comparison" class="cost-comparison">
+        <div class="container">
+            <div class="section-header">
+                <h2>コスト比較</h2>
+            </div>
+            
+            <div class="comparison-image">
+                <img src="images/ffa1313b831c91b7fd993875c36797edf13b3a21.png" alt="他事務所との料金比較（年間）" class="comparison-img">
+            </div>
+            
+            <div class="comparison-cards">
+                <!-- General Tax Advisor -->
+                <div class="comparison-card">
+                    <div class="comparison-header">
+                        <h3>一般的な税理士事務所</h3>
+                        <div class="comparison-price">¥680,000<small>（税込）</small></div>
+                        <p class="comparison-period">年間</p>
+                    </div>
+                    <div class="comparison-details">
+                        <div class="comparison-item">
+                            <span>月額顧問料</span>
+                            <span>¥20,000<small>（税込）</small></span>
+                        </div>
+                        <div class="comparison-item">
+                            <span>記帳代行料</span>
+                            <span>¥20,000<small>（税込）</small></span>
+                        </div>
+                        <div class="comparison-item">
+                            <span>申告料</span>
+                            <span>¥150,000<small>（税込）</small></span>
+                        </div>
+                        <div class="comparison-item">
+                            <span>会計システム料</span>
+                            <span>¥50,000<small>（税込）</small></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Budget Tax Advisor -->
+                <div class="comparison-card">
+                    <div class="comparison-header">
+                        <h3>一般的な格安税理士事務所</h3>
+                        <div class="comparison-price">¥310,000<small>（税込）</small></div>
+                        <p class="comparison-period">年間</p>
+                    </div>
+                    <div class="comparison-details">
+                        <div class="comparison-item">
+                            <span>月額顧問料</span>
+                            <span>¥5,000<small>（税込）</small></span>
+                        </div>
+                        <div class="comparison-item">
+                            <span>記帳代行料</span>
+                            <span>¥10,000<small>（税込）</small></span>
+                        </div>
+                        <div class="comparison-item">
+                            <span>申告料</span>
+                            <span>¥80,000<small>（税込）</small></span>
+                        </div>
+                        <div class="comparison-item">
+                            <span>会計システム料</span>
+                            <span>¥50,000<small>（税込）</small></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Our Service -->
+                <div class="comparison-card featured">
+                    <div class="plan-header">
+                        <h3>みんなの税務顧問</h3>
+                        <p class="plan-subtitle">Mina no Zeimu Komon</p>
+                    </div>
+                    <div class="price-bar">
+                        <p>¥109,080<small>（税込）</small>/年間〜</p>
+                    </div>
+                    <div class="comparison-details">
+                        <div class="comparison-item">
+                            <span>✓</span>
+                            <span>月額顧問料 ¥980<small>（税込）</small></span>
+                        </div>
+                        <div class="comparison-item">
+                            <span>✓</span>
+                            <span>月間記帳代行料 ¥2,980～<small>（税込）</small></span>
+                        </div>
+                        <div class="comparison-item">
+                            <span>✓</span>
+                            <span>申告料 ¥49,800<small>（税込）</small></span>
+                        </div>
+                        <div class="comparison-item">
+                            <span>✓</span>
+                            <span>月間会計システム料 ¥980<small>（税込）</small></span>
+                        </div>
+                    </div>
+                    <div class="system-note">
+                        <small>
+                            ※会計システム料980円<small>（税込）</small>でマネーフォワードかfreeeをご利用いただけます。<br>
+                            ※月額顧問料は1年目の料金であり、2年目以降は、月額¥4,980<small>（税込）</small>となります。<br>
+                            ※上記年間料金目安は1年目の料金であり、2年目以降の年間料金目安は¥157,080<small>（税込）</small>～となります。
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-header">
+                <div class="contact-logo">
+                    <img src="images/logo_character.png" alt="みんなの税務顧問ロゴ" class="contact-logo-img">
+                </div>
+                <h2>「みんなの税務顧問」の申込</h2>
+                <p>確認されましたら以下の□にチェックを入れてください。</p>
+            </div>
+            
+            <!-- Terms Agreement -->
+            <div class="terms-agreement">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="terms-agreement" class="terms-checkbox">
+                    <label for="terms-agreement" class="terms-label">
+                        「みんなの税務顧問」のサービス内容、<a href="terms.html" target="_blank" class="terms-link">利用規約</a>を確認したので、申込をします。
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Application Forms -->
+            <div class="application-forms">
+                <!-- No Consumption Tax -->
+                <div class="application-card">
+                    <div class="application-header">
+                        <div class="application-icon">✓</div>
+                        <h3>消費税の申告をしない方</h3>
+                    </div>
+                    <div class="application-content">
+                        <button id="apply-no-tax" class="btn btn-application" disabled>申し込む</button>
+                        <div id="error-no-tax" class="error-message" style="display: none;">
+                            <p>利用規約への同意が必要です</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- With Consumption Tax -->
+                <div class="application-card">
+                    <div class="application-header">
+                        <div class="application-icon">📋</div>
+                        <h3>消費税の申告（還付）をする方</h3>
+                    </div>
+                    <div class="application-content">
+                        <button id="apply-with-tax" class="btn btn-application" disabled>申し込む</button>
+                        <div id="error-with-tax" class="error-message" style="display: none;">
+                            <p>利用規約への同意が必要です</p>
+                            <p class="invoice-note">インボイス登録をされている方は、こちらを選択してください。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>運営　
+                    <a href="https://www.solvis-tax.com/" target="_blank" rel="noopener noreferrer" class="footer-link">
+                        ソルビス税理士法人
+                    </a>
+                </p>
+                <p class="copyright">
+                    Copyright ©みんなの税務顧問. All rights reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
