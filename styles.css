@@ -690,29 +690,38 @@ body {
     overflow: hidden;
 }
 
+@keyframes fluid-bg-animation {
+    0% { transform: rotate(0deg) translate(0, 0); }
+    50% { transform: rotate(180deg) translate(20px, -30px); }
+    100% { transform: rotate(360deg) translate(0, 0); }
+}
+
 .contact::before,
 .contact::after {
     content: '';
     position: absolute;
-    border-radius: 50%;
-    opacity: 0.15;
-    filter: blur(50px);
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    opacity: 0.25;
+    filter: blur(60px);
+    z-index: 0;
+    animation: fluid-bg-animation 40s ease-in-out infinite;
 }
 
 .contact::before {
     background: linear-gradient(135deg, #14b8a6, #81d8d0);
-    width: 400px;
-    height: 400px;
-    top: -150px;
-    left: -150px;
+    width: 500px;
+    height: 500px;
+    top: -200px;
+    left: -250px;
 }
 
 .contact::after {
-    background: linear-gradient(135deg, #81d8d0, #a7e9e4);
-    width: 300px;
-    height: 300px;
-    bottom: -100px;
+    background: linear-gradient(135deg, #a7e9e4, #e0f2f1);
+    width: 400px;
+    height: 400px;
+    bottom: -150px;
     right: -100px;
+    animation-direction: reverse;
 }
 
 .contact-header {
