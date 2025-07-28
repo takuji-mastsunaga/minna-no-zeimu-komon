@@ -256,6 +256,7 @@ body {
     margin: 0 auto;
     text-align: left; /* Left align on mobile */
     position: relative;
+    padding: 0 20px; /* Add horizontal padding for mobile */
 }
 
 .elegant-title {
@@ -1015,6 +1016,9 @@ body {
     }
     .elegant-text {
         font-size: 1.125rem;
+    }
+    .elegant-content {
+        padding: 0; /* Remove padding on larger screens */
     }
 }
 
