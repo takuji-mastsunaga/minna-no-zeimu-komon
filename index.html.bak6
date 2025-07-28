@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Header -->
@@ -57,17 +57,20 @@
     </section>
 
     <!-- About Section -->
-    <section class="about elegant">
+    <section class="about">
         <div class="container">
-            <div class="elegant-line"></div>
-            <div class="elegant-content">
-                <h2 class="elegant-title">１本の糸から、<br>未来を彩る。</h2>
-                <div class="elegant-text">
-                    <p>私たちが扱うのは、無限の可能性を秘めたひとすじの糸。</p>
-                    <p>50年以上の経験で培ったたしかな企画力と技術力で、1本の糸が秘めた無限の可能性を引き出し、お客様の新たな未来を紡いでまいります。</p>
+            <div class="section-header">
+                <h2>みんなの税務顧問とは？</h2>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
                     <p>個人事業主やスタートアップなど小規模なビジネスを営む多くの方が、税に関する悩みを抱えながらも、費用の関係から税務顧問を諦め、たった一人で奮闘している現状があります。</p>
                     <p>私たちはそんな「挑戦するすべての人」を応援したい。</p>
                     <p>事業の規模に関わらず、すべての事業者が安心して本業に集中できる環境を創りたいという想いから、年商1,000万円以下の事業者に特化した、<span class="highlight">※顧問料980円<small>（税込）</small></span>の税務顧問サービス「みんなの税務顧問」をスタートします。</p>
+                </div>
+                
+                <div class="about-highlight">
                     <p>最新のAIを駆使し、内部の業務を最大限まで効率化したことで、従来の税理士業界ではありえなかった金額でのサービス提供が実現しました。</p>
                     <p>これまで経済的な理由で専門家のサポートを諦めていた方々に、圧倒的な低価格で「税理士がついている安心感」を届けます。</p>
                 </div>
