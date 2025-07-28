@@ -166,45 +166,75 @@
     </section>
 
     <!-- Pricing Section -->
-    <section id="plans" class="pricing modern">
+    <section id="plans" class="pricing">
         <div class="container">
-            <div class="plan-card">
-                <div class="plan-card-header">
-                    <span class="plan-tag">年商1,000万円以下の事業者向け</span>
-                    <h2 class="plan-title">みんなの税務顧問</h2>
-                </div>
-                <div class="price-info">
-                    <div class="price-main-line">
-                        <span class="price-label">特別価格</span>
-                        <span class="price-amount">¥980</span>
-                        <span class="price-unit">～/月<small>（税込）</small></span>
+            <div class="section-header">
+                <h2>みんなの税務顧問</h2>
+                <p class="section-subtitle">年商1,000万円以下の事業者に特化した税務顧問サービス</p>
+            </div>
+            
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <div class="badge">超低価格</div>
+                    <div class="price">
+                        <span class="price-main">¥980<small>（税込）</small></span>
+                        <span class="price-period">/月</span>
                     </div>
-                    <div class="price-sub-line">
-                        <span>2年目以降は¥4,980<small>（税込）</small>/月</span>
+                    <p class="price-note">（2年目以降は4,980円<small>（税込）</small>）</p>
+                </div>
+
+                <div class="pricing-content">
+                    <div class="pricing-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>サービス内容</th>
+                                    <th>料金</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>月額顧問料</td>
+                                    <td class="price-highlight">¥980<small>（税込）</small></td>
+                                </tr>
+                                <tr>
+                                    <td>月間記帳代行料</td>
+                                    <td>¥2,980～<small>（税込）</small>（100仕訳あたり）</td>
+                                </tr>
+                                <tr>
+                                    <td>申告料</td>
+                                    <td>¥49,800<small>（税込）</small></td>
+                                </tr>
+                                <tr>
+                                    <td>消費税申告（別途）</td>
+                                    <td>¥29,800<small>（税込）</small></td>
+                                </tr>
+                                <tr>
+                                    <td>月間会計システム料<br><small>（マネーフォワードかfreee）</small></td>
+                                    <td>¥980<small>（税込）</small></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-                <ul class="plan-features">
-                    <li><span class="checkmark">✔</span>月額顧問料: ¥980<small>（税込）</small></li>
-                    <li><span class="checkmark">✔</span>月間記帳代行料: ¥2,980～<small>（税込）</small></li>
-                    <li><span class="checkmark">✔</span>申告料: ¥49,800<small>（税込）</small></li>
-                    <li><span class="checkmark">✔</span>消費税申告（別途）: ¥29,800<small>（税込）</small></li>
-                    <li><span class="checkmark">✔</span>月間会計システム料: ¥980<small>（税込）</small></li>
-                </ul>
-                <div class="annual-total-box">
-                    <p class="annual-total-label">年間料金目安</p>
-                    <p class="annual-total-price">¥109,080<small>（税込）</small>～</p>
-                    <p class="annual-total-note">※消費税申告料は含まれておりません。</p>
-                </div>
-                <div class="important-notes-modern">
-                    <h4>重要事項</h4>
-                    <ul>
-                        <li>2年間の契約解除はできません</li>
-                        <li>上記年間料金目安は1年目の料金です。2年目以降の年間料金目安は、¥157,080<small>（税込）</small>～となります。</li>
-                        <li>年末調整、法定調書、償却資産税、税務届出は上記料金には含まれません</li>
-                    </ul>
-                </div>
-                <div class="plan-cta">
-                    <a href="#contact" class="btn-modern-plan">申し込む</a>
+
+                    <div class="annual-cost">
+                        <p>年間料金目安</p>
+                        <div class="annual-price">¥109,080<small>（税込）</small>〜</div>
+                        <p class="annual-cost-note">※消費税申告料は含まれておりません。</p>
+                    </div>
+
+                    <div class="important-notes">
+                        <h4>重要事項</h4>
+                        <ul>
+                            <li>2年間の契約解除はできません</li>
+                            <li>上記年間料金目安は1年目の料金です。2年目以降の年間料金目安は、¥157,080<small>（税込）</small>～となります。</li>
+                            <li>年末調整、法定調書、償却資産税、税務届出は上記料金には含まれません</li>
+                        </ul>
+                    </div>
+
+                    <div class="pricing-cta">
+                        <a href="#contact" class="btn btn-gradient">申し込む</a>
+                    </div>
                 </div>
             </div>
         </div>
