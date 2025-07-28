@@ -73,7 +73,8 @@ if (applyWithTaxBtn) {
             alert('利用規約への同意が必要です。');
             return;
         }
-        alert('消費税申告ありプランでお申し込みありがとうございます。担当者より連絡いたします。');
+        // Stripeの決済ページにリダイレクト
+        window.location.href = 'https://buy.stripe.com/9B66oGcBa7etdWNbCL7Zu00';
     });
 }
 
