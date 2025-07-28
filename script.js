@@ -124,3 +124,13 @@ window.addEventListener('resize', function() {
         mobileMenu.classList.remove('active');
     }
 });
+
+// ヘッダーのスクロール追従効果
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('.header');
+    if (window.scrollY > 50) { // Adjust scroll threshold if needed
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});
