@@ -384,33 +384,24 @@ body {
 .service-header {
     display: flex;
     align-items: center;
-    gap: 16px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .service-number {
-    font-size: 2.25rem;
-    color: #6b7280;
-    font-weight: 600;
-}
-
-.service-icon {
-    width: 48px;
-    height: 48px;
-    background-color: #f3f4f6;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-size: 1.5rem;
+    font-weight: 700;
+    color: #d1d5db;
 }
 
 .service-header h3 {
     font-size: 1.5rem;
+    font-weight: 600;
     color: #1f2937;
-    flex: 1;
-    min-width: 200px;
+}
+
+.service-item p {
+    color: #4b5563;
 }
 
 .service-content p {
