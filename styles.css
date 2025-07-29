@@ -935,35 +935,33 @@ body {
 
 /* ========== フッター ========== */
 .footer {
-    padding: 32px 0;
-    background-color: white;
-    border-top: 1px solid #e5e7eb;
+    background-color: #111827;
+    color: #d1d5db;
+    padding: 2rem 0;
+    font-size: 0.875rem;
 }
 
 .footer-content {
-    text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    gap: 1rem;
 }
 
-.footer-content p {
-    color: #6b7280;
-    font-size: 1rem;
+.footer-links {
+    display: flex;
+    gap: 1.5rem;
 }
 
 .footer-link {
-    color: #2563eb;
-    text-decoration: underline;
+    color: #d1d5db;
+    text-decoration: none;
+    transition: color 0.3s;
 }
 
 .footer-link:hover {
+    color: #ffffff;
     text-decoration: underline;
-}
-
-.copyright {
-    font-size: 0.875rem !important;
-    color: #9ca3af !important;
 }
 
 /* ==================
@@ -1060,6 +1058,57 @@ body {
 .thanks-content .btn {
     margin-top: 2rem;
 }
+
+/* ==================
+   Legal Page Styles
+   ================== */
+.legal-page {
+    padding-top: 100px;
+    padding-bottom: 60px;
+    background-color: #f9fafb;
+}
+
+.legal-page .container {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.legal-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.legal-table th,
+.legal-table td {
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    text-align: left;
+    vertical-align: top;
+}
+
+.legal-table th {
+    width: 30%;
+    background-color: #f9fafb;
+    font-weight: 600;
+}
+
+.legal-table td ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.legal-table td ul li {
+    margin-bottom: 0.5rem;
+}
+.legal-table td ul li:last-child {
+    margin-bottom: 0;
+}
+
 
 /* ==================
    Responsive
