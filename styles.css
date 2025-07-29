@@ -247,10 +247,6 @@ body {
     background-color: #fff;
 }
 
-.elegant-line {
-    display: none; /* Hide on mobile by default */
-}
-
 .elegant-content {
     max-width: 800px;
     margin: 0 auto;
