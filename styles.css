@@ -622,7 +622,7 @@ body {
 
 .plan-header {
     text-align: center;
-    padding: 24px;
+    padding: 24px 24px 16px; /* Adjust bottom padding to reduce space */
 }
 
 .plan-header h3 {
