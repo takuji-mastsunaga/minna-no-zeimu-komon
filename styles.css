@@ -636,8 +636,7 @@ body {
     background-color: #ec4899;
     color: white;
     text-align: center;
-    padding: 12px 16px;
-    min-height: 90px;
+    padding: 8px 16px;
     display: flex;
     justify-content: center;
     align-items: center;
