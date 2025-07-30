@@ -651,7 +651,7 @@ body {
 }
 
 .price-main {
-    font-size: 1.75rem;
+    font-size: 2.25rem;
     font-weight: 700;
 }
 
@@ -661,16 +661,17 @@ body {
 }
 
 .price-tax {
-    font-size: 1rem;
+    font-size: 1.25rem;
     font-weight: 400;
+    margin-top: -4px;
 }
 
 .plan-period {
     text-align: center;
-    font-weight: 700;
-    color: #4b5563;
+    font-weight: 400;
+    color: #6b7280;
     padding: 8px 0 16px;
-    font-size: 1.125rem;
+    font-size: 1rem;
 }
 
 .comparison-card.featured .comparison-details {
