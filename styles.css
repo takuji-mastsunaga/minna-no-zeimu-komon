@@ -1200,6 +1200,15 @@ body {
 
 /* Comparison price tax text spacing adjustment */
 .comparison-price .price-tax {
-    margin-top: -16px;
+    margin-top: -8px;
     display: block;
+}
+
+.featured-tax-display {
+    text-align: center;
+    margin-top: -8px;
+}
+
+.featured-tax-display .price-tax {
+    color: #6b7280;
 }
