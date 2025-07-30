@@ -1197,3 +1197,9 @@ body {
         grid-template-columns: repeat(3, 1fr);
     }
 }
+
+/* Comparison price tax text spacing adjustment */
+.comparison-price .price-tax {
+    margin-top: -16px;
+    display: block;
+}
