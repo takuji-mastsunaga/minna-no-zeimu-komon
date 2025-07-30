@@ -1206,3 +1206,7 @@ body {
     font-weight: 700;
 }
 
+.comparison-card.featured .comparison-header {
+    margin-top: 20px;
+}
+
