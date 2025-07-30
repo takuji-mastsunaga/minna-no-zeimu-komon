@@ -632,32 +632,7 @@ body {
     color: #6b7280;
 }
 
-.price-bar {
-    background-color: #ec4899;
-    color: white;
-    text-align: center;
-    padding: 4px 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
-.price-breakdown {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    line-height: 1.3;
-}
-
-.price-main {
-    font-size: 2.25rem;
-    font-weight: 700;
-}
-
-.price-main small {
-    font-size: 1rem;
-    font-weight: 400;
-}
 
 .price-tax {
     font-size: 1.25rem;
@@ -1203,11 +1178,31 @@ body {
     display: block;
 }
 
-.featured-tax-display {
-    text-align: center;
-    margin-top: -8px;
+.featured-price {
+    font-size: 2.25rem;
+    color: #6b7280;
+    font-weight: 600;
+    margin-bottom: 8px;
 }
 
-.featured-tax-display .price-tax {
-    color: #6b7280;
+.featured-price .price-main {
+    background-color: #ec4899;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 2.25rem;
+    font-weight: 700;
+    display: inline-block;
 }
+
+.featured-price .price-tax {
+    color: #6b7280;
+    font-size: 1.25rem;
+    font-weight: 400;
+}
+
+.comparison-card.featured .comparison-header h3 {
+    color: #ec4899;
+    font-weight: 700;
+}
+
