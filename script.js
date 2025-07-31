@@ -78,7 +78,7 @@ if (applyWithTaxBtn) {
             return;
         }
         // Stripeの決済ページにリダイレクト
-        window.location.href = 'https://buy.stripe.com/9B66oGcBa7etdWNbCL7Zu00';
+        window.location.href = 'https://buy.stripe.com/28E14mfNm0Q5bOF5en7Zu03';
     });
 }
 
