@@ -1035,3 +1035,16 @@ body {
         grid-template-columns: repeat(3, 1fr);
     }
 }
+
+.comparison-card.featured .comparison-price.featured-price {
+    background-color: #ec4899; /* Pink color */
+    color: white;
+    padding: 8px 16px;
+    border-radius: 50px;
+    display: inline-block;
+    line-height: 1.3;
+}
+
+.comparison-card.featured .comparison-price.featured-price .price-tax {
+    color: white;
+}
