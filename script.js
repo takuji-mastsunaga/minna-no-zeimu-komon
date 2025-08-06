@@ -67,7 +67,7 @@ if (applyNoTaxBtn) {
             return;
         }
         // Stripeの決済ページにリダイレクト
-        window.location.href = 'https://buy.stripe.com/6oUbJ0fNmaqFaKB36f7Zu01';
+        window.location.href = 'https://buy.stripe.com/fZu28q1Ww6ap1a18qz7Zu0b';
     });
 }
 
@@ -78,7 +78,7 @@ if (applyWithTaxBtn) {
             return;
         }
         // Stripeの決済ページにリダイレクト
-        window.location.href = 'https://buy.stripe.com/9B66oGcBa7etdWNbCL7Zu00';
+        window.location.href = 'https://buy.stripe.com/8x24gycBa1U95qh4aj7Zu0c';
     });
 }
 
