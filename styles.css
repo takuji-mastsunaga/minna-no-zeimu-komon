@@ -629,55 +629,9 @@ body {
     padding: 0;
 }
 
-.plan-header {
-    text-align: center;
-    padding: 24px;
-}
-
-.plan-header h3 {
-    font-size: 1.5rem;
-    color: #ec4899; /* Pink color */
-    font-weight: 700;
-}
-
-.plan-header .plan-subtitle {
-    font-size: 1rem;
-    color: #6b7280;
-}
-
-.price-bar {
-    background-color: #ec4899; /* Pink color */
-    color: white;
-    text-align: center;
-    padding: 16px;
-    font-size: 1.75rem;
-    font-weight: 700;
-}
-
-.price-bar .price-details {
-    font-size: 1rem;
-    line-height: 1.5;
-}
-
-
-.comparison-card.featured .comparison-details {
-    padding: 24px;
-}
-
-.comparison-card.featured .comparison-item {
-    justify-content: flex-start;
-    gap: 12px;
-}
-
-.comparison-card.featured .comparison-item span:first-child {
-    color: #ec4899; /* Pink checkmark */
-    font-weight: 700;
-    font-size: 1.25rem;
-}
-
 .comparison-header {
     text-align: center;
-    margin-bottom: 24px;
+    padding: 24px 24px 0; /* Adjusted padding */
 }
 
 .comparison-header h3 {
@@ -693,17 +647,13 @@ body {
     margin-bottom: 8px;
 }
 
-.comparison-price.special {
-    color: #ec4899;
-    font-size: 2.5rem;
-}
-
 .comparison-period {
     color: #9ca3af;
     font-size: 1rem;
 }
 
 .comparison-details {
+    padding: 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -720,18 +670,41 @@ body {
 
 .comparison-card.featured .comparison-item {
     border-bottom-color: rgba(236, 72, 153, 0.1);
+    justify-content: flex-start;
+    gap: 12px;
 }
 
-.special-price {
-    color: #ec4899;
+.comparison-card.featured .comparison-item span:first-child {
+    color: #ec4899; /* Pink checkmark */
     font-weight: 700;
+    font-size: 1.25rem;
 }
+
+.price-bar {
+    background-color: #ec4899; /* Pink color */
+    color: white;
+    text-align: center;
+    padding: 12px 24px;
+    margin: 16px 24px 0;
+    border-radius: 8px;
+}
+
+.price-bar .price-main {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.price-bar .price-sub {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+}
+
 
 .system-note {
     margin-top: 16px;
-    padding: 12px;
-    background-color: #f9fafb;
-    border-radius: 8px;
+    padding: 12px 24px 24px;
 }
 
 .system-note small {
