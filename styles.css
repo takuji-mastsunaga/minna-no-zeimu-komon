@@ -599,6 +599,11 @@ body {
     background-color: #f9fafb;
 }
 
+.comparison-image {
+    margin: 0 auto 48px;
+    text-align: center;
+}
+
 .comparison-cards {
     display: grid;
     grid-template-columns: 1fr;
