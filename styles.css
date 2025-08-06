@@ -690,6 +690,11 @@ body {
     color: white;
 }
 
+.price-bar .price-amount small {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
 .comparison-card.featured .comparison-price .price-tax {
     color: #6b7280; /* Match other cards */
 }
