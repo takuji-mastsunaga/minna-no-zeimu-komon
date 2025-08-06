@@ -610,6 +610,20 @@ body {
 
 .comparison-card.featured {
     border: 2px solid #ec4899;
+    position: relative;
+    overflow: hidden;
+}
+
+.dots-container {
+    position: absolute;
+    top: 10px;
+    right: -20px;
+    width: 100px;
+    height: 50px;
+    background-image: radial-gradient(#fecdd3 20%, transparent 20%);
+    background-size: 15px 15px;
+    opacity: 0.8;
+    transform: rotate(15deg);
 }
 
 .comparison-header {
@@ -647,6 +661,15 @@ body {
     font-weight: 600;
     color: #6b7280;
 }
+
+.price-tax.featured-tax {
+    background-color: #e0f2fe;
+    color: #0ea5e9;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+
 
 .comparison-period {
     color: #9ca3af;
