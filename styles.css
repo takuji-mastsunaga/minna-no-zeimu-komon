@@ -585,24 +585,10 @@ body {
     background-color: #0f766e; /* Darker Teal */
 }
 
-
-/* ========== コスト比較 ========== */
+/* ========== Cost Comparison Section ========== */
 .cost-comparison {
     padding: 64px 0;
     background-color: #f9fafb;
-}
-
-.comparison-image {
-    text-align: center;
-    margin-bottom: 48px;
-}
-
-.comparison-img {
-    width: 100%;
-    max-width: 800px;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .comparison-cards {
@@ -615,48 +601,80 @@ body {
 
 .comparison-card {
     background: white;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    border-radius: 12px;
-    padding: 24px;
-    min-height: 300px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
 }
 
 .comparison-card.featured {
-    background: white;
-    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-    border: 2px solid #e5e7eb;
-    position: relative;
-    padding: 0;
+    border: 2px solid #ec4899;
 }
 
 .comparison-header {
     text-align: center;
-    padding: 24px 24px 0; /* Adjusted padding */
+    padding: 24px 24px 16px;
 }
 
 .comparison-header h3 {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
+    font-weight: 600;
     color: #1f2937;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
+}
+
+.comparison-header .featured-title {
+    color: #ec4899;
 }
 
 .comparison-price {
-    font-size: 2.25rem;
-    color: #6b7280;
-    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 4px;
     margin-bottom: 8px;
+}
+
+.comparison-price .price-amount {
+    font-size: 2.25rem; /* 36px */
+    font-weight: 700;
+    color: #374151;
+}
+
+.comparison-price .price-tax {
+    font-size: 1rem; /* 16px */
+    font-weight: 600;
+    color: #6b7280;
 }
 
 .comparison-period {
     color: #9ca3af;
-    font-size: 1rem;
+    font-size: 0.875rem; /* 14px */
+}
+
+.price-bar {
+    background-color: #ec4899;
+    color: white;
+    padding: 8px 16px;
+    margin: 0 auto 16px;
+    border-radius: 9999px; /* Pill shape */
+}
+
+.price-bar .price-amount {
+    font-size: 2.25rem; /* Same as other cards */
+    font-weight: 700;
+    color: white;
+}
+
+.comparison-card.featured .comparison-price .price-tax {
+    color: #6b7280; /* Match other cards */
 }
 
 .comparison-details {
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    padding: 16px 24px 24px;
+    border-top: 1px solid #e5e7eb;
+    flex-grow: 1;
 }
 
 .comparison-item {
@@ -664,12 +682,14 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 12px 0;
+    font-size: 0.95rem;
+}
+
+.comparison-item:not(:last-child) {
     border-bottom: 1px solid #f3f4f6;
-    font-size: 1rem;
 }
 
 .comparison-card.featured .comparison-item {
-    border-bottom-color: rgba(236, 72, 153, 0.1);
     justify-content: flex-start;
     gap: 12px;
 }
@@ -680,36 +700,15 @@ body {
     font-size: 1.25rem;
 }
 
-.price-bar {
-    background-color: #ec4899; /* Pink color */
-    color: white;
-    text-align: center;
-    padding: 12px 24px;
-    margin: 16px 24px 0;
-    border-radius: 8px;
-}
-
-.price-bar .price-main {
-    font-size: 2rem;
-    font-weight: 700;
-    line-height: 1.2;
-}
-
-.price-bar .price-sub {
-    font-size: 0.875rem;
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.9);
-}
-
-
 .system-note {
-    margin-top: 16px;
-    padding: 12px 24px 24px;
+    padding: 16px 24px 24px;
+    border-top: 1px solid #e5e7eb;
 }
 
 .system-note small {
-    color: #374151;
+    color: #6b7280;
     font-size: 0.875rem;
+    line-height: 1.5;
 }
 
 /* ========== コンタクト ========== */
