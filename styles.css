@@ -909,35 +909,51 @@ body {
 
 /* ========== フッター ========== */
 .footer {
-    padding: 32px 0;
-    background-color: white;
-    border-top: 1px solid #e5e7eb;
+    padding: 48px 20px;
+    background-color: #1f2937; /* Dark blue-gray */
 }
 
 .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    gap: 12px;
 }
 
 .footer-content p {
-    color: #6b7280;
-    font-size: 1rem;
+    font-size: 0.875rem; /* 14px */
+    color: #9ca3af;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap; /* For smaller screens */
+    justify-content: center;
+    gap: 16px 24px;
+    margin: 8px 0;
 }
 
 .footer-link {
-    color: #2563eb;
-    text-decoration: underline;
+    color: #d1d5db;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s;
 }
 
 .footer-link:hover {
-    color: #1d4ed8;
+    text-decoration: underline;
+    color: white;
 }
 
-.copyright {
-    font-size: 0.875rem !important;
-    color: #9ca3af !important;
+.footer-content p .footer-link { /* For the one inside P tag */
+    text-decoration: underline;
+}
+
+p.copyright {
+    color: #6b7280;
 }
 
 /* ========== レスポンシブ対応 ========== */
