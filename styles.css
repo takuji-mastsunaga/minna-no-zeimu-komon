@@ -984,6 +984,12 @@ p.copyright {
     color: #6b7280;
 }
 
+@media (max-width: 767px) {
+    .comparison-image {
+        display: none;
+    }
+}
+
 /* ========== レスポンシブ対応 ========== */
 @media (min-width: 640px) {
     .cta-desktop {
