@@ -5,6 +5,14 @@
     {
       "source": "/terms",
       "destination": "/terms.html"
+    },
+    {
+      "source": "/chat",
+      "destination": "/chat.html"
+    },
+    {
+      "source": "/cost",
+      "destination": "/cost.html"
     }
   ],
   "headers": [
