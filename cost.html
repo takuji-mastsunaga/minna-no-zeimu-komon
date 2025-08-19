@@ -171,22 +171,22 @@
                 <h2>年払いプランでどれだけお得？</h2>
                 <div class="savings-table">
                     <div class="table-row header">
-                        <div class="col">項目</div>
-                        <div class="col">月払いプラン</div>
-                        <div class="col">年払いプラン</div>
-                        <div class="col">差額</div>
+                        <div class="col" data-label="">項目</div>
+                        <div class="col" data-label="">月払いプラン</div>
+                        <div class="col" data-label="">年払いプラン</div>
+                        <div class="col" data-label="">差額</div>
                     </div>
                     <div class="table-row">
-                        <div class="col">申告料</div>
-                        <div class="col">¥58,320</div>
-                        <div class="col">¥39,800</div>
-                        <div class="col savings">¥18,520お得</div>
+                        <div class="col" data-label="項目">申告料</div>
+                        <div class="col" data-label="月払いプラン">¥58,320</div>
+                        <div class="col" data-label="年払いプラン">¥39,800</div>
+                        <div class="col savings" data-label="差額">¥18,520お得</div>
                     </div>
                     <div class="table-row total">
-                        <div class="col">年間総額</div>
-                        <div class="col">¥117,600</div>
-                        <div class="col">¥99,080</div>
-                        <div class="col savings-total">¥18,520お得</div>
+                        <div class="col" data-label="項目">年間総額</div>
+                        <div class="col" data-label="月払いプラン">¥117,600</div>
+                        <div class="col" data-label="年払いプラン">¥99,080</div>
+                        <div class="col savings-total" data-label="差額">¥18,520お得</div>
                     </div>
                 </div>
             </div>
@@ -452,32 +452,48 @@
             font-size: 28px;
         }
         
+        .savings-table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        
         .table-row {
-            grid-template-columns: 1fr;
-            text-align: left;
+            display: block;
+            margin-bottom: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 16px;
+        }
+        
+        .table-row.header {
+            display: none;
         }
         
         .col {
-            border-right: none;
-            border-bottom: 1px solid #e5e7eb;
+            display: block;
             text-align: left;
-            padding: 12px 16px;
+            padding: 8px 0;
+            border: none;
+            border-bottom: 1px solid #e5e7eb;
         }
         
-        .table-row.header .col {
-            background: #374151;
-            color: white;
-            font-weight: 600;
+        .col:last-child {
+            border-bottom: none;
         }
         
         .col:before {
             content: attr(data-label) ": ";
             font-weight: 600;
             color: #374151;
+            display: inline-block;
+            width: 120px;
         }
         
-        .table-row.header .col:before {
-            content: "";
+        .table-row.total {
+            background: #f3f4f6;
+            border: 2px solid #e5e7eb;
         }
         
         .savings-comparison h2 {
