@@ -174,19 +174,47 @@
                         <div class="col" data-label="">項目</div>
                         <div class="col" data-label="">月払いプラン</div>
                         <div class="col" data-label="">年払いプラン</div>
-                        <div class="col" data-label="">差額</div>
+                        <div class="col" data-label="">差額・お得ポイント</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="col" data-label="項目">毎月の負担額</div>
+                        <div class="col" data-label="月払いプラン">¥9,800/月</div>
+                        <div class="col" data-label="年払いプラン">約¥8,256/月</div>
+                        <div class="col savings" data-label="差額・お得ポイント">月々¥1,544安い</div>
                     </div>
                     <div class="table-row">
                         <div class="col" data-label="項目">申告料</div>
                         <div class="col" data-label="月払いプラン">¥58,320</div>
                         <div class="col" data-label="年払いプラン">¥39,800</div>
-                        <div class="col savings" data-label="差額">¥18,520お得</div>
+                        <div class="col savings" data-label="差額・お得ポイント">¥18,520割引</div>
                     </div>
                     <div class="table-row total">
                         <div class="col" data-label="項目">年間総額</div>
                         <div class="col" data-label="月払いプラン">¥117,600</div>
                         <div class="col" data-label="年払いプラン">¥99,080</div>
-                        <div class="col savings-total" data-label="差額">¥18,520お得</div>
+                        <div class="col savings-total" data-label="差額・お得ポイント">合計¥18,520お得</div>
+                    </div>
+                </div>
+                
+                <!-- Detailed Explanation -->
+                <div class="savings-explanation">
+                    <h3>なぜ年払いがお得なの？</h3>
+                    <div class="explanation-grid">
+                        <div class="explanation-card">
+                            <div class="explanation-icon">💰</div>
+                            <h4>毎月の負担が軽減</h4>
+                            <p>月払い¥9,800 → 年払い約¥8,256<br><strong>毎月¥1,544の節約</strong></p>
+                        </div>
+                        <div class="explanation-card">
+                            <div class="explanation-icon">📋</div>
+                            <h4>申告料が大幅割引</h4>
+                            <p>年払いなら申告料が特別価格<br><strong>¥18,520の割引適用</strong></p>
+                        </div>
+                        <div class="explanation-card">
+                            <div class="explanation-icon">🎯</div>
+                            <h4>年間15%OFF</h4>
+                            <p>1年間で¥18,520の節約効果<br><strong>月払いより約15%お得</strong></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -384,6 +412,66 @@
         margin-bottom: 30px;
     }
     
+    .savings-explanation {
+        margin-top: 40px;
+        padding: 30px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    
+    .savings-explanation h3 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1f2937;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .explanation-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+    
+    .explanation-card {
+        text-align: center;
+        padding: 20px;
+        background: #f8fafc;
+        border-radius: 12px;
+        border: 2px solid #e2e8f0;
+        transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+    
+    .explanation-card:hover {
+        transform: translateY(-4px);
+        border-color: #e91e63;
+    }
+    
+    .explanation-icon {
+        font-size: 32px;
+        margin-bottom: 12px;
+    }
+    
+    .explanation-card h4 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 12px;
+    }
+    
+    .explanation-card p {
+        font-size: 14px;
+        color: #6b7280;
+        line-height: 1.6;
+        margin: 0;
+    }
+    
+    .explanation-card strong {
+        color: #e91e63;
+        font-weight: 600;
+    }
+    
     .savings-table {
         max-width: 600px;
         margin: 0 auto;
@@ -498,6 +586,37 @@
         
         .savings-comparison h2 {
             font-size: 24px;
+        }
+        
+        .explanation-grid {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .explanation-card {
+            padding: 16px;
+        }
+        
+        .explanation-card h4 {
+            font-size: 16px;
+        }
+        
+        .explanation-card p {
+            font-size: 13px;
+        }
+        
+        .explanation-icon {
+            font-size: 28px;
+        }
+        
+        .savings-explanation {
+            margin-top: 30px;
+            padding: 20px;
+        }
+        
+        .savings-explanation h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
         }
     }
     
