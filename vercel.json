@@ -13,6 +13,10 @@
     {
       "source": "/cost",
       "destination": "/cost.html"
+    },
+    {
+      "source": "/cost.tax",
+      "destination": "/cost.tax.html"
     }
   ],
   "headers": [
