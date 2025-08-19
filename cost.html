@@ -201,17 +201,14 @@
                     <h3>なぜ年払いがお得なの？</h3>
                     <div class="explanation-grid">
                         <div class="explanation-card">
-                            <div class="explanation-icon">💰</div>
                             <h4>毎月の負担が軽減</h4>
                             <p>月払い¥9,800 → 年払い約¥8,256<br><strong>毎月¥1,544の節約</strong></p>
                         </div>
                         <div class="explanation-card">
-                            <div class="explanation-icon">📋</div>
                             <h4>申告料が大幅割引</h4>
                             <p>年払いなら申告料が特別価格<br><strong>¥18,520の割引適用</strong></p>
                         </div>
                         <div class="explanation-card">
-                            <div class="explanation-icon">🎯</div>
                             <h4>年間15%OFF</h4>
                             <p>1年間で¥18,520の節約効果<br><strong>月払いより約15%お得</strong></p>
                         </div>
@@ -448,11 +445,6 @@
         border-color: #e91e63;
     }
     
-    .explanation-icon {
-        font-size: 32px;
-        margin-bottom: 12px;
-    }
-    
     .explanation-card h4 {
         font-size: 18px;
         font-weight: 600;
@@ -503,6 +495,9 @@
         padding: 16px;
         text-align: center;
         border-right: 1px solid #e5e7eb;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        min-width: 0;
     }
     
     .col:last-child {
@@ -565,6 +560,9 @@
             padding: 8px 0;
             border: none;
             border-bottom: 1px solid #e5e7eb;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.4;
         }
         
         .col:last-child {
@@ -603,10 +601,6 @@
         
         .explanation-card p {
             font-size: 13px;
-        }
-        
-        .explanation-icon {
-            font-size: 28px;
         }
         
         .savings-explanation {
