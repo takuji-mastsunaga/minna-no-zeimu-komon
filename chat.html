@@ -131,6 +131,12 @@
         font-size: 0.75rem;
         color: #64748b;
         margin-top: 8px;
+        opacity: 0.8;
+        font-weight: 500;
+    }
+    
+    .message.user .message-time {
+        color: rgba(255, 255, 255, 0.8);
     }
     
     .suggested-questions {
@@ -293,6 +299,18 @@
         color: #14b8a6;
     }
     
+    .quick-start-btn.highlight {
+        background: linear-gradient(135deg, #0891b2, #0e7490);
+        color: white;
+        border-color: #0891b2;
+    }
+    
+    .quick-start-btn.highlight:hover {
+        background: linear-gradient(135deg, #0e7490, #155e75);
+        border-color: #0e7490;
+        color: white;
+    }
+    
     @keyframes fadeInUp {
         from {
             opacity: 0;
@@ -438,7 +456,7 @@
                             <div class="quick-start-btn" onclick="sendQuickQuestion('契約期間について')">
                                 📝 契約について
                             </div>
-                            <div class="quick-start-btn" onclick="sendQuickQuestion('確定申告について')">
+                            <div class="quick-start-btn highlight" onclick="sendQuickQuestion('確定申告について')">
                                 📊 確定申告
                             </div>
                         </div>
