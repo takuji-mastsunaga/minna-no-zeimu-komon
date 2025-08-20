@@ -264,14 +264,17 @@
     .welcome-message {
         text-align: center;
         padding: 40px 20px;
-        color: #64748b;
+        background: linear-gradient(135deg, #e0f2fe, #b3e5fc);
+        border-radius: 16px;
+        margin: 20px;
+        color: #0f172a;
     }
     
     .welcome-title {
         font-size: 1.2rem;
         font-weight: 600;
         margin-bottom: 10px;
-        color: #1e293b;
+        color: #0f172a;
     }
     
     .quick-start-buttons {
@@ -297,18 +300,6 @@
         border-color: #14b8a6;
         background: #f0fdfa;
         color: #14b8a6;
-    }
-    
-    .quick-start-btn.highlight {
-        background: linear-gradient(135deg, #0891b2, #0e7490);
-        color: white;
-        border-color: #0891b2;
-    }
-    
-    .quick-start-btn.highlight:hover {
-        background: linear-gradient(135deg, #0e7490, #155e75);
-        border-color: #0e7490;
-        color: white;
     }
     
     @keyframes fadeInUp {
@@ -456,7 +447,7 @@
                             <div class="quick-start-btn" onclick="sendQuickQuestion('契約期間について')">
                                 📝 契約について
                             </div>
-                            <div class="quick-start-btn highlight" onclick="sendQuickQuestion('確定申告について')">
+                            <div class="quick-start-btn" onclick="sendQuickQuestion('確定申告について')">
                                 📊 確定申告
                             </div>
                         </div>
