@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>チャット相談 - みんなの税務顧問</title>
-    <meta name="description" content="「これって経費になる？」といった素朴な疑問をいつでも気軽に相談できます。みんなの税務顧問のチャット相談サービス。">
+    <title>チャットボット - みんなの税務顧問</title>
+    <meta name="description" content="チャットで気軽に税務相談。よくある質問にリアルタイムでお答えします。個人事業主・スタートアップ向け税務サービスのチャットサポート。">
     
     <!-- OGP Tags -->
-    <meta property="og:title" content="チャット相談 - みんなの税務顧問">
-    <meta property="og:description" content="「これって経費になる？」といった素朴な疑問をいつでも気軽に相談できます。みんなの税務顧問のチャット相談サービス。">
+    <meta property="og:title" content="チャットボット - みんなの税務顧問">
+    <meta property="og:description" content="チャットで気軽に税務相談。よくある質問にリアルタイムでお答えします。個人事業主・スタートアップ向け税務サービスのチャットサポート。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://minzei-tax.com/chat">
     <meta property="og:image" content="https://minzei-tax.com/images/thumbnail.png">
@@ -30,6 +30,346 @@
 
       gtag('config', 'AW-17411262353');
     </script>
+    
+    <style>
+    .chatbot-container {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        padding: 80px 0 0 0;
+    }
+    
+    .chat-wrapper {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        overflow: hidden;
+        height: calc(100vh - 100px);
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .chat-header {
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        color: white;
+        padding: 20px;
+        text-align: center;
+        position: relative;
+    }
+    
+    .chat-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0;
+    }
+    
+    .chat-subtitle {
+        font-size: 0.9rem;
+        margin: 5px 0 0 0;
+        opacity: 0.9;
+    }
+    
+    .chat-messages {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        background: #f8fafc;
+    }
+    
+    .message {
+        margin-bottom: 20px;
+        animation: fadeInUp 0.3s ease-out;
+    }
+    
+    .message.bot {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .message.user {
+        display: flex;
+        justify-content: flex-end;
+    }
+    
+    .bot-avatar {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+    
+    .message-content {
+        background: white;
+        padding: 15px 20px;
+        border-radius: 20px;
+        max-width: 70%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        position: relative;
+    }
+    
+    .message.bot .message-content {
+        border-bottom-left-radius: 8px;
+        margin-left: 0;
+    }
+    
+    .message.user .message-content {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+        border-bottom-right-radius: 8px;
+    }
+    
+    .message-time {
+        font-size: 0.75rem;
+        color: #64748b;
+        margin-top: 8px;
+    }
+    
+    .suggested-questions {
+        padding: 15px 20px;
+        background: white;
+        border-top: 1px solid #e2e8f0;
+    }
+    
+    .suggestions-title {
+        font-size: 0.9rem;
+        color: #64748b;
+        margin-bottom: 10px;
+        font-weight: 500;
+    }
+    
+    .suggestion-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .suggestion-chip {
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: #334155;
+    }
+    
+    .suggestion-chip:hover {
+        background: #e2e8f0;
+        border-color: #14b8a6;
+        color: #14b8a6;
+    }
+    
+    .chat-input-area {
+        padding: 20px;
+        background: white;
+        border-top: 1px solid #e2e8f0;
+    }
+    
+    .input-wrapper {
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+    }
+    
+    .chat-input {
+        flex: 1;
+        border: 2px solid #e2e8f0;
+        border-radius: 25px;
+        padding: 15px 20px;
+        font-size: 1rem;
+        resize: none;
+        outline: none;
+        transition: border-color 0.2s ease;
+        font-family: inherit;
+        max-height: 120px;
+        min-height: 50px;
+    }
+    
+    .chat-input:focus {
+        border-color: #14b8a6;
+    }
+    
+    .send-button {
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease;
+        font-size: 20px;
+    }
+    
+    .send-button:hover {
+        transform: scale(1.05);
+    }
+    
+    .send-button:disabled {
+        background: #94a3b8;
+        cursor: not-allowed;
+        transform: none;
+    }
+    
+    .typing-indicator {
+        display: none;
+        padding: 15px 20px;
+        background: white;
+        border-radius: 20px;
+        border-bottom-left-radius: 8px;
+        max-width: 100px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .typing-dots {
+        display: flex;
+        gap: 4px;
+    }
+    
+    .typing-dot {
+        width: 8px;
+        height: 8px;
+        background: #94a3b8;
+        border-radius: 50%;
+        animation: typingDot 1.5s infinite;
+    }
+    
+    .typing-dot:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+    
+    .typing-dot:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+    
+    .welcome-message {
+        text-align: center;
+        padding: 40px 20px;
+        color: #64748b;
+    }
+    
+    .welcome-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #1e293b;
+    }
+    
+    .quick-start-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 20px;
+    }
+    
+    .quick-start-btn {
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 15px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #334155;
+    }
+    
+    .quick-start-btn:hover {
+        border-color: #14b8a6;
+        background: #f0fdfa;
+        color: #14b8a6;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes typingDot {
+        0%, 20% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: scale(1.2);
+            opacity: 0.7;
+        }
+        80%, 100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .chatbot-container {
+            padding: 60px 10px 0 10px;
+        }
+        
+        .chat-wrapper {
+            height: calc(100vh - 80px);
+            border-radius: 12px;
+        }
+        
+        .message-content {
+            max-width: 85%;
+        }
+        
+        .quick-start-buttons {
+            grid-template-columns: 1fr;
+        }
+        
+        .suggestion-chips {
+            justify-content: center;
+        }
+        
+        .chat-title {
+            font-size: 1.2rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .chatbot-container {
+            padding: 60px 5px 0 5px;
+        }
+        
+        .chat-wrapper {
+            height: calc(100vh - 70px);
+        }
+        
+        .chat-messages {
+            padding: 15px;
+        }
+        
+        .chat-input-area {
+            padding: 15px;
+        }
+        
+        .message-content {
+            max-width: 90%;
+            padding: 12px 15px;
+        }
+    }
+    </style>
 </head>
 <body>
     <!-- Navigation Header -->
@@ -70,87 +410,326 @@
         </div>
     </header>
 
-    <!-- Chat Page Content -->
-    <section class="chat-page">
+    <!-- Chatbot Container -->
+    <section class="chatbot-container">
         <div class="container">
-            <div class="page-header">
-                <h1>チャットで気軽に税務相談</h1>
-                <p class="page-description">「これって経費になる？」といった素朴な疑問をいつでも気軽に相談できます。もう一人で悩む必要はありません。相談はAIではなく担当者が対応します。</p>
-            </div>
-            
-            <div class="chat-content">
-                <div class="chat-image">
-                    <img src="images/da9046bd154d5c5d5aa6fe24c018c917a876e21c.png" alt="パソコンでタイピングしているイメージ - チャット相談">
+            <div class="chat-wrapper">
+                <!-- Chat Header -->
+                <div class="chat-header">
+                    <h1 class="chat-title">💬 みんなの税務顧問 チャットサポート</h1>
+                    <p class="chat-subtitle">税務に関するご質問にお答えします</p>
                 </div>
                 
-                <div class="chat-features">
-                    <h2>チャット相談の特徴</h2>
-                    <div class="features-grid">
-                        <div class="feature-item">
-                            <h3>いつでも気軽に相談</h3>
-                            <p>営業時間内であれば、チャットでいつでも税務に関する質問ができます。小さな疑問でもお気軽にどうぞ。</p>
-                        </div>
-                        <div class="feature-item">
-                            <h3>専門家が直接回答</h3>
-                            <p>AIではなく、税理士または税務の専門スタッフが直接回答いたします。正確で実践的なアドバイスを提供します。</p>
-                        </div>
-                        <div class="feature-item">
-                            <h3>迅速なレスポンス</h3>
-                            <p>通常、営業時間内であれば数時間以内にご回答いたします。緊急性の高い相談については優先的に対応します。</p>
-                        </div>
-                        <div class="feature-item">
-                            <h3>履歴の保存</h3>
-                            <p>過去の相談内容はすべて保存されるため、いつでも確認することができます。継続的なサポートが可能です。</p>
+                <!-- Chat Messages Area -->
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Welcome Message -->
+                    <div class="welcome-message" id="welcomeMessage">
+                        <h3 class="welcome-title">🎉 チャットサポートへようこそ！</h3>
+                        <p>税務に関するご質問やサービスについて、お気軽にお聞きください。<br>
+                        よくあるご質問から選んでいただくか、直接メッセージを入力してください。</p>
+                        
+                        <div class="quick-start-buttons">
+                            <div class="quick-start-btn" onclick="sendQuickQuestion('サービス内容を教えて')">
+                                📋 サービス内容
+                            </div>
+                            <div class="quick-start-btn" onclick="sendQuickQuestion('料金について教えて')">
+                                💰 料金について
+                            </div>
+                            <div class="quick-start-btn" onclick="sendQuickQuestion('契約期間について')">
+                                📝 契約について
+                            </div>
+                            <div class="quick-start-btn" onclick="sendQuickQuestion('確定申告について')">
+                                📊 確定申告
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="chat-examples">
-                    <h2>よくある相談例</h2>
-                    <div class="examples-list">
-                        <div class="example-item">
-                            <h4>Q. 自宅で仕事をしている場合、家賃は経費になりますか？</h4>
-                            <p>A. 事業で使用している部分の割合に応じて、家事按分により経費計上が可能です。使用面積や時間で按分することが一般的です。</p>
-                        </div>
-                        <div class="example-item">
-                            <h4>Q. 取引先との飲食代は全額経費になりますか？</h4>
-                            <p>A. 事業に関連する接待交際費として、適切な範囲内であれば経費計上可能です。ただし、個人事業主の場合は一定の制限があります。</p>
-                        </div>
-                        <div class="example-item">
-                            <h4>Q. 青色申告と白色申告、どちらがお得ですか？</h4>
-                            <p>A. 一般的に青色申告の方が税制上のメリットが大きいです。65万円の特別控除や損失の繰越しなどの特典があります。</p>
+                <!-- Typing Indicator -->
+                <div class="message bot" id="typingIndicator" style="display: none;">
+                    <div class="bot-avatar">AI</div>
+                    <div class="typing-indicator">
+                        <div class="typing-dots">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="chat-cta">
-                    <h2>チャット相談を始めませんか？</h2>
-                    <p>月額980円から利用できる「みんなの税務顧問」で、安心の税務サポートを受けられます。</p>
-                    <a href="/#contact" class="btn btn-primary btn-large">サービスに申し込む</a>
+                <!-- Suggested Questions -->
+                <div class="suggested-questions" id="suggestedQuestions">
+                    <div class="suggestions-title">💡 よくあるご質問</div>
+                    <div class="suggestion-chips">
+                        <div class="suggestion-chip" onclick="sendQuickQuestion('他の税理士事務所との違いは？')">他社との違い</div>
+                        <div class="suggestion-chip" onclick="sendQuickQuestion('AIが対応するの？')">AIが対応？</div>
+                        <div class="suggestion-chip" onclick="sendQuickQuestion('途中解約はできる？')">途中解約</div>
+                        <div class="suggestion-chip" onclick="sendQuickQuestion('対面相談はある？')">対面相談</div>
+                        <div class="suggestion-chip" onclick="sendQuickQuestion('売上1000万円を超えそう')">売上上限</div>
+                    </div>
+                </div>
+                
+                <!-- Chat Input Area -->
+                <div class="chat-input-area">
+                    <div class="input-wrapper">
+                        <textarea 
+                            class="chat-input" 
+                            id="chatInput" 
+                            placeholder="メッセージを入力してください..."
+                            rows="1"
+                            onkeydown="handleInputKeydown(event)"
+                            oninput="autoResize(this)"
+                        ></textarea>
+                        <button class="send-button" id="sendButton" onclick="sendMessage()">
+                            ➤
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p>運営　
-                    <a href="https://www.solvis-tax.com/" target="_blank" rel="noopener noreferrer" class="footer-link">
-                        ソルビス税理士法人
-                    </a>
-                </p>
-                <div class="footer-links">
-                    <a href="/terms.html" class="footer-link">利用規約</a>
-                    <a href="/legal.html" class="footer-link">特定商取引法に基づく表記</a>
-                </div>
-                <p class="copyright">
-                    Copyright ©みんなの税務顧問. All rights reserved
-                </p>
-            </div>
-        </div>
-    </footer>
+    <script>
+        // FAQ データベース
+        const faqDatabase = {
+            // サービスについて
+            "どのようなサービス": {
+                answer: "年商1,000万円以下の個人事業主やスタートアップの方向けに、AIを活用し低価格で税務顧問サービスを提供しています。チャットでの税務相談、記帳代行、確定申告のサポートを主なサービスとしています。",
+                category: "サービス"
+            },
+            "サービス内容": {
+                answer: "主に以下のサービスを提供しています：\n\n• チャットでの税務相談\n• 記帳代行\n• 確定申告書または決算申告書の作成・提出\n• 節税や資金繰りに関する情報提供\n\n月額980円（税込）から利用できる、小規模事業者特化のサービスです。",
+                category: "サービス"
+            },
+            "他の税理士事務所との違い": {
+                answer: "最新AIの活用により、月額980円（税込）からという圧倒的な低価格を実現している点が最大の特徴です。小規模事業者に特化することで、手厚いサポートを提供しています。",
+                category: "サービス"
+            },
+            "AIが対応": {
+                answer: "いいえ、ご相談にはAIではなく、担当者が直接対応いたしますのでご安心ください。AIは業務効率化のために活用していますが、お客様との相談は人が対応します。",
+                category: "サービス"
+            },
+            "領収書": {
+                answer: "スマートフォンで写真を撮るか、スキャンをしていただいたデータを、弊社から共有するGoogleドライブの指定フォルダに保存していただきます。資料提出のために、事前にGoogleアカウントのご準備をお願いいたします。",
+                category: "サービス"
+            },
+            "1000万円": {
+                answer: "「みんなの税務顧問」は年商1,000万円未満の事業者様を対象としたサービスです。ご契約前から1,000万円を超える見込みの場合や、ご契約期間の途中で年商が1,000万円を超えた場合は、運営母体である「ソルビス税理士法人」とのご契約に切り替えて、引き続きサポートさせていただきます。",
+                category: "サービス"
+            },
+            "対面": {
+                answer: "いいえ、やり取りはチャットが基本となり、対面やオンラインでの面談は行っておりません。業務を効率化することでお手頃な価格を実現しております。",
+                category: "サービス"
+            },
+
+            // 料金について
+            "料金": {
+                answer: "料金は以下の通りです：\n\n• 月額顧問料: 980円（税込）\n• 月間記帳代行料: 2,980円～（税込）/100件あたり\n• 申告料: 39,800円（税込）\n• 消費税申告料: 29,800円（税込）※別途\n• 月間会計システム料: 980円（税込）\n\n詳細な料金については、ウェブサイトをご確認ください。",
+                category: "料金"
+            },
+            "契約期間": {
+                answer: "はい、初回のご契約から1年間の最低利用期間が設定されています。期間満了の7日前までに解約のお申し出がない場合、12ヶ月ごとに自動で更新されます。",
+                category: "契約"
+            },
+            "途中解約": {
+                answer: "最低利用期間内に解約される場合、残りの期間分の利用料金に相当する金額を違約金としてお支払いいただく必要があり、返金はございません。",
+                category: "契約"
+            },
+            "支払い方法": {
+                answer: "ご契約時に、基本料金・記帳代行料金・会計ソフト使用料の1年分と、申告料の合計額を前払いでお支払いいただきます。",
+                category: "契約"
+            },
+
+            // 申告について
+            "申告": {
+                answer: "期限内に申告を完了させるため、以下の期限までにご契約をお願いしております：\n\n• 個人事業主の方（確定申告）：確定申告の期日（原則3月15日）の1ヶ月前まで\n• 法人の方（決算申告）：法人の決算月の1ヶ月前まで\n\n例：12月決算の法人の場合、11月末までのご契約が必要です。",
+                category: "申告"
+            },
+            "確定申告": {
+                answer: "期限内に申告を完了させるため、確定申告の期日（原則3月15日）の1ヶ月前までにご契約をお願いしております。上記の期限を過ぎてからのご契約の場合、期限内の申告をお受けできない可能性がございます。",
+                category: "申告"
+            },
+
+            // その他
+            "運営会社": {
+                answer: "ソルビス税理士法人が運営しております。",
+                category: "その他"
+            }
+        };
+
+        let chatHistory = [];
+        let isTyping = false;
+
+        // チャット初期化
+        function initializeChat() {
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // 入力欄にフォーカス
+            document.getElementById('chatInput').focus();
+        }
+
+        // メッセージ送信
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message === '' || isTyping) return;
+            
+            // ウェルカムメッセージを非表示
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            if (welcomeMessage) {
+                welcomeMessage.style.display = 'none';
+            }
+            
+            // ユーザーメッセージを表示
+            addMessage('user', message);
+            input.value = '';
+            autoResize(input);
+            
+            // ボットの返答を生成
+            generateBotResponse(message);
+            
+            // チャット履歴に追加
+            chatHistory.push({
+                type: 'user',
+                message: message,
+                timestamp: new Date()
+            });
+        }
+
+        // クイック質問送信
+        function sendQuickQuestion(question) {
+            const input = document.getElementById('chatInput');
+            input.value = question;
+            sendMessage();
+        }
+
+        // メッセージ追加
+        function addMessage(type, content, showTime = true) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ja-JP', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            if (type === 'bot') {
+                messageDiv.innerHTML = `
+                    <div class="bot-avatar">AI</div>
+                    <div class="message-content">
+                        ${content.replace(/\n/g, '<br>')}
+                        ${showTime ? `<div class="message-time">${timeString}</div>` : ''}
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="message-content">
+                        ${content.replace(/\n/g, '<br>')}
+                        ${showTime ? `<div class="message-time">${timeString}</div>` : ''}
+                    </div>
+                `;
+            }
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // ボットの返答生成
+        function generateBotResponse(userMessage) {
+            isTyping = true;
+            
+            // タイピングインジケーター表示
+            showTypingIndicator();
+            
+            setTimeout(() => {
+                hideTypingIndicator();
+                
+                const response = findBestResponse(userMessage);
+                addMessage('bot', response);
+                
+                // チャット履歴に追加
+                chatHistory.push({
+                    type: 'bot',
+                    message: response,
+                    timestamp: new Date()
+                });
+                
+                isTyping = false;
+            }, 1000 + Math.random() * 1000); // 1-2秒のランダム遅延
+        }
+
+        // 最適な返答を検索
+        function findBestResponse(userMessage) {
+            const message = userMessage.toLowerCase();
+            
+            // キーワードマッチング
+            for (const [key, value] of Object.entries(faqDatabase)) {
+                if (message.includes(key.toLowerCase())) {
+                    return value.answer;
+                }
+            }
+            
+            // 部分マッチング
+            if (message.includes('サービス') || message.includes('何')) {
+                return faqDatabase["サービス内容"].answer;
+            }
+            if (message.includes('料金') || message.includes('値段') || message.includes('費用')) {
+                return faqDatabase["料金"].answer;
+            }
+            if (message.includes('契約') || message.includes('期間')) {
+                return faqDatabase["契約期間"].answer;
+            }
+            if (message.includes('解約') || message.includes('やめ')) {
+                return faqDatabase["途中解約"].answer;
+            }
+            if (message.includes('申告') || message.includes('確定申告')) {
+                return faqDatabase["確定申告"].answer;
+            }
+            if (message.includes('会社') || message.includes('運営')) {
+                return faqDatabase["運営会社"].answer;
+            }
+            
+            // デフォルト返答
+            return `ご質問ありがとうございます。\n\n申し訳ございませんが、お問い合わせの内容について詳細な回答を見つけることができませんでした。\n\n以下のような質問にお答えできます：\n• サービス内容について\n• 料金について\n• 契約・解約について\n• 確定申告について\n• その他のよくあるご質問\n\nより具体的なご質問をいただければ、詳しくお答えできます。\n\nまた、直接のご相談をご希望の場合は、ホームページの「申込はこちら」からお申し込みください。`;
+        }
+
+        // タイピングインジケーター表示
+        function showTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            const messagesContainer = document.getElementById('chatMessages');
+            indicator.style.display = 'flex';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // タイピングインジケーター非表示
+        function hideTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            indicator.style.display = 'none';
+        }
+
+        // 入力欄の自動リサイズ
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        }
+
+        // キーボードイベント処理
+        function handleInputKeydown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeChat();
+        });
+    </script>
 
     <script src="script.js"></script>
 </body>
