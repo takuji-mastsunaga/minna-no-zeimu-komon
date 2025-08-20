@@ -221,7 +221,43 @@
     <style>
     .pricing-plans {
         padding: 60px 0;
-        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        background: #e0f2f1;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .pricing-plans::before,
+    .pricing-plans::after {
+        content: '';
+        position: absolute;
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        opacity: 0.25;
+        filter: blur(60px);
+        z-index: 0;
+        animation: fluid-bg-animation 40s ease-in-out infinite;
+    }
+    
+    .pricing-plans::before {
+        background: linear-gradient(135deg, #14b8a6, #81d8d0);
+        width: 500px;
+        height: 500px;
+        top: -200px;
+        left: -250px;
+    }
+    
+    .pricing-plans::after {
+        background: linear-gradient(135deg, #a7e9e4, #e0f2f1);
+        width: 400px;
+        height: 400px;
+        bottom: -150px;
+        right: -100px;
+        animation-direction: reverse;
+    }
+    
+    @keyframes fluid-bg-animation {
+        0% { transform: rotate(0deg) translate(0, 0); }
+        50% { transform: rotate(180deg) translate(20px, -30px); }
+        100% { transform: rotate(360deg) translate(0, 0); }
     }
     
     .plans-comparison {
@@ -232,6 +268,8 @@
         max-width: 900px;
         margin-left: auto;
         margin-right: auto;
+        position: relative;
+        z-index: 1;
     }
     
     .plan-card {
@@ -400,6 +438,8 @@
     .savings-comparison {
         margin-top: 60px;
         text-align: center;
+        position: relative;
+        z-index: 1;
     }
     
     .savings-comparison h2 {
@@ -415,6 +455,8 @@
         background: white;
         border-radius: 12px;
         box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        position: relative;
+        z-index: 1;
     }
     
     .savings-explanation h3 {
