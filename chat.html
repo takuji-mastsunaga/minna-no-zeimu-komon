@@ -1519,7 +1519,10 @@
                     const businessType = formData.get('businessType');
                     const monthlyTransactions = formData.get('monthlyTransactions');
                     
-                    console.log('Selected revenue:', annualRevenue); // デバッグ用
+                    console.log('=== プランシミュレーション デバッグ ===');
+                    console.log('Selected revenue:', annualRevenue);
+                    console.log('Business type:', businessType);
+                    console.log('Monthly transactions:', monthlyTransactions);
                     
                     // チェックボックスの取得
                     const checkboxes = {
@@ -1532,15 +1535,24 @@
                         reselling: document.getElementById('reselling').checked
                     };
                     
+                    console.log('Checkboxes:', checkboxes);
+                    
                     const result = calculatePlan(annualRevenue, businessType, monthlyTransactions, checkboxes);
+                    console.log('Calculation result:', result);
                     displayResult(result);
                 });
             }
         }
 
         function calculatePlan(revenue, businessType, transactions, checkboxes) {
+            console.log('calculatePlan called with revenue:', revenue);
+            console.log('revenue type:', typeof revenue);
+            console.log('Checking if', revenue, '=== "1000-3000":', revenue === '1000-3000');
+            console.log('Checking if', revenue, '=== "over3000":', revenue === 'over3000');
+            
             // 【最優先】年間売上が1000万円を超える場合は消費税判定に関係なくソルビス税理士法人のみ案内
             if (revenue === '1000-3000' || revenue === 'over3000') {
+                console.log('🏢 ソルビス税理士法人ルートに入りました');
                 return {
                     type: 'solvis',
                     title: '🏢 ソルビス税理士法人をご紹介いたします',
@@ -1728,39 +1740,76 @@
             }, 1000 + Math.random() * 1000); // 1-2秒のランダム遅延
         }
 
-        // 最適な返答を検索
+        // LINE風の返答を生成
         function findBestResponse(userMessage) {
             const message = userMessage.toLowerCase();
             
             // キーワードマッチング
             for (const [key, value] of Object.entries(faqDatabase)) {
                 if (message.includes(key.toLowerCase())) {
-                    return value.answer;
+                    return formatLineResponse(value.answer, value.category);
                 }
             }
             
             // 部分マッチング
             if (message.includes('サービス') || message.includes('何')) {
-                return faqDatabase["サービス内容"].answer;
+                return formatLineResponse(faqDatabase["サービス内容"].answer, "サービス");
             }
             if (message.includes('料金') || message.includes('値段') || message.includes('費用')) {
-                return faqDatabase["料金"].answer;
+                return formatLineResponse(faqDatabase["料金"].answer, "料金");
             }
             if (message.includes('契約') || message.includes('期間')) {
-                return faqDatabase["契約期間"].answer;
+                return formatLineResponse(faqDatabase["契約期間"].answer, "契約");
             }
             if (message.includes('解約') || message.includes('やめ')) {
-                return faqDatabase["途中解約"].answer;
+                return formatLineResponse(faqDatabase["途中解約"].answer, "契約");
             }
             if (message.includes('申告') || message.includes('確定申告')) {
-                return faqDatabase["確定申告"].answer;
+                return formatLineResponse(faqDatabase["確定申告"].answer, "申告");
             }
             if (message.includes('会社') || message.includes('運営')) {
-                return faqDatabase["運営会社"].answer;
+                return formatLineResponse(faqDatabase["運営会社"].answer, "その他");
             }
             
-            // デフォルト返答
-            return `ご質問ありがとうございます。\n\n申し訳ございませんが、お問い合わせの内容について詳細な回答を見つけることができませんでした。\n\n以下のような質問にお答えできます：\n• サービス内容について\n• 料金について\n• 契約・解約について\n• 確定申告について\n• その他のよくあるご質問\n\nより具体的なご質問をいただければ、詳しくお答えできます。\n\nまた、直接のご相談をご希望の場合は、ホームページの「申込はこちら」からお申し込みください。`;
+            // デフォルト返答（LINE風）
+            return formatDefaultResponse();
+        }
+
+        // LINE風のレスポンス形式に整形
+        function formatLineResponse(answer, category) {
+            const emojis = {
+                "サービス": "💼",
+                "料金": "💰", 
+                "契約": "📝",
+                "申告": "📊",
+                "その他": "ℹ️"
+            };
+            
+            const emoji = emojis[category] || "💬";
+            
+            // 長い文章を短い段落に分割
+            const formattedAnswer = answer
+                .replace(/\n\n/g, '\n')
+                .replace(/•/g, '✅')
+                .replace(/・/g, '✅');
+            
+            return `${emoji} ${formattedAnswer}`;
+        }
+
+        // デフォルト返答をLINE風に
+        function formatDefaultResponse() {
+            return `😊 ご質問ありがとうございます！
+
+申し訳ございませんが、お問い合わせの内容がよく分からなかったです。
+
+下のメニューから気になる項目を選んでいただくか、以下のような質問をしてみてください：
+
+💼 「サービス内容を教えて」
+💰 「料金について知りたい」  
+📊 「確定申告はどうするの？」
+📝 「契約期間は？」
+
+お気軽にお聞きください！`;
         }
 
         // タイピングインジケーター表示
