@@ -32,10 +32,167 @@
     </script>
     
     <style>
-    .chatbot-container {
+    .page-container {
         min-height: 100vh;
         background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
         padding: 80px 0 0 0;
+    }
+    
+    .simulator-section {
+        max-width: 1000px;
+        margin: 0 auto 40px auto;
+        padding: 0 20px;
+    }
+    
+    .simulator-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        padding: 40px;
+        margin-bottom: 40px;
+    }
+    
+    .simulator-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .simulator-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 15px;
+    }
+    
+    .simulator-subtitle {
+        font-size: 1.1rem;
+        color: #6b7280;
+        line-height: 1.6;
+    }
+    
+    .simulator-form {
+        display: grid;
+        gap: 25px;
+    }
+    
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #374151;
+        font-size: 1.1rem;
+    }
+    
+    .form-input, .form-select {
+        padding: 15px 20px;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: border-color 0.2s ease;
+    }
+    
+    .form-input:focus, .form-select:focus {
+        outline: none;
+        border-color: #14b8a6;
+    }
+    
+    .checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 10px;
+    }
+    
+    .checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 15px;
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .checkbox-item:hover {
+        border-color: #14b8a6;
+        background: #f0fdfa;
+    }
+    
+    .checkbox-item input[type="checkbox"] {
+        margin: 0;
+    }
+    
+    .simulate-btn {
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        color: white;
+        border: none;
+        padding: 18px 40px;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        margin-top: 20px;
+    }
+    
+    .simulate-btn:hover {
+        transform: translateY(-2px);
+    }
+    
+    .result-card {
+        background: linear-gradient(135deg, #f0fdfa, #e6fffa);
+        border: 2px solid #14b8a6;
+        border-radius: 16px;
+        padding: 30px;
+        margin-top: 30px;
+        display: none;
+    }
+    
+    .result-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #065f46;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    .result-content {
+        font-size: 1.1rem;
+        color: #374151;
+        line-height: 1.8;
+        margin-bottom: 25px;
+    }
+    
+    .result-actions {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .result-btn {
+        display: inline-block;
+        padding: 12px 25px;
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: transform 0.2s ease;
+    }
+    
+    .result-btn:hover {
+        transform: translateY(-2px);
+    }
+    
+    .result-btn.secondary {
+        background: linear-gradient(135deg, #6b7280, #4b5563);
     }
     
     .chat-wrapper {
@@ -45,7 +202,8 @@
         border-radius: 20px;
         box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         overflow: hidden;
-        height: calc(100vh - 100px);
+        height: calc(100vh - 200px);
+        min-height: 600px;
         display: flex;
         flex-direction: column;
     }
@@ -330,12 +488,21 @@
     
     /* Mobile Responsive */
     @media (max-width: 768px) {
-        .chatbot-container {
+        .page-container {
             padding: 60px 10px 0 10px;
         }
         
+        .simulator-card {
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .simulator-title {
+            font-size: 1.5rem;
+        }
+        
         .chat-wrapper {
-            height: calc(100vh - 80px);
+            height: calc(100vh - 100px);
             border-radius: 12px;
         }
         
@@ -354,15 +521,27 @@
         .chat-title {
             font-size: 1.2rem;
         }
+        
+        .checkbox-group {
+            flex-direction: column;
+        }
+        
+        .result-actions {
+            flex-direction: column;
+        }
     }
     
     @media (max-width: 480px) {
-        .chatbot-container {
+        .page-container {
             padding: 60px 5px 0 5px;
         }
         
+        .simulator-card {
+            padding: 20px;
+        }
+        
         .chat-wrapper {
-            height: calc(100vh - 70px);
+            height: calc(100vh - 80px);
         }
         
         .chat-messages {
@@ -419,13 +598,100 @@
         </div>
     </header>
 
-    <!-- Chatbot Container -->
-    <section class="chatbot-container">
+    <!-- Page Container -->
+    <section class="page-container">
         <div class="container">
+            <!-- Plan Simulator Section -->
+            <div class="simulator-section">
+                <div class="simulator-card">
+                    <div class="simulator-header">
+                        <h1 class="simulator-title">📊 料金プランシミュレーション</h1>
+                        <p class="simulator-subtitle">あなたの事業状況に最適なプランをご提案いたします。<br>簡単な質問にお答えいただくだけで、最適なプランが分かります。</p>
+                    </div>
+                    
+                    <form class="simulator-form" id="simulatorForm">
+                        <div class="form-group">
+                            <label class="form-label">📈 年間売上高（予想）</label>
+                            <select class="form-select" id="annualRevenue" required>
+                                <option value="">選択してください</option>
+                                <option value="under500">500万円未満</option>
+                                <option value="500-1000">500万円〜1,000万円未満</option>
+                                <option value="1000-3000">1,000万円〜3,000万円</option>
+                                <option value="over3000">3,000万円以上</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">🏢 事業形態</label>
+                            <select class="form-select" id="businessType" required>
+                                <option value="">選択してください</option>
+                                <option value="individual">個人事業主</option>
+                                <option value="corporation">法人</option>
+                                <option value="considering">法人化を検討中</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">📋 該当する項目をすべて選択してください</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="invoiceRegistered" value="invoice">
+                                    <span>インボイス発行事業者として登録済み</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="over1000Before" value="over1000_before">
+                                    <span>2年前の売上が1,000万円を超えている</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="over1000Recent" value="over1000_recent">
+                                    <span>前年前半6ヶ月の売上が1,000万円を超えている</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="voluntaryTaxable" value="voluntary">
+                                    <span>任意で課税事業者を選択している</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="blueReturn" value="blue_return">
+                                    <span>青色申告を希望</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="cryptoFx" value="crypto_fx">
+                                    <span>暗号資産・仮想通貨のFXでの利益がある</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="reselling" value="reselling">
+                                    <span>せどり・輸入・転売での利益がある</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">📝 月間取引件数（予想）</label>
+                            <select class="form-select" id="monthlyTransactions">
+                                <option value="">選択してください</option>
+                                <option value="under50">50件未満</option>
+                                <option value="50-100">50〜100件</option>
+                                <option value="100-200">100〜200件</option>
+                                <option value="over200">200件以上</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="simulate-btn">💡 最適なプランを診断する</button>
+                    </form>
+
+                    <div class="result-card" id="resultCard">
+                        <div class="result-title" id="resultTitle"></div>
+                        <div class="result-content" id="resultContent"></div>
+                        <div class="result-actions" id="resultActions"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chatbot Container -->
             <div class="chat-wrapper">
                 <!-- Chat Header -->
                 <div class="chat-header">
-                    <h1 class="chat-title">💬 みんなの税務顧問 チャットサポート</h1>
+                    <h2 class="chat-title">💬 みんなの税務顧問 チャットサポート</h2>
                     <p class="chat-subtitle">税務に関するご質問にお答えします</p>
                 </div>
                 
@@ -471,10 +737,10 @@
                     <div class="suggestions-title">💡 よくあるご質問</div>
                     <div class="suggestion-chips">
                         <div class="suggestion-chip" onclick="sendQuickQuestion('他の税理士事務所との違いは？')">他社との違い</div>
-                        <div class="suggestion-chip" onclick="sendQuickQuestion('AIが対応するの？')">AIが対応？</div>
-                        <div class="suggestion-chip" onclick="sendQuickQuestion('Chatworkでやり取り？')">Chatwork</div>
-                        <div class="suggestion-chip" onclick="sendQuickQuestion('途中解約はできる？')">途中解約</div>
-                        <div class="suggestion-chip" onclick="sendQuickQuestion('資料共有はどうする？')">資料共有</div>
+                        <div class="suggestion-chip" onclick="sendQuickQuestion('領収書の撮影方法は？')">領収書撮影</div>
+                        <div class="suggestion-chip" onclick="sendQuickQuestion('消費税申告が必要か？')">消費税申告</div>
+                        <div class="suggestion-chip" onclick="sendQuickQuestion('青色申告をしたい')">青色申告</div>
+                        <div class="suggestion-chip" onclick="sendQuickQuestion('電話で相談したい')">電話相談</div>
                     </div>
                 </div>
                 
@@ -499,7 +765,7 @@
     </section>
 
     <script>
-        // FAQ データベース
+        // FAQ データベース（拡充版）
         const faqDatabase = {
             // サービスについて
             "どのようなサービス": {
@@ -507,7 +773,7 @@
                 category: "サービス"
             },
             "サービス内容": {
-                answer: "主に以下のサービスを提供しています：\n\n• チャットでの税務相談\n• 記帳代行\n• 確定申告書または決算申告書の作成・提出\n• 節税や資金繰りに関する情報提供\n\n月額980円（税込）から利用できる、小規模事業者特化のサービスです。",
+                answer: "主に以下のサービスを提供しています：\n\n• Chatworkでの税務相談\n• 記帳代行\n• 確定申告書または決算申告書の作成・提出\n• 節税や資金繰りに関する情報提供\n\n月額980円（税込）から利用できる、小規模事業者特化のサービスです。",
                 category: "サービス"
             },
             "他の税理士事務所との違い": {
@@ -518,10 +784,102 @@
                 answer: "いいえ、ご相談にはAIではなく、担当者が直接対応いたしますのでご安心ください。AIは業務効率化のために活用していますが、お客様との相談は人が対応します。",
                 category: "サービス"
             },
-            "領収書": {
-                answer: "スマートフォンで写真を撮るか、スキャンをしていただいたデータを、こちらからお渡しするGoogleドライブの専用フォルダに保存していただきます。ご契約後に、お客様専用のGoogleドライブフォルダへのアクセス権限を付与いたします。資料提出のために、事前にGoogleアカウントのご準備をお願いいたします。",
+
+            // 新規追加FAQ
+            "領収書の撮影": {
+                answer: "スマートフォンで撮影、またはスキャンしたデータで撮影をしてください。撮影後は、こちらからお渡しするGoogleドライブの専用フォルダに保存していただきます。鮮明に写るよう、明るい場所で撮影をお願いいたします。",
                 category: "サービス"
             },
+            "領収書撮影": {
+                answer: "スマートフォンで撮影、またはスキャンしたデータで撮影をしてください。撮影後は、こちらからお渡しするGoogleドライブの専用フォルダに保存していただきます。鮮明に写るよう、明るい場所で撮影をお願いいたします。",
+                category: "サービス"
+            },
+            "決済されない": {
+                answer: "申し訳ございませんが、ご契約・決済完了後にChatworkでの税務相談サービスをご利用いただけます。まずはお申し込み手続きを完了していただき、決済確認後にサービスを開始させていただきます。",
+                category: "契約"
+            },
+            "チャット不可": {
+                answer: "申し訳ございませんが、ご契約・決済完了後にChatworkでの税務相談サービスをご利用いただけます。まずはお申し込み手続きを完了していただき、決済確認後にサービスを開始させていただきます。",
+                category: "契約"
+            },
+            "消費税申告": {
+                answer: "消費税の申告が必要になるのは、主に次のいずれかに当てはまる「課税事業者」です：\n\n• インボイス発行事業者（適格請求書発行事業者）の登録をしている\n• 2年前（基準期間）の課税売上高が1,000万円を超えている\n• 前年の前半6ヶ月（特定期間）の課税売上高または給与支払額が1,000万円を超えている\n• 任意で課税事業者になることを選択している\n\nどちらのタイプに該当するか、お気軽にご相談ください。",
+                category: "申告"
+            },
+            "消費税": {
+                answer: "消費税の申告が必要になるのは、主に次のいずれかに当てはまる「課税事業者」です：\n\n• インボイス発行事業者（適格請求書発行事業者）の登録をしている\n• 2年前（基準期間）の課税売上高が1,000万円を超えている\n• 前年の前半6ヶ月（特定期間）の課税売上高または給与支払額が1,000万円を超えている\n• 任意で課税事業者になることを選択している\n\nどちらのタイプに該当するか、お気軽にご相談ください。",
+                category: "申告"
+            },
+            "日割り": {
+                answer: "申し訳ございませんが、日割り計算での料金設定はございません。月額制でのご契約となります。ご契約月の途中からでも、1ヶ月分の料金をお支払いいただく形となります。",
+                category: "料金"
+            },
+            "青色申告": {
+                answer: "青色申告の申請につきましては、ご自身で税務署へお手続きをお願いいたします。申請書の書き方や手続きについてのご質問は、Chatworkにてサポートさせていただきます。",
+                category: "申告"
+            },
+            "青色申告をしたい": {
+                answer: "青色申告の申請につきましては、ご自身で税務署へお手続きをお願いいたします。申請書の書き方や手続きについてのご質問は、Chatworkにてサポートさせていただきます。",
+                category: "申告"
+            },
+            "申請関連": {
+                answer: "各種税務署への申請手続きにつきましては、ご自身でお手続きをお願いいたします。申請書の記載方法や手続きの流れについては、Chatworkにてサポートいたします。",
+                category: "その他"
+            },
+            "古物商": {
+                answer: "古物商の届出につきましては、ご自身で警察署へお手続きをお願いいたします。古物商に関する税務上の取り扱いについては、Chatworkにてご相談いただけます。",
+                category: "その他"
+            },
+            "マネーフォワード": {
+                answer: "マネーフォワードからfreeeへの変更、またはその逆の変更も可能です。会計ソフトの変更をご希望の場合は、データ移行の方法や設定についてサポートいたします。",
+                category: "サービス"
+            },
+            "freee": {
+                answer: "freeeからマネーフォワードへの変更、またはその逆の変更も可能です。会計ソフトの変更をご希望の場合は、データ移行の方法や設定についてサポートいたします。",
+                category: "サービス"
+            },
+            "電話したい": {
+                answer: "申し訳ございませんが、お電話でのサポートは行っておりません。ご質問・ご相談は、こちらのチャットボットまたはご契約後のChatworkにてお受けしております。より効率的にサポートをご提供するため、テキストベースでのやり取りをお願いしております。",
+                category: "サービス"
+            },
+            "電話": {
+                answer: "申し訳ございませんが、お電話でのサポートは行っておりません。ご質問・ご相談は、こちらのチャットボットまたはご契約後のChatworkにてお受けしております。より効率的にサポートをご提供するため、テキストベースでのやり取りをお願いしております。",
+                category: "サービス"
+            },
+            "メール": {
+                answer: "申し訳ございませんが、メールでのサポートは行っておりません。ご質問・ご相談は、こちらのチャットボットまたはご契約後のChatworkにてお受けしております。すべてのお問い合わせはチャットベースで承っております。",
+                category: "サービス"
+            },
+            "銀行口座": {
+                answer: "銀行口座やクレジットカードの連携は、クラウド会計ソフト（マネーフォワードまたはfreee）で連携をしていただきます。連携方法についてはChatworkにてサポートいたします。",
+                category: "サービス"
+            },
+            "クレジットカード": {
+                answer: "銀行口座やクレジットカードの連携は、クラウド会計ソフト（マネーフォワードまたはfreee）で連携をしていただきます。連携方法についてはChatworkにてサポートいたします。",
+                category: "サービス"
+            },
+            "暗号資産": {
+                answer: "暗号資産・仮想通貨のFXで利益が出た場合、年間売上が1,000万円未満であれば、こちらのサービスでご対応可能です。暗号資産の税務処理についてもサポートいたします。",
+                category: "申告"
+            },
+            "仮想通貨": {
+                answer: "暗号資産・仮想通貨のFXで利益が出た場合、年間売上が1,000万円未満であれば、こちらのサービスでご対応可能です。暗号資産の税務処理についてもサポートいたします。",
+                category: "申告"
+            },
+            "せどり": {
+                answer: "せどり・輸入・転売で利益がある場合、年間売上が1,000万円以下であればサービス対象となります。物販事業の税務処理についてもサポートいたします。",
+                category: "申告"
+            },
+            "転売": {
+                answer: "せどり・輸入・転売で利益がある場合、年間売上が1,000万円以下であればサービス対象となります。物販事業の税務処理についてもサポートいたします。",
+                category: "申告"
+            },
+            "輸入": {
+                answer: "せどり・輸入・転売で利益がある場合、年間売上が1,000万円以下であればサービス対象となります。物販事業の税務処理についてもサポートいたします。",
+                category: "申告"
+            },
+
+            // 既存のFAQ
             "googleドライブ": {
                 answer: "ご契約後に、お客様専用のGoogleドライブフォルダを作成し、アクセス権限を付与いたします。こちらのフォルダに領収書やレシート、その他の資料をアップロードしていただければ、担当者が確認して記帳代行を行います。フォルダは整理された構造になっており、月別・カテゴリ別に保存していただけます。",
                 category: "サービス"
@@ -584,6 +942,98 @@
 
         let chatHistory = [];
         let isTyping = false;
+
+        // プランシミュレーション機能
+        document.getElementById('simulatorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const annualRevenue = formData.get('annualRevenue');
+            const businessType = formData.get('businessType');
+            const monthlyTransactions = formData.get('monthlyTransactions');
+            
+            // チェックボックスの取得
+            const checkboxes = {
+                invoice: document.getElementById('invoiceRegistered').checked,
+                over1000Before: document.getElementById('over1000Before').checked,
+                over1000Recent: document.getElementById('over1000Recent').checked,
+                voluntary: document.getElementById('voluntaryTaxable').checked,
+                blueReturn: document.getElementById('blueReturn').checked,
+                cryptoFx: document.getElementById('cryptoFx').checked,
+                reselling: document.getElementById('reselling').checked
+            };
+            
+            const result = calculatePlan(annualRevenue, businessType, monthlyTransactions, checkboxes);
+            displayResult(result);
+        });
+
+        function calculatePlan(revenue, businessType, transactions, checkboxes) {
+            // 売上が1000万円以上または3000万円以上の場合
+            if (revenue === '1000-3000' || revenue === 'over3000') {
+                return {
+                    type: 'solvis',
+                    title: '🏢 ソルビス税理士法人をおすすめします',
+                    content: `年間売上が1,000万円を超える事業者様には、より専門的なサポートが可能な「ソルビス税理士法人」でのご契約をおすすめいたします。\n\n• より高度な税務相談\n• 法人化支援\n• 節税対策の提案\n• 事業拡大に向けたアドバイス`,
+                    actions: [
+                        { text: 'ソルビス税理士法人に相談', url: 'https://www.solvis-tax.com/', primary: true },
+                        { text: 'みんなの税務顧問について詳しく', url: '/', primary: false }
+                    ]
+                };
+            }
+
+            // 消費税申告が必要かチェック
+            const needsConsumptionTax = checkboxes.invoice || checkboxes.over1000Before || 
+                                     checkboxes.over1000Recent || checkboxes.voluntary;
+
+            // プラン判定
+            if (needsConsumptionTax) {
+                return {
+                    type: 'consumption_tax',
+                    title: '📊 消費税申告プランがおすすめです',
+                    content: `あなたの事業状況では消費税の申告が必要です。消費税申告に対応したプランをご提案いたします。\n\n• 年払い: 月額10,740円（年間128,880円）\n• 月払い: 月額12,300円（年間147,600円）\n\n年払いプランなら約12%お得になります！`,
+                    actions: [
+                        { text: '消費税申告プランを見る', url: '/cost.tax', primary: true },
+                        { text: '詳しい料金を確認', url: '/cost', primary: false }
+                    ]
+                };
+            } else {
+                return {
+                    type: 'standard',
+                    title: '💰 通常プランがおすすめです',
+                    content: `あなたの事業状況に最適な通常プランをおすすめいたします。\n\n• 年払い: 月額8,256円（年間99,080円）\n• 月払い: 月額9,800円（年間117,600円）\n\n年払いプランなら約15%お得になります！${checkboxes.blueReturn ? '\n\n※青色申告の申請は、ご自身で税務署にお手続きをお願いいたします。申請方法についてはサポートいたします。' : ''}`,
+                    actions: [
+                        { text: '通常プランを見る', url: '/cost', primary: true },
+                        { text: 'お申し込み', url: '/#contact', primary: true }
+                    ]
+                };
+            }
+        }
+
+        function displayResult(result) {
+            const resultCard = document.getElementById('resultCard');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultContent = document.getElementById('resultContent');
+            const resultActions = document.getElementById('resultActions');
+
+            resultTitle.textContent = result.title;
+            resultContent.innerHTML = result.content.replace(/\n/g, '<br>');
+            
+            resultActions.innerHTML = '';
+            result.actions.forEach(action => {
+                const button = document.createElement('a');
+                button.href = action.url;
+                button.className = `result-btn ${action.primary ? '' : 'secondary'}`;
+                button.textContent = action.text;
+                if (action.url.startsWith('http')) {
+                    button.target = '_blank';
+                    button.rel = 'noopener noreferrer';
+                }
+                resultActions.appendChild(button);
+            });
+
+            resultCard.style.display = 'block';
+            resultCard.scrollIntoView({ behavior: 'smooth' });
+        }
 
         // チャット初期化
         function initializeChat() {
