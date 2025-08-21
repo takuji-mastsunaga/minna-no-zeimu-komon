@@ -1107,7 +1107,7 @@
                     <form class="simulator-form" id="simulatorForm">
                         <div class="form-group">
                             <label class="form-label">📈 年間売上高（予想）</label>
-                            <select class="form-select" id="annualRevenue" required>
+                            <select class="form-select" id="annualRevenue" name="annualRevenue" required>
                                 <option value="">選択してください</option>
                                 <option value="under500">500万円未満</option>
                                 <option value="500-1000">500万円〜1,000万円未満</option>
@@ -1118,7 +1118,7 @@
 
                         <div class="form-group">
                             <label class="form-label">🏢 事業形態</label>
-                            <select class="form-select" id="businessType" required>
+                            <select class="form-select" id="businessType" name="businessType" required>
                                 <option value="">選択してください</option>
                                 <option value="individual">個人事業主</option>
                                 <option value="corporation">法人</option>
@@ -1220,7 +1220,7 @@
 
                         <div class="form-group">
                             <label class="form-label">📝 月間取引件数（予想）</label>
-                            <select class="form-select" id="monthlyTransactions">
+                            <select class="form-select" id="monthlyTransactions" name="monthlyTransactions">
                                 <option value="">選択してください</option>
                                 <option value="under50">50件未満</option>
                                 <option value="50-100">50〜100件</option>
@@ -1720,12 +1720,8 @@
         function generateBotResponse(userMessage) {
             isTyping = true;
             
-            // タイピングインジケーター表示
-            showTypingIndicator();
-            
+            // 短い遅延後にボット返答
             setTimeout(() => {
-                hideTypingIndicator();
-                
                 const response = findBestResponse(userMessage);
                 addMessage('bot', response);
                 
@@ -1737,7 +1733,7 @@
                 });
                 
                 isTyping = false;
-            }, 1000 + Math.random() * 1000); // 1-2秒のランダム遅延
+            }, 800 + Math.random() * 400); // 0.8-1.2秒のランダム遅延
         }
 
         // LINE風の返答を生成
@@ -1812,19 +1808,7 @@
 お気軽にお聞きください！`;
         }
 
-        // タイピングインジケーター表示
-        function showTypingIndicator() {
-            const indicator = document.getElementById('typingIndicator');
-            const messagesContainer = document.getElementById('chatMessages');
-            indicator.style.display = 'flex';
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
 
-        // タイピングインジケーター非表示
-        function hideTypingIndicator() {
-            const indicator = document.getElementById('typingIndicator');
-            indicator.style.display = 'none';
-        }
 
         // キーボードイベント処理
         function handleInputKeydown(event) {
