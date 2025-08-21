@@ -127,6 +127,123 @@
     .checkbox-item input[type="checkbox"] {
         margin: 0;
     }
+
+    /* 新しい縦一列レイアウト用のスタイル */
+    .form-help-text {
+        font-size: 0.9rem;
+        color: #6b7280;
+        margin: 8px 0 15px 0;
+        font-style: italic;
+    }
+
+    .checkbox-group-vertical {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 10px;
+    }
+    
+    .checkbox-item-with-help {
+        background: white;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 0;
+        transition: all 0.2s ease;
+    }
+    
+    .checkbox-item-with-help:hover {
+        border-color: #14b8a6;
+        box-shadow: 0 2px 8px rgba(20, 184, 166, 0.1);
+    }
+    
+    .checkbox-item-enhanced {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 20px;
+        cursor: pointer;
+        background: transparent;
+        margin: 0;
+        width: 100%;
+        transition: background-color 0.2s ease;
+    }
+    
+    .checkbox-item-enhanced:hover {
+        background: #f8fafc;
+    }
+    
+    .checkbox-text {
+        flex: 1;
+        margin-left: 12px;
+        font-weight: 500;
+        color: #374151;
+    }
+    
+    .help-icon {
+        background: #e0f2fe;
+        border: 2px solid #0891b2;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        margin-left: 15px;
+    }
+    
+    .help-icon:hover {
+        background: #0891b2;
+        color: white;
+        transform: scale(1.1);
+    }
+    
+    .help-text {
+        padding: 20px;
+        background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+        border-top: 1px solid #e5e7eb;
+        border-radius: 0 0 12px 12px;
+        animation: slideDown 0.3s ease-out;
+    }
+    
+    .help-text p {
+        margin: 0 0 10px 0;
+        color: #374151;
+        line-height: 1.6;
+    }
+    
+    .help-text p:last-child {
+        margin-bottom: 0;
+    }
+    
+    .help-text strong {
+        color: #0891b2;
+        display: block;
+        margin-bottom: 8px;
+    }
+    
+    .separator-line {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
+        margin: 10px 0;
+    }
+    
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        to {
+            opacity: 1;
+            max-height: 200px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+    }
     
     .simulate-btn {
         background: linear-gradient(135deg, #14b8a6, #0891b2);
@@ -526,6 +643,21 @@
             flex-direction: column;
         }
         
+        .help-icon {
+            width: 24px;
+            height: 24px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        .checkbox-item-enhanced {
+            padding: 12px 15px;
+        }
+        
+        .help-text {
+            padding: 15px;
+        }
+        
         .result-actions {
             flex-direction: column;
         }
@@ -633,35 +765,93 @@
 
                         <div class="form-group">
                             <label class="form-label">📋 該当する項目をすべて選択してください</label>
-                            <div class="checkbox-group">
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="invoiceRegistered" value="invoice">
-                                    <span>インボイス発行事業者として登録済み</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="over1000Before" value="over1000_before">
-                                    <span>2年前の売上が1,000万円を超えている</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="over1000Recent" value="over1000_recent">
-                                    <span>前年前半6ヶ月の売上が1,000万円を超えている</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="voluntaryTaxable" value="voluntary">
-                                    <span>任意で課税事業者を選択している</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="blueReturn" value="blue_return">
-                                    <span>青色申告を希望</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="cryptoFx" value="crypto_fx">
-                                    <span>暗号資産・仮想通貨のFXでの利益がある</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="reselling" value="reselling">
-                                    <span>せどり・輸入・転売での利益がある</span>
-                                </label>
+                            <p class="form-help-text">※ 消費税申告が必要かどうかを判定するために必要な情報です</p>
+                            <div class="checkbox-group-vertical">
+                                <div class="checkbox-item-with-help">
+                                    <label class="checkbox-item-enhanced">
+                                        <input type="checkbox" id="invoiceRegistered" value="invoice">
+                                        <span class="checkbox-text">インボイス発行事業者として登録済み</span>
+                                        <button type="button" class="help-icon" onclick="toggleHelp('invoice-help')">❓</button>
+                                    </label>
+                                    <div class="help-text" id="invoice-help" style="display: none;">
+                                        <p><strong>📋 インボイス発行事業者とは？</strong></p>
+                                        <p>適格請求書（インボイス）を発行できる事業者として税務署に登録している事業者のことです。2023年10月から始まったインボイス制度に対応するため、多くの事業者が登録しています。登録済みの場合は自動的に消費税の課税事業者となります。</p>
+                                    </div>
+                                </div>
+
+                                <div class="checkbox-item-with-help">
+                                    <label class="checkbox-item-enhanced">
+                                        <input type="checkbox" id="over1000Before" value="over1000_before">
+                                        <span class="checkbox-text">2年前の売上が1,000万円を超えている</span>
+                                        <button type="button" class="help-icon" onclick="toggleHelp('before-help')">❓</button>
+                                    </label>
+                                    <div class="help-text" id="before-help" style="display: none;">
+                                        <p><strong>📊 基準期間とは？</strong></p>
+                                        <p>2年前の1年間を「基準期間」と呼びます。例えば、2024年分の申告であれば2022年の売上が対象です。基準期間の課税売上高が1,000万円を超えている場合、消費税の課税事業者となります。</p>
+                                    </div>
+                                </div>
+
+                                <div class="checkbox-item-with-help">
+                                    <label class="checkbox-item-enhanced">
+                                        <input type="checkbox" id="over1000Recent" value="over1000_recent">
+                                        <span class="checkbox-text">前年前半6ヶ月の売上が1,000万円を超えている</span>
+                                        <button type="button" class="help-icon" onclick="toggleHelp('recent-help')">❓</button>
+                                    </label>
+                                    <div class="help-text" id="recent-help" style="display: none;">
+                                        <p><strong>📅 特定期間とは？</strong></p>
+                                        <p>前年の1月から6月までの6ヶ月間を「特定期間」と呼びます。この期間の課税売上高または給与支払額のいずれかが1,000万円を超えている場合、消費税の課税事業者となります。</p>
+                                    </div>
+                                </div>
+
+                                <div class="checkbox-item-with-help">
+                                    <label class="checkbox-item-enhanced">
+                                        <input type="checkbox" id="voluntaryTaxable" value="voluntary">
+                                        <span class="checkbox-text">任意で課税事業者を選択している</span>
+                                        <button type="button" class="help-icon" onclick="toggleHelp('voluntary-help')">❓</button>
+                                    </label>
+                                    <div class="help-text" id="voluntary-help" style="display: none;">
+                                        <p><strong>✋ 任意の課税事業者選択とは？</strong></p>
+                                        <p>売上が1,000万円以下でも、自ら選択して消費税の課税事業者になることができます。「消費税課税事業者選択届出書」を税務署に提出している場合がこれに該当します。設備投資で消費税の還付を受けたい場合などに選択します。</p>
+                                    </div>
+                                </div>
+
+                                <div class="separator-line"></div>
+
+                                <div class="checkbox-item-with-help">
+                                    <label class="checkbox-item-enhanced">
+                                        <input type="checkbox" id="blueReturn" value="blue_return">
+                                        <span class="checkbox-text">青色申告を希望</span>
+                                        <button type="button" class="help-icon" onclick="toggleHelp('blue-help')">❓</button>
+                                    </label>
+                                    <div class="help-text" id="blue-help" style="display: none;">
+                                        <p><strong>💙 青色申告とは？</strong></p>
+                                        <p>帳簿をきちんとつけることを条件に、税制上の特典を受けられる申告方法です。65万円の特別控除や家族への給与の経費算入などのメリットがあります。事前に「青色申告承認申請書」の提出が必要です。</p>
+                                    </div>
+                                </div>
+
+                                <div class="checkbox-item-with-help">
+                                    <label class="checkbox-item-enhanced">
+                                        <input type="checkbox" id="cryptoFx" value="crypto_fx">
+                                        <span class="checkbox-text">暗号資産・仮想通貨のFXでの利益がある</span>
+                                        <button type="button" class="help-icon" onclick="toggleHelp('crypto-help')">❓</button>
+                                    </label>
+                                    <div class="help-text" id="crypto-help" style="display: none;">
+                                        <p><strong>₿ 暗号資産・仮想通貨の税務とは？</strong></p>
+                                        <p>ビットコインなどの暗号資産の売買やFX取引で得た利益は、原則として雑所得となり確定申告が必要です。取引の記録をしっかり残しておくことが重要です。年間売上が1,000万円未満であれば当サービスで対応可能です。</p>
+                                    </div>
+                                </div>
+
+                                <div class="checkbox-item-with-help">
+                                    <label class="checkbox-item-enhanced">
+                                        <input type="checkbox" id="reselling" value="reselling">
+                                        <span class="checkbox-text">せどり・輸入・転売での利益がある</span>
+                                        <button type="button" class="help-icon" onclick="toggleHelp('reselling-help')">❓</button>
+                                    </label>
+                                    <div class="help-text" id="reselling-help" style="display: none;">
+                                        <p><strong>📦 せどり・転売ビジネスとは？</strong></p>
+                                        <p>商品を仕入れて販売する事業のことです。Amazon、メルカリ、eBayなどでの販売も含まれます。継続的に行っている場合は事業所得となり、確定申告が必要です。年間売上が1,000万円未満であれば当サービスで対応可能です。</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -1197,6 +1387,16 @@
             if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
                 sendMessage();
+            }
+        }
+
+        // 説明文の表示/非表示を切り替える関数
+        function toggleHelp(helpId) {
+            const helpElement = document.getElementById(helpId);
+            if (helpElement.style.display === 'none' || helpElement.style.display === '') {
+                helpElement.style.display = 'block';
+            } else {
+                helpElement.style.display = 'none';
             }
         }
 
