@@ -1194,6 +1194,18 @@
                                     </div>
                                 </div>
 
+                                <div class="checkbox-item-with-help">
+                                    <label class="checkbox-item-enhanced">
+                                        <input type="checkbox" id="exportRefund" value="export_refund">
+                                        <span class="checkbox-text">輸出や消費税還付を受けたい</span>
+                                        <button type="button" class="help-icon" onclick="toggleHelp('export-help')">❓</button>
+                                    </label>
+                                    <div class="help-text" id="export-help" style="display: none;">
+                                        <p><strong>🌍 輸出・消費税還付とは？</strong></p>
+                                        <p>商品やサービスを海外に輸出する場合、国内の消費税は免税となります。また、仕入れなどで支払った消費税との差額で還付を受けられる場合があります。輸出業務や設備投資により消費税の還付を期待される場合は消費税申告が必要です。</p>
+                                    </div>
+                                </div>
+
                                 <div class="separator-line"></div>
 
                                 <div class="checkbox-item-with-help">
@@ -1204,7 +1216,14 @@
                                     </label>
                                     <div class="help-text" id="blue-help" style="display: none;">
                                         <p><strong>💙 青色申告とは？</strong></p>
-                                        <p>帳簿をきちんとつけることを条件に、税制上の特典を受けられる申告方法です。65万円の特別控除や家族への給与の経費算入などのメリットがあります。事前に「青色申告承認申請書」の提出が必要です。</p>
+                                        <p>帳簿をきちんとつけることを条件に、税制上の特典を受けられる申告方法です。65万円の特別控除や家族への給与の経費算入などのメリットがあります。</p>
+                                        
+                                        <p><strong>📅 青色申告承認申請書の提出期限</strong></p>
+                                        <p><strong>・新規開業の場合：</strong>開業から2ヶ月以内<br>
+                                        <strong>・既存事業者の場合：</strong>青色申告を受けようとする年の3月15日まで</p>
+                                        
+                                        <p><strong>💰 代行費用について</strong></p>
+                                        <p>青色申告承認申請書をご自身で提出されない場合、代行費用として別途1万円（税込）を申し受けます。提出期限の管理や適切な書類作成をサポートいたします。</p>
                                     </div>
                                 </div>
 
@@ -1546,6 +1565,7 @@
                         over1000Before: document.getElementById('over1000Before').checked,
                         over1000Recent: document.getElementById('over1000Recent').checked,
                         voluntary: document.getElementById('voluntaryTaxable').checked,
+                        exportRefund: document.getElementById('exportRefund').checked,
                         blueReturn: document.getElementById('blueReturn').checked,
                         cryptoFx: document.getElementById('cryptoFx').checked,
                         reselling: document.getElementById('reselling').checked
@@ -1581,7 +1601,7 @@
 
             // 1000万円未満の場合のみ、消費税申告が必要かチェック
             const needsConsumptionTax = checkboxes.invoice || checkboxes.over1000Before || 
-                                     checkboxes.over1000Recent || checkboxes.voluntary;
+                                     checkboxes.over1000Recent || checkboxes.voluntary || checkboxes.exportRefund;
 
             // プラン判定（1000万円未満のみ）
             if (needsConsumptionTax) {
@@ -1598,7 +1618,7 @@
                 return {
                     type: 'standard',
                     title: '通常プランがおすすめです',
-                    content: `あなたの事業状況に最適な通常プランをおすすめいたします。\n\n• 年払い: 月額8,256円（年間99,080円）\n• 月払い: 月額9,800円（年間117,600円）\n\n年払いプランなら約15%お得になります！${checkboxes.blueReturn ? '\n\n※青色申告の申請は、ご自身で税務署にお手続きをお願いいたします。申請方法についてはサポートいたします。' : ''}`,
+                    content: `あなたの事業状況に最適な通常プランをおすすめいたします。\n\n• 年払い: 月額8,256円（年間99,080円）\n• 月払い: 月額9,800円（年間117,600円）\n\n年払いプランなら約15%お得になります！${checkboxes.blueReturn ? '\n\n※青色申告承認申請書について\n・提出期限: 新規開業は開業から2ヶ月以内、既存事業者は青色申告を受けようとする年の3月15日まで\n・ご自身で税務署にお手続きをお願いいたします\n・代行をご希望の場合は別途1万円（税込）を申し受けます' : ''}`,
                     actions: [
                         { text: '通常プランを見る', url: '/cost', primary: true },
                         { text: 'お申し込み', url: '/#contact', primary: true }
