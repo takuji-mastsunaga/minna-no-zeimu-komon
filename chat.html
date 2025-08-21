@@ -616,8 +616,8 @@
                                 <option value="">選択してください</option>
                                 <option value="under500">500万円未満</option>
                                 <option value="500-1000">500万円〜1,000万円未満</option>
-                                <option value="1000-3000">1,000万円〜3,000万円</option>
-                                <option value="over3000">3,000万円以上</option>
+                                <option value="1000-3000">1,000万円超〜3,000万円</option>
+                                <option value="over3000">3,000万円超</option>
                             </select>
                         </div>
 
@@ -968,12 +968,12 @@
         });
 
         function calculatePlan(revenue, businessType, transactions, checkboxes) {
-            // 売上が1000万円以上または3000万円以上の場合
+            // 年間売上が1000万円を超える場合は自動的にソルビス税理士法人への斡旋
             if (revenue === '1000-3000' || revenue === 'over3000') {
                 return {
                     type: 'solvis',
-                    title: '🏢 ソルビス税理士法人をおすすめします',
-                    content: `年間売上が1,000万円を超える事業者様には、より専門的なサポートが可能な「ソルビス税理士法人」でのご契約をおすすめいたします。\n\n• より高度な税務相談\n• 法人化支援\n• 節税対策の提案\n• 事業拡大に向けたアドバイス`,
+                    title: '🏢 ソルビス税理士法人をご紹介いたします',
+                    content: `年間売上が1,000万円を超える事業者様には、「みんなの税務顧問」ではなく、より専門的なサポートが可能な「ソルビス税理士法人」でのご契約をおすすめいたします。\n\n✅ より高度な税務相談\n✅ 法人化支援\n✅ 節税対策の提案\n✅ 事業拡大に向けたアドバイス\n✅ 大規模事業に対応した専門サービス`,
                     actions: [
                         { text: 'ソルビス税理士法人に相談', url: 'https://www.solvis-tax.com/', primary: true },
                         { text: 'みんなの税務顧問について詳しく', url: '/', primary: false }
