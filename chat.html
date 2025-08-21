@@ -328,12 +328,28 @@
     }
     
     .result-card {
-        background: linear-gradient(135deg, #f0fdfa, #e6fffa);
-        border: 2px solid #14b8a6;
         border-radius: 16px;
         padding: 30px;
         margin-top: 30px;
         display: none;
+    }
+
+    /* 通常プラン - 緑 */
+    .result-card.standard {
+        background: linear-gradient(135deg, #f0fdfa, #e6fffa);
+        border: 2px solid #14b8a6;
+    }
+
+    /* 消費税申告プラン - 薄いピンク */
+    .result-card.consumption_tax {
+        background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+        border: 2px solid #ec4899;
+    }
+
+    /* ソルビス税理士法人 - 薄いオレンジ */
+    .result-card.solvis {
+        background: linear-gradient(135deg, #fff7ed, #ffedd5);
+        border: 2px solid #f97316;
     }
     
     .result-title {
@@ -1229,7 +1245,7 @@
                             </select>
                         </div>
 
-                        <button type="submit" class="simulate-btn">💡 最適なプランを診断する</button>
+                        <button type="submit" class="simulate-btn">最適なプランを診断する</button>
                     </form>
 
                     <div class="result-card" id="resultCard">
@@ -1597,6 +1613,14 @@
             const resultContent = document.getElementById('resultContent');
             const resultActions = document.getElementById('resultActions');
 
+            // 既存のクラスをリセット
+            resultCard.className = 'result-card';
+            
+            // プランタイプに応じてクラスを追加
+            if (result.type) {
+                resultCard.classList.add(result.type);
+            }
+            
             resultTitle.textContent = result.title;
             resultContent.innerHTML = result.content.replace(/\n/g, '<br>');
             
