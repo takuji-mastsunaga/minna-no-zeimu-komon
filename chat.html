@@ -1508,28 +1508,35 @@
         let isTyping = false;
 
         // プランシミュレーション機能
-        document.getElementById('simulatorForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(e.target);
-            const annualRevenue = formData.get('annualRevenue');
-            const businessType = formData.get('businessType');
-            const monthlyTransactions = formData.get('monthlyTransactions');
-            
-            // チェックボックスの取得
-            const checkboxes = {
-                invoice: document.getElementById('invoiceRegistered').checked,
-                over1000Before: document.getElementById('over1000Before').checked,
-                over1000Recent: document.getElementById('over1000Recent').checked,
-                voluntary: document.getElementById('voluntaryTaxable').checked,
-                blueReturn: document.getElementById('blueReturn').checked,
-                cryptoFx: document.getElementById('cryptoFx').checked,
-                reselling: document.getElementById('reselling').checked
-            };
-            
-            const result = calculatePlan(annualRevenue, businessType, monthlyTransactions, checkboxes);
-            displayResult(result);
-        });
+        function initializeSimulator() {
+            const simulatorForm = document.getElementById('simulatorForm');
+            if (simulatorForm) {
+                simulatorForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(e.target);
+                    const annualRevenue = formData.get('annualRevenue');
+                    const businessType = formData.get('businessType');
+                    const monthlyTransactions = formData.get('monthlyTransactions');
+                    
+                    console.log('Selected revenue:', annualRevenue); // デバッグ用
+                    
+                    // チェックボックスの取得
+                    const checkboxes = {
+                        invoice: document.getElementById('invoiceRegistered').checked,
+                        over1000Before: document.getElementById('over1000Before').checked,
+                        over1000Recent: document.getElementById('over1000Recent').checked,
+                        voluntary: document.getElementById('voluntaryTaxable').checked,
+                        blueReturn: document.getElementById('blueReturn').checked,
+                        cryptoFx: document.getElementById('cryptoFx').checked,
+                        reselling: document.getElementById('reselling').checked
+                    };
+                    
+                    const result = calculatePlan(annualRevenue, businessType, monthlyTransactions, checkboxes);
+                    displayResult(result);
+                });
+            }
+        }
 
         function calculatePlan(revenue, businessType, transactions, checkboxes) {
             // 【最優先】年間売上が1000万円を超える場合は消費税判定に関係なくソルビス税理士法人のみ案内
@@ -1601,15 +1608,23 @@
         // チャット初期化
         function initializeChat() {
             const messagesContainer = document.getElementById('chatMessages');
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            if (messagesContainer) {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
             
-            // 入力欄にフォーカス
-            document.getElementById('chatInput').focus();
+            // 入力欄にフォーカス（チャットが開いている場合のみ）
+            const chatInput = document.getElementById('chatInput');
+            const chatWrapper = document.getElementById('chatWrapper');
+            if (chatInput && chatWrapper && chatWrapper.classList.contains('show')) {
+                chatInput.focus();
+            }
         }
 
         // メッセージ送信
         function sendMessage() {
             const input = document.getElementById('chatInput');
+            if (!input) return;
+            
             const message = input.value.trim();
             
             if (message === '' || isTyping) return;
@@ -1623,7 +1638,6 @@
             // ユーザーメッセージを表示
             addMessage('user', message);
             input.value = '';
-            autoResize(input);
             
             // ボットの返答を生成
             generateBotResponse(message);
@@ -1761,12 +1775,6 @@
         function hideTypingIndicator() {
             const indicator = document.getElementById('typingIndicator');
             indicator.style.display = 'none';
-        }
-
-        // 入力欄の自動リサイズ
-        function autoResize(textarea) {
-            textarea.style.height = 'auto';
-            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
         }
 
         // キーボードイベント処理
@@ -1919,13 +1927,6 @@
                     title = '📞 お問い合わせ';
                     content = `
                         <div class="line-menu-content">
-                            <div class="menu-card" onclick="sendQuickQuestion('Chatworkでの相談について')">
-                                <div class="menu-card-icon">💬</div>
-                                <div class="menu-card-text">
-                                    <h4>チャット相談</h4>
-                                    <p>Chatworkでのやり取り</p>
-                                </div>
-                            </div>
                             <div class="menu-card" onclick="window.open('/#contact', '_blank')">
                                 <div class="menu-card-icon">📝</div>
                                 <div class="menu-card-text">
@@ -1933,11 +1934,18 @@
                                     <p>サービス申込フォーム</p>
                                 </div>
                             </div>
-                            <div class="menu-card" onclick="sendQuickQuestion('電話で相談したい')">
-                                <div class="menu-card-icon">☎️</div>
+                            <div class="menu-card" onclick="sendQuickQuestion('サービス内容について詳しく教えて')">
+                                <div class="menu-card-icon">💼</div>
                                 <div class="menu-card-text">
-                                    <h4>お電話での相談</h4>
-                                    <p>電話サポートについて</p>
+                                    <h4>サービス詳細</h4>
+                                    <p>サービス内容の詳細</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="sendQuickQuestion('運営会社について教えて')">
+                                <div class="menu-card-icon">🏢</div>
+                                <div class="menu-card-text">
+                                    <h4>運営会社</h4>
+                                    <p>ソルビス税理士法人について</p>
                                 </div>
                             </div>
                         </div>
@@ -1967,6 +1975,7 @@
         // 初期化
         document.addEventListener('DOMContentLoaded', function() {
             initializeChat();
+            initializeSimulator();
         });
     </script>
 
