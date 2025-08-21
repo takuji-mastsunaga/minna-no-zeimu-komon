@@ -377,62 +377,95 @@
         background: linear-gradient(135deg, #6b7280, #4b5563);
     }
     
-    .chat-wrapper {
+    /* LINE-style Chat Wrapper */
+    .line-chat-wrapper {
         position: fixed;
         bottom: 100px;
         right: 20px;
-        width: 400px;
+        width: 380px;
         max-width: calc(100vw - 40px);
-        background: white;
+        background: #ffffff;
         border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
         overflow: hidden;
-        height: 500px;
+        height: 600px;
         display: flex;
         flex-direction: column;
         z-index: 1000;
         transform: translateY(20px);
         opacity: 0;
         pointer-events: none;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid #e5e5e5;
     }
     
-    .chat-wrapper.show {
+    .line-chat-wrapper.show {
         transform: translateY(0);
         opacity: 1;
         pointer-events: all;
     }
     
-    .chat-header {
-        background: linear-gradient(135deg, #14b8a6, #0891b2);
-        color: white;
-        padding: 20px;
-        text-align: center;
-        position: relative;
-    }
-    
-    .chat-header-minimal {
-        background: linear-gradient(135deg, #14b8a6, #0891b2);
-        color: white;
-        padding: 15px 20px;
+    /* LINE-style Header */
+    .line-chat-header {
+        background: #ffffff;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 12px 16px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        min-height: 60px;
     }
     
-    .chat-title-minimal {
-        font-size: 1.1rem;
+    .line-header-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .line-business-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .business-logo {
+        font-size: 20px;
+        color: white;
+    }
+    
+    .line-business-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    
+    .line-business-name {
+        font-size: 16px;
         font-weight: 600;
         margin: 0;
+        color: #1a1a1a;
     }
     
-    .chat-close-button {
-        background: rgba(255, 255, 255, 0.2);
+    .line-business-status {
+        font-size: 12px;
+        margin: 0;
+        color: #666666;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+    
+    .line-close-button {
+        background: #f5f5f5;
         border: none;
-        color: white;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
+        color: #666666;
+        width: 32px;
+        height: 32px;
+        border-radius: 16px;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -441,27 +474,184 @@
         transition: background-color 0.2s ease;
     }
     
-    .chat-close-button:hover {
-        background: rgba(255, 255, 255, 0.3);
+    .line-close-button:hover {
+        background: #e5e5e5;
+        color: #333333;
     }
     
-    .chat-title {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin: 0;
-    }
-    
-    .chat-subtitle {
-        font-size: 0.9rem;
-        margin: 5px 0 0 0;
-        opacity: 0.9;
-    }
-    
-    .chat-messages {
+    /* LINE-style Messages Area */
+    .line-messages-container {
         flex: 1;
-        padding: 20px;
+        padding: 16px;
         overflow-y: auto;
-        background: #f8fafc;
+        background: #f7f7f7;
+    }
+    
+    /* Business Card Welcome */
+    .line-welcome-card {
+        margin-bottom: 16px;
+    }
+    
+    .business-card {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e5e5e5;
+        overflow: hidden;
+    }
+    
+    .business-card-header {
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .business-icon {
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+    }
+    
+    .business-info h4 {
+        margin: 0 0 4px 0;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    
+    .business-info p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 13px;
+    }
+    
+    .business-card-content {
+        padding: 16px;
+        background: white;
+    }
+    
+    .business-card-content p {
+        margin: 0 0 8px 0;
+        color: #333333;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    
+    .business-card-content p:last-child {
+        margin-bottom: 0;
+    }
+    
+    /* LINE-style Menu Content */
+    .line-menu-content {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 8px;
+    }
+    
+    .menu-card {
+        background: #ffffff;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .menu-card:hover {
+        background: #f8f9fa;
+        border-color: #14b8a6;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(20, 184, 166, 0.1);
+    }
+    
+    .menu-card-icon {
+        font-size: 20px;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+    
+    .menu-card-text {
+        flex: 1;
+    }
+    
+    .menu-card-text h4 {
+        margin: 0 0 2px 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333333;
+    }
+    
+    .menu-card-text p {
+        margin: 0;
+        font-size: 12px;
+        color: #666666;
+        line-height: 1.3;
+    }
+    
+    /* LINE-style Messages */
+    .line-message {
+        margin-bottom: 12px;
+        display: flex;
+        flex-direction: column;
+        animation: slideInUp 0.3s ease-out;
+    }
+    
+    .line-message.bot {
+        align-items: flex-start;
+    }
+    
+    .line-message.user {
+        align-items: flex-end;
+    }
+    
+    .line-message-content {
+        max-width: 80%;
+        padding: 8px 12px;
+        border-radius: 16px;
+        font-size: 14px;
+        line-height: 1.4;
+        word-wrap: break-word;
+    }
+    
+    .line-message.bot .line-message-content {
+        background: #ffffff;
+        color: #333333;
+        border: 1px solid #e5e5e5;
+        border-bottom-left-radius: 4px;
+    }
+    
+    .line-message.user .line-message-content {
+        background: #14b8a6;
+        color: white;
+        border-bottom-right-radius: 4px;
+    }
+    
+    .line-message-time {
+        font-size: 10px;
+        color: #999999;
+        margin: 4px 8px 0 8px;
+    }
+    
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
     
     .message {
@@ -562,59 +752,104 @@
         color: #14b8a6;
     }
     
-    .chat-input-area {
-        padding: 20px;
-        background: white;
-        border-top: 1px solid #e2e8f0;
+    /* LINE-style Bottom Menu */
+    .line-bottom-menu {
+        background: #ffffff;
+        border-top: 1px solid #e5e5e5;
+        padding: 12px 8px 8px 8px;
     }
     
-    .input-wrapper {
+    .line-menu-items {
         display: flex;
-        gap: 12px;
-        align-items: flex-end;
+        justify-content: space-around;
+        align-items: center;
     }
     
-    .chat-input {
+    .line-menu-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: background-color 0.2s ease;
+        min-width: 60px;
+    }
+    
+    .line-menu-item:hover {
+        background: #f5f5f5;
+    }
+    
+    .line-menu-item.active {
+        background: #e8f5f3;
+    }
+    
+    .menu-icon {
+        font-size: 20px;
+        line-height: 1;
+    }
+    
+    .menu-text {
+        font-size: 10px;
+        color: #666666;
+        font-weight: 500;
+        text-align: center;
+    }
+    
+    /* LINE-style Chat Input */
+    .line-chat-input {
+        background: #ffffff;
+        border-top: 1px solid #e5e5e5;
+        padding: 12px 16px;
+    }
+    
+    .line-input-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f5f5f5;
+        border-radius: 20px;
+        padding: 8px 12px;
+    }
+    
+    .line-input {
         flex: 1;
-        border: 2px solid #e2e8f0;
-        border-radius: 25px;
-        padding: 15px 20px;
-        font-size: 1rem;
-        resize: none;
-        outline: none;
-        transition: border-color 0.2s ease;
-        font-family: inherit;
-        max-height: 120px;
-        min-height: 50px;
-    }
-    
-    .chat-input:focus {
-        border-color: #14b8a6;
-    }
-    
-    .send-button {
-        background: linear-gradient(135deg, #14b8a6, #0891b2);
-        color: white;
         border: none;
+        background: transparent;
+        outline: none;
+        font-size: 14px;
+        color: #333333;
+        padding: 4px 0;
+        font-family: inherit;
+    }
+    
+    .line-input::placeholder {
+        color: #999999;
+    }
+    
+    .line-send-button {
+        background: #14b8a6;
+        border: none;
+        color: white;
         border-radius: 50%;
-        width: 50px;
-        height: 50px;
+        width: 32px;
+        height: 32px;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: transform 0.2s ease;
-        font-size: 20px;
+        transition: background-color 0.2s ease;
+        flex-shrink: 0;
     }
     
-    .send-button:hover {
-        transform: scale(1.05);
+    .line-send-button:hover {
+        background: #0891b2;
     }
     
-    .send-button:disabled {
-        background: #94a3b8;
+    .line-send-button:disabled {
+        background: #cccccc;
         cursor: not-allowed;
-        transform: none;
     }
     
     .typing-indicator {
@@ -770,10 +1005,11 @@
             padding: 15px;
         }
         
-        .chat-wrapper {
+        .line-chat-wrapper {
             width: calc(100vw - 20px);
             right: 10px;
-            height: 400px;
+            height: 500px;
+            bottom: 80px;
         }
         
         .floating-chat-button {
@@ -1004,76 +1240,78 @@
                 </div>
             </div>
 
-            <!-- Chatbot Container -->
-            <div class="chat-wrapper" id="chatWrapper" style="display: none;">
-                <!-- Chat Header with Close Button -->
-                <div class="chat-header-minimal">
-                    <h3 class="chat-title-minimal">💬 チャットサポート</h3>
-                    <button class="chat-close-button" onclick="closeChatSupport()">✕</button>
+            <!-- LINE-style Chatbot Container -->
+            <div class="line-chat-wrapper" id="chatWrapper" style="display: none;">
+                <!-- LINE-style Header -->
+                <div class="line-chat-header">
+                    <div class="line-header-content">
+                        <div class="line-business-icon">
+                            <div class="business-logo">💼</div>
+                        </div>
+                        <div class="line-business-info">
+                            <h3 class="line-business-name">みんなの税務顧問</h3>
+                            <p class="line-business-status">🟢 オンライン</p>
+                        </div>
+                    </div>
+                    <button class="line-close-button" onclick="closeChatSupport()">✕</button>
                 </div>
                 
-                <!-- Chat Messages Area -->
-                <div class="chat-messages" id="chatMessages">
-                    <!-- Welcome Message -->
-                    <div class="welcome-message" id="welcomeMessage">
-                        <h3 class="welcome-title">🎉 チャットサポートへようこそ！</h3>
-                        <p>税務に関するご質問やサービスについて、お気軽にお聞きください。<br>
-                        よくあるご質問から選んでいただくか、直接メッセージを入力してください。</p>
-                        
-                        <div class="quick-start-buttons">
-                            <div class="quick-start-btn" onclick="sendQuickQuestion('サービス内容を教えて')">
-                                📋 サービス内容
+                <!-- LINE-style Messages Area -->
+                <div class="line-messages-container" id="chatMessages">
+                    <!-- Welcome Business Card -->
+                    <div class="line-welcome-card" id="welcomeMessage">
+                        <div class="business-card">
+                            <div class="business-card-header">
+                                <div class="business-icon">💼</div>
+                                <div class="business-info">
+                                    <h4>みんなの税務顧問</h4>
+                                    <p>税務のプロがサポートします</p>
+                                </div>
                             </div>
-                            <div class="quick-start-btn" onclick="sendQuickQuestion('料金について教えて')">
-                                💰 料金について
-                            </div>
-                            <div class="quick-start-btn" onclick="sendQuickQuestion('契約期間について')">
-                                📝 契約について
-                            </div>
-                            <div class="quick-start-btn" onclick="sendQuickQuestion('確定申告について')">
-                                📊 確定申告
+                            <div class="business-card-content">
+                                <p>🎉 こんにちは！税務に関するご質問にお答えします。</p>
+                                <p>💡 下のメニューからお選びいただくか、直接メッセージをお送りください。</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Typing Indicator -->
-                <div class="message bot" id="typingIndicator" style="display: none;">
-                    <div class="bot-avatar">AI</div>
-                    <div class="typing-indicator">
-                        <div class="typing-dots">
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
+                <!-- LINE-style Bottom Menu -->
+                <div class="line-bottom-menu">
+                    <div class="line-menu-items">
+                        <div class="line-menu-item" onclick="showMenuContent('service')">
+                            <div class="menu-icon">📋</div>
+                            <span class="menu-text">サービス</span>
+                        </div>
+                        <div class="line-menu-item" onclick="showMenuContent('price')">
+                            <div class="menu-icon">💰</div>
+                            <span class="menu-text">料金</span>
+                        </div>
+                        <div class="line-menu-item" onclick="showMenuContent('faq')">
+                            <div class="menu-icon">❓</div>
+                            <span class="menu-text">よくある質問</span>
+                        </div>
+                        <div class="line-menu-item" onclick="showMenuContent('contact')">
+                            <div class="menu-icon">📞</div>
+                            <span class="menu-text">お問い合わせ</span>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Suggested Questions -->
-                <div class="suggested-questions" id="suggestedQuestions">
-                    <div class="suggestions-title">💡 よくあるご質問</div>
-                    <div class="suggestion-chips">
-                        <div class="suggestion-chip" onclick="sendQuickQuestion('他の税理士事務所との違いは？')">他社との違い</div>
-                        <div class="suggestion-chip" onclick="sendQuickQuestion('領収書の撮影方法は？')">領収書撮影</div>
-                        <div class="suggestion-chip" onclick="sendQuickQuestion('消費税申告が必要か？')">消費税申告</div>
-                        <div class="suggestion-chip" onclick="sendQuickQuestion('青色申告をしたい')">青色申告</div>
-                        <div class="suggestion-chip" onclick="sendQuickQuestion('電話で相談したい')">電話相談</div>
-                    </div>
-                </div>
-                
-                <!-- Chat Input Area -->
-                <div class="chat-input-area">
-                    <div class="input-wrapper">
-                        <textarea 
-                            class="chat-input" 
+                <!-- LINE-style Chat Input -->
+                <div class="line-chat-input">
+                    <div class="line-input-wrapper">
+                        <input 
+                            type="text" 
+                            class="line-input" 
                             id="chatInput" 
-                            placeholder="メッセージを入力してください..."
-                            rows="1"
+                            placeholder="メッセージを入力"
                             onkeydown="handleInputKeydown(event)"
-                            oninput="autoResize(this)"
-                        ></textarea>
-                        <button class="send-button" id="sendButton" onclick="sendMessage()">
-                            ➤
+                        />
+                        <button class="line-send-button" id="sendButton" onclick="sendMessage()">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M2 21L23 12L2 3L2 10L17 12L2 14L2 21Z" fill="currentColor"/>
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -1405,11 +1643,11 @@
             sendMessage();
         }
 
-        // メッセージ追加
+        // LINE風メッセージ追加
         function addMessage(type, content, showTime = true) {
             const messagesContainer = document.getElementById('chatMessages');
             const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}`;
+            messageDiv.className = `line-message ${type}`;
             
             const now = new Date();
             const timeString = now.toLocaleTimeString('ja-JP', { 
@@ -1417,22 +1655,36 @@
                 minute: '2-digit' 
             });
             
-            if (type === 'bot') {
-                messageDiv.innerHTML = `
-                    <div class="bot-avatar">AI</div>
-                    <div class="message-content">
-                        ${content.replace(/\n/g, '<br>')}
-                        ${showTime ? `<div class="message-time">${timeString}</div>` : ''}
-                    </div>
-                `;
-            } else {
-                messageDiv.innerHTML = `
-                    <div class="message-content">
-                        ${content.replace(/\n/g, '<br>')}
-                        ${showTime ? `<div class="message-time">${timeString}</div>` : ''}
-                    </div>
-                `;
-            }
+            messageDiv.innerHTML = `
+                <div class="line-message-content">
+                    ${content}
+                </div>
+                ${showTime ? `<div class="line-message-time">${timeString}</div>` : ''}
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // ボットメッセージ専用関数（HTMLコンテンツ対応）
+        function addBotMessage(title, htmlContent, showTime = true) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'line-message bot';
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ja-JP', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            messageDiv.innerHTML = `
+                <div class="line-message-content">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: #14b8a6;">${title}</div>
+                    ${htmlContent}
+                </div>
+                ${showTime ? `<div class="line-message-time">${timeString}</div>` : ''}
+            `;
             
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -1566,6 +1818,135 @@
                 // チャット初期化
                 initializeChat();
             }
+        }
+
+        // LINE風メニューコンテンツ表示機能
+        function showMenuContent(menuType) {
+            // メニューアイテムのアクティブ状態更新
+            const menuItems = document.querySelectorAll('.line-menu-item');
+            menuItems.forEach(item => item.classList.remove('active'));
+            event.target.closest('.line-menu-item').classList.add('active');
+
+            let content = '';
+            let title = '';
+
+            switch(menuType) {
+                case 'service':
+                    title = '📋 サービス内容';
+                    content = `
+                        <div class="line-menu-content">
+                            <div class="menu-card" onclick="sendQuickQuestion('サービス内容を教えて')">
+                                <div class="menu-card-icon">💼</div>
+                                <div class="menu-card-text">
+                                    <h4>サービス概要</h4>
+                                    <p>税務顧問サービスの詳細</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="sendQuickQuestion('他の税理士事務所との違いは？')">
+                                <div class="menu-card-icon">⭐</div>
+                                <div class="menu-card-text">
+                                    <h4>当社の特徴</h4>
+                                    <p>他社との違いとメリット</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="sendQuickQuestion('AIが対応するの？')">
+                                <div class="menu-card-icon">🤖</div>
+                                <div class="menu-card-text">
+                                    <h4>サポート体制</h4>
+                                    <p>担当者による対応について</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'price':
+                    title = '💰 料金プラン';
+                    content = `
+                        <div class="line-menu-content">
+                            <div class="menu-card" onclick="sendQuickQuestion('料金について教えて')">
+                                <div class="menu-card-icon">💴</div>
+                                <div class="menu-card-text">
+                                    <h4>基本料金</h4>
+                                    <p>月額・年額プランの詳細</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="window.open('/cost', '_blank')">
+                                <div class="menu-card-icon">📊</div>
+                                <div class="menu-card-text">
+                                    <h4>料金比較</h4>
+                                    <p>プラン別料金の比較表</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="sendQuickQuestion('支払い方法について')">
+                                <div class="menu-card-icon">💳</div>
+                                <div class="menu-card-text">
+                                    <h4>お支払い方法</h4>
+                                    <p>決済方法と契約期間</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'faq':
+                    title = '❓ よくある質問';
+                    content = `
+                        <div class="line-menu-content">
+                            <div class="menu-card" onclick="sendQuickQuestion('確定申告について')">
+                                <div class="menu-card-icon">📊</div>
+                                <div class="menu-card-text">
+                                    <h4>確定申告</h4>
+                                    <p>申告の流れと期限</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="sendQuickQuestion('消費税申告が必要か？')">
+                                <div class="menu-card-icon">💹</div>
+                                <div class="menu-card-text">
+                                    <h4>消費税申告</h4>
+                                    <p>申告要否の判定</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="sendQuickQuestion('領収書の撮影方法は？')">
+                                <div class="menu-card-icon">📷</div>
+                                <div class="menu-card-text">
+                                    <h4>書類の管理</h4>
+                                    <p>領収書・資料の取扱い</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'contact':
+                    title = '📞 お問い合わせ';
+                    content = `
+                        <div class="line-menu-content">
+                            <div class="menu-card" onclick="sendQuickQuestion('Chatworkでの相談について')">
+                                <div class="menu-card-icon">💬</div>
+                                <div class="menu-card-text">
+                                    <h4>チャット相談</h4>
+                                    <p>Chatworkでのやり取り</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="window.open('/#contact', '_blank')">
+                                <div class="menu-card-icon">📝</div>
+                                <div class="menu-card-text">
+                                    <h4>お申し込み</h4>
+                                    <p>サービス申込フォーム</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="sendQuickQuestion('電話で相談したい')">
+                                <div class="menu-card-icon">☎️</div>
+                                <div class="menu-card-text">
+                                    <h4>お電話での相談</h4>
+                                    <p>電話サポートについて</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+
+            // メニューコンテンツを表示
+            addBotMessage(title, content, false);
         }
 
         function closeChatSupport() {
