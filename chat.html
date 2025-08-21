@@ -245,6 +245,71 @@
         }
     }
     
+    /* Floating Chat Support Button */
+    .floating-chat-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        color: white;
+        border-radius: 50px;
+        padding: 15px 25px;
+        cursor: pointer;
+        box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 1001;
+        transition: all 0.3s ease;
+        animation: pulse 2s infinite;
+    }
+    
+    .floating-chat-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(20, 184, 166, 0.4);
+    }
+    
+    .chat-button-icon {
+        font-size: 24px;
+        line-height: 1;
+    }
+    
+    .chat-button-text {
+        font-weight: 600;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+    
+    .chat-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+    
+    .chat-overlay.show {
+        opacity: 1;
+        pointer-events: all;
+    }
+    
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
+        }
+        50% {
+            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.6);
+        }
+        100% {
+            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
+        }
+    }
+    
     .simulate-btn {
         background: linear-gradient(135deg, #14b8a6, #0891b2);
         color: white;
@@ -313,16 +378,29 @@
     }
     
     .chat-wrapper {
-        max-width: 800px;
-        margin: 0 auto;
+        position: fixed;
+        bottom: 100px;
+        right: 20px;
+        width: 400px;
+        max-width: calc(100vw - 40px);
         background: white;
         border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         overflow: hidden;
-        height: calc(100vh - 200px);
-        min-height: 600px;
+        height: 500px;
         display: flex;
         flex-direction: column;
+        z-index: 1000;
+        transform: translateY(20px);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s ease;
+    }
+    
+    .chat-wrapper.show {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
     }
     
     .chat-header {
@@ -331,6 +409,40 @@
         padding: 20px;
         text-align: center;
         position: relative;
+    }
+    
+    .chat-header-minimal {
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .chat-title-minimal {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0;
+    }
+    
+    .chat-close-button {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        transition: background-color 0.2s ease;
+    }
+    
+    .chat-close-button:hover {
+        background: rgba(255, 255, 255, 0.3);
     }
     
     .chat-title {
@@ -658,6 +770,21 @@
             padding: 15px;
         }
         
+        .chat-wrapper {
+            width: calc(100vw - 20px);
+            right: 10px;
+            height: 400px;
+        }
+        
+        .floating-chat-button {
+            right: 10px;
+            bottom: 15px;
+        }
+        
+        .chat-button-text {
+            display: none;
+        }
+        
         .result-actions {
             flex-direction: column;
         }
@@ -878,11 +1005,11 @@
             </div>
 
             <!-- Chatbot Container -->
-            <div class="chat-wrapper">
-                <!-- Chat Header -->
-                <div class="chat-header">
-                    <h2 class="chat-title">💬 みんなの税務顧問 チャットサポート</h2>
-                    <p class="chat-subtitle">税務に関するご質問にお答えします</p>
+            <div class="chat-wrapper" id="chatWrapper" style="display: none;">
+                <!-- Chat Header with Close Button -->
+                <div class="chat-header-minimal">
+                    <h3 class="chat-title-minimal">💬 チャットサポート</h3>
+                    <button class="chat-close-button" onclick="closeChatSupport()">✕</button>
                 </div>
                 
                 <!-- Chat Messages Area -->
@@ -952,6 +1079,15 @@
                 </div>
             </div>
         </div>
+
+        <!-- Floating Chat Support Button -->
+        <div class="floating-chat-button" id="floatingChatButton" onclick="toggleChatSupport()">
+            <div class="chat-button-icon">💬</div>
+            <div class="chat-button-text">お問い合わせはこちら</div>
+        </div>
+
+        <!-- Chat Overlay -->
+        <div class="chat-overlay" id="chatOverlay" style="display: none;" onclick="closeChatSupport()"></div>
     </section>
 
     <script>
@@ -1398,6 +1534,54 @@
             } else {
                 helpElement.style.display = 'none';
             }
+        }
+
+        // チャットサポートの開閉を制御する関数
+        function toggleChatSupport() {
+            const chatWrapper = document.getElementById('chatWrapper');
+            const chatOverlay = document.getElementById('chatOverlay');
+            const floatingButton = document.getElementById('floatingChatButton');
+
+            if (chatWrapper.classList.contains('show')) {
+                // チャット閉じる
+                closeChatSupport();
+            } else {
+                // チャット開く
+                chatWrapper.style.display = 'flex';
+                chatOverlay.style.display = 'block';
+                
+                // アニメーション用の遅延
+                setTimeout(() => {
+                    chatWrapper.classList.add('show');
+                    chatOverlay.classList.add('show');
+                }, 10);
+                
+                floatingButton.style.display = 'none';
+                
+                // ウェルカムメッセージを表示
+                const welcomeMessage = document.getElementById('welcomeMessage');
+                if (welcomeMessage) {
+                    welcomeMessage.style.display = 'block';
+                }
+                
+                // チャット初期化
+                initializeChat();
+            }
+        }
+
+        function closeChatSupport() {
+            const chatWrapper = document.getElementById('chatWrapper');
+            const chatOverlay = document.getElementById('chatOverlay');
+            const floatingButton = document.getElementById('floatingChatButton');
+
+            chatWrapper.classList.remove('show');
+            chatOverlay.classList.remove('show');
+            
+            setTimeout(() => {
+                chatWrapper.style.display = 'none';
+                chatOverlay.style.display = 'none';
+                floatingButton.style.display = 'flex';
+            }, 300);
         }
 
         // 初期化
