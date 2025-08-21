@@ -1771,41 +1771,47 @@
             return formatDefaultResponse();
         }
 
-        // LINE風のレスポンス形式に整形
+        // 読みやすいレスポンス形式に整形
         function formatLineResponse(answer, category) {
-            const emojis = {
-                "サービス": "💼",
-                "料金": "💰", 
-                "契約": "📝",
-                "申告": "📊",
-                "その他": "ℹ️"
+            // 絵文字を最小限に
+            const categoryLabels = {
+                "サービス": "【サービス内容】",
+                "料金": "【料金について】", 
+                "契約": "【契約について】",
+                "申告": "【申告について】",
+                "その他": "【お問い合わせ】"
             };
             
-            const emoji = emojis[category] || "💬";
+            const label = categoryLabels[category] || "【ご案内】";
             
-            // 長い文章を短い段落に分割
+            // テキストの整形：読みやすい改行とフォーマット
             const formattedAnswer = answer
-                .replace(/\n\n/g, '\n')
-                .replace(/•/g, '✅')
-                .replace(/・/g, '✅');
+                .replace(/\n\n/g, '\n\n')  // 段落間の改行を保持
+                .replace(/•/g, '・')       // シンプルな中点に
+                .replace(/✅/g, '・')      // チェックマークも中点に
+                .replace(/(\d+[,\d]*円)/g, '\n$1')  // 金額の前に改行
+                .replace(/([。！？])\s*([・\-\*])/g, '$1\n\n$2')  // 箇条書きの前に改行
+                .replace(/([。！？])\s*([ァ-ヶー]+)/g, '$1\n\n$2'); // 文の後に改行
             
-            return `${emoji} ${formattedAnswer}`;
+            return `${label}\n\n${formattedAnswer}`;
         }
 
-        // デフォルト返答をLINE風に
+        // シンプルなデフォルト返答
         function formatDefaultResponse() {
-            return `😊 ご質問ありがとうございます！
+            return `【お問い合わせ】
 
-申し訳ございませんが、お問い合わせの内容がよく分からなかったです。
+ご質問ありがとうございます。
 
-下のメニューから気になる項目を選んでいただくか、以下のような質問をしてみてください：
+申し訳ございませんが、お問い合わせの内容について詳しい回答が見つかりませんでした。
 
-💼 「サービス内容を教えて」
-💰 「料金について知りたい」  
-📊 「確定申告はどうするの？」
-📝 「契約期間は？」
+以下のような質問にお答えできます：
 
-お気軽にお聞きください！`;
+・サービス内容について
+・料金プランについて  
+・契約期間について
+・確定申告について
+
+下のメニューから選択いただくか、具体的にご質問ください。`;
         }
 
 
@@ -1873,25 +1879,25 @@
 
             switch(menuType) {
                 case 'service':
-                    title = '📋 サービス内容';
+                    title = 'サービス内容';
                     content = `
                         <div class="line-menu-content">
                             <div class="menu-card" onclick="sendQuickQuestion('サービス内容を教えて')">
-                                <div class="menu-card-icon">💼</div>
+                                <div class="menu-card-icon">📋</div>
                                 <div class="menu-card-text">
                                     <h4>サービス概要</h4>
                                     <p>税務顧問サービスの詳細</p>
                                 </div>
                             </div>
                             <div class="menu-card" onclick="sendQuickQuestion('他の税理士事務所との違いは？')">
-                                <div class="menu-card-icon">⭐</div>
+                                <div class="menu-card-icon">📊</div>
                                 <div class="menu-card-text">
                                     <h4>当社の特徴</h4>
                                     <p>他社との違いとメリット</p>
                                 </div>
                             </div>
                             <div class="menu-card" onclick="sendQuickQuestion('AIが対応するの？')">
-                                <div class="menu-card-icon">🤖</div>
+                                <div class="menu-card-icon">🤝</div>
                                 <div class="menu-card-text">
                                     <h4>サポート体制</h4>
                                     <p>担当者による対応について</p>
@@ -1901,11 +1907,11 @@
                     `;
                     break;
                 case 'price':
-                    title = '💰 料金プラン';
+                    title = '料金プラン';
                     content = `
                         <div class="line-menu-content">
                             <div class="menu-card" onclick="sendQuickQuestion('料金について教えて')">
-                                <div class="menu-card-icon">💴</div>
+                                <div class="menu-card-icon">💰</div>
                                 <div class="menu-card-text">
                                     <h4>基本料金</h4>
                                     <p>月額・年額プランの詳細</p>
@@ -1929,11 +1935,11 @@
                     `;
                     break;
                 case 'faq':
-                    title = '❓ よくある質問';
+                    title = 'よくある質問';
                     content = `
                         <div class="line-menu-content">
                             <div class="menu-card" onclick="sendQuickQuestion('確定申告について')">
-                                <div class="menu-card-icon">📊</div>
+                                <div class="menu-card-icon">📄</div>
                                 <div class="menu-card-text">
                                     <h4>確定申告</h4>
                                     <p>申告の流れと期限</p>
@@ -1947,7 +1953,7 @@
                                 </div>
                             </div>
                             <div class="menu-card" onclick="sendQuickQuestion('領収書の撮影方法は？')">
-                                <div class="menu-card-icon">📷</div>
+                                <div class="menu-card-icon">📋</div>
                                 <div class="menu-card-text">
                                     <h4>書類の管理</h4>
                                     <p>領収書・資料の取扱い</p>
@@ -1957,7 +1963,7 @@
                     `;
                     break;
                 case 'contact':
-                    title = '📞 お問い合わせ';
+                    title = 'お問い合わせ';
                     content = `
                         <div class="line-menu-content">
                             <div class="menu-card" onclick="window.open('/#contact', '_blank')">
@@ -1968,7 +1974,7 @@
                                 </div>
                             </div>
                             <div class="menu-card" onclick="sendQuickQuestion('サービス内容について詳しく教えて')">
-                                <div class="menu-card-icon">💼</div>
+                                <div class="menu-card-icon">ℹ️</div>
                                 <div class="menu-card-text">
                                     <h4>サービス詳細</h4>
                                     <p>サービス内容の詳細</p>
