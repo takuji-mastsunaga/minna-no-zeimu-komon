@@ -66,8 +66,8 @@ if (applyNoTaxBtn) {
             alert('利用規約への同意が必要です。');
             return;
         }
-        // Stripeの決済ページにリダイレクト
-        window.location.href = 'https://buy.stripe.com/fZu28q1Ww6ap1a18qz7Zu0b';
+        // 通常プラン料金ページにリダイレクト
+        window.location.href = 'https://www.minzei-tax.com/cost';
     });
 }
 
@@ -77,8 +77,8 @@ if (applyWithTaxBtn) {
             alert('利用規約への同意が必要です。');
             return;
         }
-        // Stripeの決済ページにリダイレクト
-        window.location.href = 'https://buy.stripe.com/8x24gycBa1U95qh4aj7Zu0c';
+        // 消費税申告プラン料金ページにリダイレクト
+        window.location.href = 'https://www.minzei-tax.com/cost.tax';
     });
 }
 
