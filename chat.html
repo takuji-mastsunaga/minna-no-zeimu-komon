@@ -1294,24 +1294,23 @@
         });
 
         function calculatePlan(revenue, businessType, transactions, checkboxes) {
-            // 年間売上が1000万円を超える場合は自動的にソルビス税理士法人への斡旋
+            // 【最優先】年間売上が1000万円を超える場合は消費税判定に関係なくソルビス税理士法人のみ案内
             if (revenue === '1000-3000' || revenue === 'over3000') {
                 return {
                     type: 'solvis',
                     title: '🏢 ソルビス税理士法人をご紹介いたします',
-                    content: `年間売上が1,000万円を超える事業者様には、「みんなの税務顧問」ではなく、より専門的なサポートが可能な「ソルビス税理士法人」でのご契約をおすすめいたします。\n\n✅ より高度な税務相談\n✅ 法人化支援\n✅ 節税対策の提案\n✅ 事業拡大に向けたアドバイス\n✅ 大規模事業に対応した専門サービス`,
+                    content: `年間売上が1,000万円を超える事業者様は、「みんなの税務顧問」の対象外となります。\n\nより大規模な事業に対応可能な「ソルビス税理士法人」でのご契約をお願いいたします。\n\n✅ 売上1,000万円超の事業に特化\n✅ より高度な税務相談\n✅ 法人化支援\n✅ 節税対策の提案\n✅ 事業拡大に向けたアドバイス\n✅ 消費税申告も含む総合サポート`,
                     actions: [
-                        { text: 'ソルビス税理士法人に相談', url: 'https://www.solvis-tax.com/', primary: true },
-                        { text: 'みんなの税務顧問について詳しく', url: '/', primary: false }
+                        { text: 'ソルビス税理士法人に相談', url: 'https://www.solvis-tax.com/', primary: true }
                     ]
                 };
             }
 
-            // 消費税申告が必要かチェック
+            // 1000万円未満の場合のみ、消費税申告が必要かチェック
             const needsConsumptionTax = checkboxes.invoice || checkboxes.over1000Before || 
                                      checkboxes.over1000Recent || checkboxes.voluntary;
 
-            // プラン判定
+            // プラン判定（1000万円未満のみ）
             if (needsConsumptionTax) {
                 return {
                     type: 'consumption_tax',
