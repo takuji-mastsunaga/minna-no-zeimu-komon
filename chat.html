@@ -1100,7 +1100,7 @@
             <div class="simulator-section">
                 <div class="simulator-card">
                     <div class="simulator-header">
-                        <h1 class="simulator-title">📊 料金プランシミュレーション</h1>
+                        <h1 class="simulator-title">料金プランシミュレーション</h1>
                         <p class="simulator-subtitle">あなたの事業状況に最適なプランをご提案いたします。<br>簡単な質問にお答えいただくだけで、最適なプランが分かります。</p>
                     </div>
                     
@@ -1117,7 +1117,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">🏢 事業形態</label>
+                            <label class="form-label">事業形態</label>
                             <select class="form-select" id="businessType" name="businessType" required>
                                 <option value="">選択してください</option>
                                 <option value="individual">個人事業主</option>
@@ -1149,7 +1149,7 @@
                                         <button type="button" class="help-icon" onclick="toggleHelp('before-help')">❓</button>
                                     </label>
                                     <div class="help-text" id="before-help" style="display: none;">
-                                        <p><strong>📊 基準期間とは？</strong></p>
+                                        <p><strong>基準期間とは？</strong></p>
                                         <p>2年前の1年間を「基準期間」と呼びます。例えば、2024年分の申告であれば2022年の売上が対象です。基準期間の課税売上高が1,000万円を超えている場合、消費税の課税事業者となります。</p>
                                     </div>
                                 </div>
@@ -1552,11 +1552,11 @@
             
             // 【最優先】年間売上が1000万円を超える場合は消費税判定に関係なくソルビス税理士法人のみ案内
             if (revenue === '1000-3000' || revenue === 'over3000') {
-                console.log('🏢 ソルビス税理士法人ルートに入りました');
+                console.log('ソルビス税理士法人ルートに入りました');
                 return {
                     type: 'solvis',
-                    title: '🏢 ソルビス税理士法人をご紹介いたします',
-                    content: `年間売上が1,000万円を超える事業者様は、「みんなの税務顧問」の対象外となります。\n\nより大規模な事業に対応可能な「ソルビス税理士法人」でのご契約をお願いいたします。\n\n✅ 売上1,000万円超の事業に特化\n✅ より高度な税務相談\n✅ 法人化支援\n✅ 節税対策の提案\n✅ 事業拡大に向けたアドバイス\n✅ 消費税申告も含む総合サポート`,
+                    title: 'ソルビス税理士法人をご紹介いたします',
+                    content: `年間売上が1,000万円を超える事業者様は、「みんなの税務顧問」の対象外となります。\n\nより大規模な事業に対応可能な「ソルビス税理士法人」でのご契約をお願いいたします。\n\n・売上1,000万円超の事業に特化\n・より高度な税務相談\n・法人化支援\n・節税対策の提案\n・事業拡大に向けたアドバイス\n・消費税申告も含む総合サポート`,
                     actions: [
                         { text: 'ソルビス税理士法人に相談', url: 'https://www.solvis-tax.com/', primary: true }
                     ]
@@ -1571,7 +1571,7 @@
             if (needsConsumptionTax) {
                 return {
                     type: 'consumption_tax',
-                    title: '📊 消費税申告プランがおすすめです',
+                    title: '消費税申告プランがおすすめです',
                     content: `あなたの事業状況では消費税の申告が必要です。消費税申告に対応したプランをご提案いたします。\n\n• 年払い: 月額10,740円（年間128,880円）\n• 月払い: 月額12,300円（年間147,600円）\n\n年払いプランなら約12%お得になります！`,
                     actions: [
                         { text: '消費税申告プランを見る', url: '/cost.tax', primary: true },
@@ -1581,7 +1581,7 @@
             } else {
                 return {
                     type: 'standard',
-                    title: '💰 通常プランがおすすめです',
+                    title: '通常プランがおすすめです',
                     content: `あなたの事業状況に最適な通常プランをおすすめいたします。\n\n• 年払い: 月額8,256円（年間99,080円）\n• 月払い: 月額9,800円（年間117,600円）\n\n年払いプランなら約15%お得になります！${checkboxes.blueReturn ? '\n\n※青色申告の申請は、ご自身で税務署にお手続きをお願いいたします。申請方法についてはサポートいたします。' : ''}`,
                     actions: [
                         { text: '通常プランを見る', url: '/cost', primary: true },
