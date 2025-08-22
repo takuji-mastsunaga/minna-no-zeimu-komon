@@ -844,55 +844,70 @@ body {
 /* ========== シミュレーションセクション ========== */
 .simulation-section {
     padding: 48px 0;
-    background: #f8fafc;
+    background: #e0f2f1; /* Light Teal background - same as contact */
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 申込セクションと同じ流体アニメーション背景 */
+.simulation-section::before,
+.simulation-section::after {
+    content: '';
+    position: absolute;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    opacity: 0.25;
+    filter: blur(60px);
+    z-index: 0;
+    animation: fluid-bg-animation 40s ease-in-out infinite;
+}
+
+.simulation-section::before {
+    background: linear-gradient(135deg, #14b8a6, #81d8d0);
+    width: 500px;
+    height: 500px;
+    top: -200px;
+    left: -250px;
+}
+
+.simulation-section::after {
+    background: linear-gradient(135deg, #a7e9e4, #e0f2f1);
+    width: 400px;
+    height: 400px;
+    bottom: -150px;
+    right: -100px;
+    animation-direction: reverse;
 }
 
 .simulation-content {
     max-width: 600px;
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
 }
 
-.simulation-image {
-    margin-bottom: 32px;
-}
-
-.simulation-image img {
-    max-width: 100%;
-    height: auto;
+.simulation-image-link {
+    display: inline-block;
+    transition: all 0.3s ease;
     border-radius: 12px;
+    overflow: hidden;
     box-shadow: 0 8px 32px rgba(0,0,0,0.1);
 }
 
-.simulation-link-wrapper {
-    display: flex;
-    justify-content: center;
+.simulation-image-link:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.2);
 }
 
-.simulation-link {
-    display: inline-block;
-    background: linear-gradient(135deg, #059669, #10b981);
-    color: white;
-    padding: 16px 32px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-size: 1.125rem;
-    font-weight: 600;
+.simulation-image-link img {
+    max-width: 100%;
+    height: auto;
+    display: block;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 16px rgba(5, 150, 105, 0.3);
 }
 
-.simulation-link:hover {
-    background: linear-gradient(135deg, #047857, #059669);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(5, 150, 105, 0.4);
-    color: white;
-    text-decoration: none;
-}
-
-.simulation-link:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.3);
+.simulation-image-link:hover img {
+    transform: scale(1.02);
 }
 
 /* レスポンシブ対応 */
@@ -901,13 +916,18 @@ body {
         padding: 32px 0;
     }
     
-    .simulation-image {
-        margin-bottom: 24px;
+    .simulation-section::before {
+        width: 300px;
+        height: 300px;
+        top: -150px;
+        left: -150px;
     }
     
-    .simulation-link {
-        padding: 14px 24px;
-        font-size: 1rem;
+    .simulation-section::after {
+        width: 250px;
+        height: 250px;
+        bottom: -100px;
+        right: -50px;
     }
 }
 
@@ -916,15 +936,22 @@ body {
         padding: 24px 0;
     }
     
-    .simulation-image {
-        margin-bottom: 20px;
+    .simulation-content {
+        padding: 0 16px;
     }
     
-    .simulation-link {
-        padding: 12px 20px;
-        font-size: 0.95rem;
-        width: 90%;
-        max-width: 280px;
+    .simulation-section::before {
+        width: 200px;
+        height: 200px;
+        top: -100px;
+        left: -100px;
+    }
+    
+    .simulation-section::after {
+        width: 150px;
+        height: 150px;
+        bottom: -75px;
+        right: -25px;
     }
 }
 
