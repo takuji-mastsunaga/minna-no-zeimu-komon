@@ -846,7 +846,7 @@ body {
 
 /* ========== シミュレーションセクション ========== */
 .simulation-section {
-    padding: 0 0 48px 0; /* 上の余白を削除して境界をなくす */
+    padding: 40px 0 48px 0; /* 上部に余白を追加して適切な間隔を確保 */
     background: #f0f9ff; /* Light Blue background - same as comparison */
     text-align: center;
     position: relative;
@@ -962,7 +962,7 @@ body {
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
     .simulation-section {
-        padding: 0 0 32px 0;
+        padding: 32px 0 32px 0; /* タブレットサイズでも適切な上部余白 */
     }
     
     .notice-text {
@@ -994,7 +994,7 @@ body {
 
 @media (max-width: 480px) {
     .simulation-section {
-        padding: 0 0 24px 0;
+        padding: 24px 0 24px 0; /* モバイルサイズでも適切な上部余白 */
     }
     
     .notice-text {
