@@ -886,7 +886,7 @@ body {
     z-index: 1;
 }
 
-.simulation-image-link {
+.simulation-video-link {
     display: inline-block;
     transition: all 0.3s ease;
     border-radius: 12px;
@@ -894,20 +894,27 @@ body {
     box-shadow: 0 8px 32px rgba(0,0,0,0.1);
 }
 
-.simulation-image-link:hover {
+.simulation-video-link:hover {
     transform: translateY(-4px);
     box-shadow: 0 16px 48px rgba(0,0,0,0.2);
 }
 
-.simulation-image-link img {
+.simulation-video-link video {
     max-width: 100%;
     height: auto;
     display: block;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-.simulation-image-link:hover img {
+.simulation-video-link:hover video {
     transform: scale(1.02);
+}
+
+.simulation-video-link img {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 /* レスポンシブ対応 */
