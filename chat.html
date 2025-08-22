@@ -62,6 +62,11 @@
         font-weight: 700;
         color: #1f2937;
         margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .title-line-1, .title-line-2 {
+        display: inline;
     }
     
     .simulator-subtitle {
@@ -981,6 +986,11 @@
             font-size: 1.5rem;
         }
         
+        .title-line-1, .title-line-2 {
+            display: block;
+            text-align: center;
+        }
+        
         .chat-wrapper {
             height: calc(100vh - 100px);
             border-radius: 12px;
@@ -1116,7 +1126,10 @@
             <div class="simulator-section">
                 <div class="simulator-card">
                     <div class="simulator-header">
-                        <h1 class="simulator-title">料金プランシミュレーション</h1>
+                        <h1 class="simulator-title">
+                            <span class="title-line-1">料金プラン</span>
+                            <span class="title-line-2">シミュレーション</span>
+                        </h1>
                         <p class="simulator-subtitle">あなたの事業状況に最適なプランをご提案いたします。<br>簡単な質問にお答えいただくだけで、最適なプランが分かります。</p>
                     </div>
                     
@@ -1211,7 +1224,7 @@
                                 <div class="checkbox-item-with-help">
                                     <label class="checkbox-item-enhanced">
                                         <input type="checkbox" id="blueReturn" value="blue_return">
-                                        <span class="checkbox-text">青色申告を希望</span>
+                                        <span class="checkbox-text">青色申告の申請をしたい</span>
                                         <button type="button" class="help-icon" onclick="toggleHelp('blue-help')">❓</button>
                                     </label>
                                     <div class="help-text" id="blue-help" style="display: none;">
@@ -1223,7 +1236,25 @@
                                         <strong>・既存事業者の場合：</strong>青色申告を受けようとする年の3月15日まで</p>
                                         
                                         <p><strong>💰 代行費用について</strong></p>
-                                        <p>青色申告承認申請書をご自身で提出されない場合、代行費用として別途1万円（税込）を申し受けます。提出期限の管理や適切な書類作成をサポートいたします。</p>
+                                        <p>青色申告承認申請書をご自身で提出されない場合、代行費用として別途5,000円（税込）を申し受けます。申請に関しては契約後のChatwork内でのご相談となります。</p>
+                                    </div>
+                                </div>
+
+                                <div class="checkbox-item-with-help">
+                                    <label class="checkbox-item-enhanced">
+                                        <input type="checkbox" id="businessRegistration" value="business_registration">
+                                        <span class="checkbox-text">開業届の申請をしたい</span>
+                                        <button type="button" class="help-icon" onclick="toggleHelp('business-help')">❓</button>
+                                    </label>
+                                    <div class="help-text" id="business-help" style="display: none;">
+                                        <p><strong>📄 開業届とは？</strong></p>
+                                        <p>個人事業を開始したことを税務署に届け出るための書類です。事業開始から1ヶ月以内に提出する必要があります。屋号の使用や青色申告の前提となる重要な手続きです。</p>
+                                        
+                                        <p><strong>📅 開業届の提出期限</strong></p>
+                                        <p>事業開始から1ヶ月以内に所轄の税務署に提出してください。</p>
+                                        
+                                        <p><strong>💰 代行費用について</strong></p>
+                                        <p>開業届をご自身で提出されない場合、代行費用として別途5,000円（税込）を申し受けます。申請に関しては契約後のChatwork内でのご相談となります。</p>
                                     </div>
                                 </div>
 
@@ -1414,15 +1445,19 @@
                 category: "料金"
             },
             "青色申告": {
-                answer: "青色申告の申請につきましては、ご自身で税務署へお手続きをお願いいたします。申請書の書き方や手続きについてのご質問は、Chatworkにてサポートさせていただきます。",
+                answer: "青色申告承認申請書の代行をご希望の場合は、別途5,000円（税込）で承ります。申請に関しては契約後のChatwork内でのご相談となります。",
                 category: "申告"
             },
             "青色申告をしたい": {
-                answer: "青色申告の申請につきましては、ご自身で税務署へお手続きをお願いいたします。申請書の書き方や手続きについてのご質問は、Chatworkにてサポートさせていただきます。",
+                answer: "青色申告承認申請書の代行をご希望の場合は、別途5,000円（税込）で承ります。申請に関しては契約後のChatwork内でのご相談となります。",
+                category: "申告"
+            },
+            "開業届": {
+                answer: "開業届の代行をご希望の場合は、別途5,000円（税込）で承ります。申請に関しては契約後のChatwork内でのご相談となります。",
                 category: "申告"
             },
             "申請関連": {
-                answer: "各種税務署への申請手続きにつきましては、ご自身でお手続きをお願いいたします。申請書の記載方法や手続きの流れについては、Chatworkにてサポートいたします。",
+                answer: "青色申告承認申請書や開業届の代行をご希望の場合は、別途5,000円（税込）で承ります。申請に関しては契約後のChatwork内でのご相談となります。",
                 category: "その他"
             },
             "古物商": {
@@ -1567,6 +1602,7 @@
                         voluntary: document.getElementById('voluntaryTaxable').checked,
                         exportRefund: document.getElementById('exportRefund').checked,
                         blueReturn: document.getElementById('blueReturn').checked,
+                        businessRegistration: document.getElementById('businessRegistration').checked,
                         cryptoFx: document.getElementById('cryptoFx').checked,
                         reselling: document.getElementById('reselling').checked
                     };
@@ -1591,7 +1627,7 @@
                 console.log('ソルビス税理士法人ルートに入りました');
                 return {
                     type: 'solvis',
-                    title: 'ソルビス税理士法人をご紹介いたします',
+                    title: 'ソルビス税理士法人\nをご紹介いたします',
                     content: `年間売上が1,000万円を超える事業者様は、「みんなの税務顧問」の対象外となります。\n\nより大規模な事業に対応可能な「ソルビス税理士法人」でのご契約をお願いいたします。\n\n・売上1,000万円超の事業に特化\n・より高度な税務相談\n・法人化支援\n・節税対策の提案\n・事業拡大に向けたアドバイス\n・消費税申告も含む総合サポート`,
                     actions: [
                         { text: 'ソルビス税理士法人に相談', url: 'https://www.solvis-tax.com/', primary: true }
@@ -1618,7 +1654,7 @@
                 return {
                     type: 'standard',
                     title: '通常プランがおすすめです',
-                    content: `あなたの事業状況に最適な通常プランをおすすめいたします。\n\n• 年払い: 月額8,256円（年間99,080円）\n• 月払い: 月額9,800円（年間117,600円）\n\n年払いプランなら約15%お得になります！${checkboxes.blueReturn ? '\n\n※青色申告承認申請書について\n・提出期限: 新規開業は開業から2ヶ月以内、既存事業者は青色申告を受けようとする年の3月15日まで\n・ご自身で税務署にお手続きをお願いいたします\n・代行をご希望の場合は別途1万円（税込）を申し受けます' : ''}`,
+                    content: `あなたの事業状況に最適な通常プランをおすすめいたします。\n\n• 年払い: 月額8,256円（年間99,080円）\n• 月払い: 月額9,800円（年間117,600円）\n\n年払いプランなら約15%お得になります！${checkboxes.blueReturn || checkboxes.businessRegistration ? '\n\n※申請代行について\n・青色申告承認申請書、開業届の代行をご希望の場合は別途5,000円（税込）を申し受けます\n・申請に関しては契約後のChatwork内でのご相談となります' : ''}`,
                     actions: [
                         { text: '通常プランを見る', url: '/cost', primary: true },
                         { text: 'お申し込み', url: '/#contact', primary: true }
