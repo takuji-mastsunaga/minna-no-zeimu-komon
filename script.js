@@ -135,3 +135,45 @@ window.addEventListener('scroll', function() {
         header.classList.remove('scrolled');
     }
 });
+
+// 動画の遅延読み込み設定
+document.addEventListener('DOMContentLoaded', function() {
+    const simulationVideo = document.getElementById('simulationVideo');
+    if (simulationVideo) {
+        // Intersection Observer で動画が画面に入った時に再生
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // 動画を再生
+                    entry.target.play().catch(e => {
+                        console.log('Auto-play prevented:', e);
+                        // 自動再生が阻止された場合、ユーザーの操作待ち
+                    });
+                } else {
+                    // 画面から外れたら一時停止
+                    entry.target.pause();
+                }
+            });
+        }, {
+            threshold: 0.5 // 50%見えたら再生
+        });
+        
+        videoObserver.observe(simulationVideo);
+        
+        // ホバー時の再生強化
+        simulationVideo.addEventListener('mouseenter', () => {
+            simulationVideo.play().catch(e => console.log('Play failed:', e));
+        });
+        
+        // エラーハンドリング
+        simulationVideo.addEventListener('error', (e) => {
+            console.log('Video error:', e);
+            // 動画でエラーが起きた場合、フォールバック画像を表示
+            const fallbackImg = simulationVideo.querySelector('img');
+            if (fallbackImg) {
+                fallbackImg.style.display = 'block';
+                simulationVideo.style.display = 'none';
+            }
+        });
+    }
+});
