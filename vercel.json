@@ -17,6 +17,10 @@
     {
       "source": "/cost.tax",
       "destination": "/cost.tax.html"
+    },
+    {
+      "source": "/1218tst",
+      "destination": "/1218tst.html"
     }
   ],
   "headers": [
