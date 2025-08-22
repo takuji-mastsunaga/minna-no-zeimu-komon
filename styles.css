@@ -422,7 +422,7 @@ body {
 /* ========== Modern Pricing Section ========== */
 .pricing.modern {
     background-color: #f0f9ff;
-    padding: 64px 0;
+    padding: 64px 0 0 0; /* 下の余白を削除してシミュレーションセクションと連結 */
 }
 
 .plan-card {
@@ -843,7 +843,7 @@ body {
 
 /* ========== シミュレーションセクション ========== */
 .simulation-section {
-    padding: 48px 0;
+    padding: 0 0 48px 0; /* 上の余白を削除して境界をなくす */
     background: #f0f9ff; /* Light Blue background - same as comparison */
     text-align: center;
     position: relative;
@@ -886,6 +886,40 @@ body {
     z-index: 1;
 }
 
+.simulation-notice {
+    margin-bottom: 24px;
+}
+
+.notice-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 8px 0;
+    background: linear-gradient(135deg, #059669, #10b981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.notice-subtext {
+    font-size: 1rem;
+    color: #6b7280;
+    margin: 0;
+    font-weight: 500;
+}
+
+.simulation-cta {
+    margin-top: 16px;
+}
+
+.cta-text {
+    font-size: 0.875rem;
+    color: #374151;
+    margin: 0;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
 .simulation-video-link {
     display: inline-block;
     transition: all 0.3s ease;
@@ -920,7 +954,19 @@ body {
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
     .simulation-section {
-        padding: 32px 0;
+        padding: 0 0 32px 0;
+    }
+    
+    .notice-text {
+        font-size: 1.25rem;
+    }
+    
+    .notice-subtext {
+        font-size: 0.9rem;
+    }
+    
+    .cta-text {
+        font-size: 0.8rem;
     }
     
     .simulation-section::before {
@@ -940,7 +986,19 @@ body {
 
 @media (max-width: 480px) {
     .simulation-section {
-        padding: 24px 0;
+        padding: 0 0 24px 0;
+    }
+    
+    .notice-text {
+        font-size: 1.1rem;
+    }
+    
+    .notice-subtext {
+        font-size: 0.85rem;
+    }
+    
+    .cta-text {
+        font-size: 0.75rem;
     }
     
     .simulation-content {
