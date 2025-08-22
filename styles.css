@@ -595,8 +595,8 @@ body {
 
 /* ========== Cost Comparison Section ========== */
 .cost-comparison {
-    padding: 64px 0;
-    background-color: #f9fafb;
+    padding: 64px 0 0 0; /* 下の余白を削除してシミュレーションセクションと連結 */
+    background-color: #f0f9ff; /* シミュレーションセクションと同じライトブルー */
 }
 
 .comparison-image {
