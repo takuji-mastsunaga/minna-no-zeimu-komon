@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>チャットボット - みんなの税務顧問</title>
-    <meta name="description" content="チャットで気軽に税務相談。よくある質問にリアルタイムでお答えします。個人事業主・スタートアップ向け税務サービスのチャットサポート。">
+    <title>料金プランシミュレーション - みんなの税務顧問</title>
+    <meta name="description" content="あなたの事業状況に最適な料金プランをご提案いたします。簡単な質問にお答えいただくだけで、最適なプランが分かります。">
     
     <!-- OGP Tags -->
-    <meta property="og:title" content="チャットボット - みんなの税務顧問">
-    <meta property="og:description" content="チャットで気軽に税務相談。よくある質問にリアルタイムでお答えします。個人事業主・スタートアップ向け税務サービスのチャットサポート。">
+    <meta property="og:title" content="料金プランシミュレーション - みんなの税務顧問">
+    <meta property="og:description" content="あなたの事業状況に最適な料金プランをご提案いたします。簡単な質問にお答えいただくだけで、最適なプランが分かります。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://minzei-tax.com/chat">
     <meta property="og:image" content="https://minzei-tax.com/images/thumbnail.png">
@@ -35,93 +35,145 @@
     .page-container {
         min-height: 100vh;
         background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-        padding: 80px 0 0 0;
+        padding: 80px 0 40px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     
-    .simulator-section {
-        max-width: 1000px;
-        margin: 0 auto 40px auto;
+    .simulator-wrapper {
+        max-width: 800px;
+        width: 100%;
         padding: 0 20px;
     }
     
-    .simulator-card {
+    .step-container {
         background: white;
-        border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        padding: 40px;
-        margin-bottom: 40px;
-    }
-    
-    .simulator-header {
+        border-radius: 24px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        padding: 60px 50px;
         text-align: center;
+        position: relative;
+        min-height: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        transition: all 0.5s ease;
+    }
+    
+    .step-header {
         margin-bottom: 40px;
     }
     
-    .simulator-title {
+    .step-number {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+        color: #9ca3af;
+        font-size: 4rem;
+        font-weight: 700;
+        padding: 10px 20px;
+        border-radius: 12px;
+        opacity: 0.3;
+        z-index: 1;
+    }
+    
+    .step-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 30px auto;
         font-size: 2rem;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    
+    .step-title {
+        font-size: 2.2rem;
         font-weight: 700;
         color: #1f2937;
-        margin-bottom: 15px;
-        text-align: center;
-    }
-
-    .title-line-1, .title-line-2 {
-        display: inline;
+        margin-bottom: 20px;
+        line-height: 1.3;
     }
     
-    .simulator-subtitle {
+    .step-description {
         font-size: 1.1rem;
         color: #6b7280;
+        margin-bottom: 40px;
         line-height: 1.6;
     }
     
-    .simulator-form {
+    .options-grid {
         display: grid;
-        gap: 25px;
+        gap: 15px;
+        margin-bottom: 40px;
     }
     
-    .form-group {
+    .option-item {
+        background: #f8fafc;
+        border: 3px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: #374151;
+    }
+    
+    .option-item:hover {
+        border-color: #14b8a6;
+        background: #f0fdfa;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(20, 184, 166, 0.15);
+    }
+    
+    .option-item.selected {
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        border-color: #14b8a6;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
+    }
+    
+    /* 2カラムレイアウト用 */
+    .options-grid.two-column {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    /* 3カラムレイアウト用 */
+    .options-grid.three-column {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    /* チェックボックススタイル */
+    .checkbox-container {
         display: flex;
         flex-direction: column;
-        gap: 10px;
-    }
-    
-    .form-label {
-        font-weight: 600;
-        color: #374151;
-        font-size: 1.1rem;
-    }
-    
-    .form-input, .form-select {
-        padding: 15px 20px;
-        border: 2px solid #e5e7eb;
-        border-radius: 12px;
-        font-size: 1rem;
-        transition: border-color 0.2s ease;
-    }
-    
-    .form-input:focus, .form-select:focus {
-        outline: none;
-        border-color: #14b8a6;
-    }
-    
-    .checkbox-group {
-        display: flex;
-        flex-wrap: wrap;
         gap: 15px;
-        margin-top: 10px;
+        margin-bottom: 40px;
     }
     
     .checkbox-item {
+        background: #f8fafc;
+        border: 3px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 10px 15px;
-        background: #f8fafc;
-        border: 2px solid #e2e8f0;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.2s ease;
+        justify-content: space-between;
+        text-align: left;
     }
     
     .checkbox-item:hover {
@@ -129,72 +181,34 @@
         background: #f0fdfa;
     }
     
-    .checkbox-item input[type="checkbox"] {
-        margin: 0;
-    }
-
-    /* 新しい縦一列レイアウト用のスタイル */
-    .form-help-text {
-        font-size: 0.9rem;
-        color: #6b7280;
-        margin: 8px 0 15px 0;
-        font-style: italic;
-    }
-
-    .checkbox-group-vertical {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        margin-top: 10px;
-    }
-    
-    .checkbox-item-with-help {
-        background: white;
-        border: 2px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 0;
-        transition: all 0.2s ease;
-    }
-    
-    .checkbox-item-with-help:hover {
+    .checkbox-item.selected {
+        background: #f0fdfa;
         border-color: #14b8a6;
-        box-shadow: 0 2px 8px rgba(20, 184, 166, 0.1);
-    }
-    
-    .checkbox-item-enhanced {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 15px 20px;
-        cursor: pointer;
-        background: transparent;
-        margin: 0;
-        width: 100%;
-        transition: background-color 0.2s ease;
-    }
-    
-    .checkbox-item-enhanced:hover {
-        background: #f8fafc;
+        color: #0f766e;
     }
     
     .checkbox-text {
         flex: 1;
-        margin-left: 12px;
-        font-weight: 500;
+        font-weight: 600;
+        font-size: 1rem;
         color: #374151;
+    }
+    
+    .checkbox-item.selected .checkbox-text {
+        color: #0f766e;
     }
     
     .help-icon {
         background: #e0f2fe;
         border: 2px solid #0891b2;
         border-radius: 50%;
-        width: 28px;
-        height: 28px;
+        width: 32px;
+        height: 32px;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        font-size: 14px;
+        font-size: 16px;
         transition: all 0.2s ease;
         margin-left: 15px;
     }
@@ -206,170 +220,131 @@
     }
     
     .help-text {
-        padding: 20px;
         background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-        border-top: 1px solid #e5e7eb;
-        border-radius: 0 0 12px 12px;
+        border: 2px solid #0891b2;
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 15px;
+        text-align: left;
+        line-height: 1.6;
+        color: #374151;
+        display: none;
         animation: slideDown 0.3s ease-out;
     }
     
-    .help-text p {
-        margin: 0 0 10px 0;
-        color: #374151;
-        line-height: 1.6;
-    }
-    
-    .help-text p:last-child {
-        margin-bottom: 0;
-    }
-    
-    .help-text strong {
-        color: #0891b2;
+    .help-text.show {
         display: block;
-        margin-bottom: 8px;
-    }
-    
-    .separator-line {
-        height: 1px;
-        background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
-        margin: 10px 0;
     }
     
     @keyframes slideDown {
         from {
             opacity: 0;
-            max-height: 0;
-            padding-top: 0;
-            padding-bottom: 0;
+            transform: translateY(-10px);
         }
         to {
             opacity: 1;
-            max-height: 200px;
-            padding-top: 20px;
-            padding-bottom: 20px;
+            transform: translateY(0);
         }
     }
     
-    /* Floating Chat Support Button */
-    .floating-chat-button {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, #14b8a6, #0891b2);
-        color: white;
-        border-radius: 50px;
-        padding: 15px 25px;
-        cursor: pointer;
-        box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
+    .navigation-buttons {
         display: flex;
-        align-items: center;
-        gap: 10px;
-        z-index: 1001;
-        transition: all 0.3s ease;
-        animation: pulse 2s infinite;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 40px;
     }
     
-    .floating-chat-button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 35px rgba(20, 184, 166, 0.4);
-    }
-    
-    .chat-button-icon {
-        font-size: 24px;
-        line-height: 1;
-    }
-    
-    .chat-button-text {
-        font-weight: 600;
-        font-size: 14px;
-        white-space: nowrap;
-    }
-    
-    .chat-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-    }
-    
-    .chat-overlay.show {
-        opacity: 1;
-        pointer-events: all;
-    }
-    
-    @keyframes pulse {
-        0% {
-            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
-        }
-        50% {
-            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.6);
-        }
-        100% {
-            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
-        }
-    }
-    
-    .simulate-btn {
-        background: linear-gradient(135deg, #14b8a6, #0891b2);
+    .nav-btn {
+        background: #6b7280;
         color: white;
         border: none;
-        padding: 18px 40px;
+        padding: 15px 30px;
         border-radius: 12px;
         font-size: 1.1rem;
         font-weight: 600;
         cursor: pointer;
-        transition: transform 0.2s ease;
-        margin-top: 20px;
+        transition: all 0.3s ease;
+        min-width: 120px;
     }
     
-    .simulate-btn:hover {
+    .nav-btn:hover {
+        background: #4b5563;
         transform: translateY(-2px);
     }
     
-    .result-card {
-        border-radius: 16px;
-        padding: 30px;
-        margin-top: 30px;
-        display: none;
+    .nav-btn.primary {
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
     }
-
-    /* 通常プラン - 緑 */
+    
+    .nav-btn.primary:hover {
+        background: linear-gradient(135deg, #0891b2, #0e7490);
+    }
+    
+    .nav-btn:disabled {
+        background: #d1d5db;
+        cursor: not-allowed;
+        transform: none;
+    }
+    
+    /* 結果表示 */
+    .result-container {
+        text-align: center;
+        padding: 40px;
+    }
+    
+    .result-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        padding: 40px;
+        margin: 20px auto;
+        max-width: 600px;
+        animation: fadeIn 0.8s ease-out;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
     .result-card.standard {
         background: linear-gradient(135deg, #f0fdfa, #e6fffa);
-        border: 2px solid #14b8a6;
+        border: 3px solid #14b8a6;
     }
-
-    /* 消費税申告プラン - 薄いピンク */
+    
     .result-card.consumption_tax {
         background: linear-gradient(135deg, #fdf2f8, #fce7f3);
-        border: 2px solid #ec4899;
+        border: 3px solid #ec4899;
     }
-
-    /* ソルビス税理士法人 - 薄いオレンジ */
+    
     .result-card.solvis {
         background: linear-gradient(135deg, #fff7ed, #ffedd5);
-        border: 2px solid #f97316;
+        border: 3px solid #f97316;
+    }
+    
+    .result-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .result-icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        display: block;
     }
     
     .result-title {
-        font-size: 1.5rem;
+        font-size: 2rem;
         font-weight: 700;
-        color: #065f46;
-        margin-bottom: 20px;
-        text-align: center;
+        margin-bottom: 15px;
+        line-height: 1.3;
     }
     
     .result-content {
         font-size: 1.1rem;
-        color: #374151;
-        line-height: 1.8;
-        margin-bottom: 25px;
+        line-height: 1.7;
+        margin-bottom: 30px;
+        text-align: left;
     }
     
     .result-actions {
@@ -381,701 +356,110 @@
     
     .result-btn {
         display: inline-block;
-        padding: 12px 25px;
-        background: linear-gradient(135deg, #14b8a6, #0891b2);
-        color: white;
-        text-decoration: none;
-        border-radius: 8px;
+        padding: 15px 30px;
+        border-radius: 12px;
         font-weight: 600;
-        transition: transform 0.2s ease;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 1.1rem;
     }
     
     .result-btn:hover {
         transform: translateY(-2px);
     }
     
+    .result-btn.primary {
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        color: white;
+    }
+    
     .result-btn.secondary {
-        background: linear-gradient(135deg, #6b7280, #4b5563);
-    }
-    
-    /* LINE-style Chat Wrapper */
-    .line-chat-wrapper {
-        position: fixed;
-        bottom: 100px;
-        right: 20px;
-        width: 380px;
-        max-width: calc(100vw - 40px);
-        background: #ffffff;
-        border-radius: 20px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-        overflow: hidden;
-        height: 600px;
-        display: flex;
-        flex-direction: column;
-        z-index: 1000;
-        transform: translateY(20px);
-        opacity: 0;
-        pointer-events: none;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 1px solid #e5e5e5;
-    }
-    
-    .line-chat-wrapper.show {
-        transform: translateY(0);
-        opacity: 1;
-        pointer-events: all;
-    }
-    
-    /* LINE-style Header */
-    .line-chat-header {
-        background: #ffffff;
-        border-bottom: 1px solid #e5e5e5;
-        padding: 12px 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        min-height: 60px;
-    }
-    
-    .line-header-content {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-    
-    .line-business-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
-        background: linear-gradient(135deg, #14b8a6, #0891b2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .business-logo {
-        font-size: 20px;
-        color: white;
-    }
-    
-    .line-business-info {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-    }
-    
-    .line-business-name {
-        font-size: 16px;
-        font-weight: 600;
-        margin: 0;
-        color: #1a1a1a;
-    }
-    
-    .line-business-status {
-        font-size: 12px;
-        margin: 0;
-        color: #666666;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-    }
-    
-    .line-close-button {
-        background: #f5f5f5;
-        border: none;
-        color: #666666;
-        width: 32px;
-        height: 32px;
-        border-radius: 16px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-        transition: background-color 0.2s ease;
-    }
-    
-    .line-close-button:hover {
-        background: #e5e5e5;
-        color: #333333;
-    }
-    
-    /* LINE-style Messages Area */
-    .line-messages-container {
-        flex: 1;
-        padding: 16px;
-        overflow-y: auto;
-        background: #f7f7f7;
-    }
-    
-    /* Business Card Welcome */
-    .line-welcome-card {
-        margin-bottom: 16px;
-    }
-    
-    .business-card {
-        background: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        border: 1px solid #e5e5e5;
-        overflow: hidden;
-    }
-    
-    .business-card-header {
-        background: linear-gradient(135deg, #14b8a6, #0891b2);
-        padding: 16px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-    
-    .business-icon {
-        width: 36px;
-        height: 36px;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-    }
-    
-    .business-info h4 {
-        margin: 0 0 4px 0;
-        color: white;
-        font-size: 16px;
-        font-weight: 600;
-    }
-    
-    .business-info p {
-        margin: 0;
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 13px;
-    }
-    
-    .business-card-content {
-        padding: 16px;
         background: white;
+        color: #14b8a6;
+        border: 2px solid #14b8a6;
     }
     
-    .business-card-content p {
-        margin: 0 0 8px 0;
-        color: #333333;
-        font-size: 14px;
-        line-height: 1.5;
-    }
-    
-    .business-card-content p:last-child {
-        margin-bottom: 0;
-    }
-    
-    /* LINE-style Menu Content */
-    .line-menu-content {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        margin-top: 8px;
-    }
-    
-    .menu-card {
-        background: #ffffff;
-        border: 1px solid #e5e5e5;
-        border-radius: 8px;
-        padding: 12px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    
-    .menu-card:hover {
-        background: #f8f9fa;
-        border-color: #14b8a6;
-        transform: translateY(-1px);
-        box-shadow: 0 2px 8px rgba(20, 184, 166, 0.1);
-    }
-    
-    .menu-card-icon {
-        font-size: 20px;
-        line-height: 1;
-        flex-shrink: 0;
-    }
-    
-    .menu-card-text {
-        flex: 1;
-    }
-    
-    .menu-card-text h4 {
-        margin: 0 0 2px 0;
-        font-size: 14px;
-        font-weight: 600;
-        color: #333333;
-    }
-    
-    .menu-card-text p {
-        margin: 0;
-        font-size: 12px;
-        color: #666666;
-        line-height: 1.3;
-    }
-    
-    /* LINE-style Messages */
-    .line-message {
-        margin-bottom: 12px;
-        display: flex;
-        flex-direction: column;
-        animation: slideInUp 0.3s ease-out;
-    }
-    
-    .line-message.bot {
-        align-items: flex-start;
-    }
-    
-    .line-message.user {
-        align-items: flex-end;
-    }
-    
-    .line-message-content {
-        max-width: 80%;
-        padding: 8px 12px;
-        border-radius: 16px;
-        font-size: 14px;
-        line-height: 1.4;
-        word-wrap: break-word;
-    }
-    
-    .line-message.bot .line-message-content {
-        background: #ffffff;
-        color: #333333;
-        border: 1px solid #e5e5e5;
-        border-bottom-left-radius: 4px;
-    }
-    
-    .line-message.user .line-message-content {
+    .result-btn.secondary:hover {
         background: #14b8a6;
         color: white;
-        border-bottom-right-radius: 4px;
     }
     
-    .line-message-time {
-        font-size: 10px;
-        color: #999999;
-        margin: 4px 8px 0 8px;
-    }
-    
-    @keyframes slideInUp {
-        from {
-            opacity: 0;
-            transform: translateY(10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    .message {
-        margin-bottom: 20px;
-        animation: fadeInUp 0.3s ease-out;
-    }
-    
-    .message.bot {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-    }
-    
-    .message.user {
-        display: flex;
-        justify-content: flex-end;
-    }
-    
-    .bot-avatar {
-        width: 40px;
-        height: 40px;
+    /* プログレスバー */
+    .progress-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 4px;
         background: linear-gradient(135deg, #14b8a6, #0891b2);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: 600;
-        font-size: 18px;
-        flex-shrink: 0;
+        border-radius: 2px;
+        transition: width 0.5s ease;
     }
     
-    .message-content {
-        background: white;
-        padding: 15px 20px;
-        border-radius: 20px;
-        max-width: 70%;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        position: relative;
-    }
-    
-    .message.bot .message-content {
-        border-bottom-left-radius: 8px;
-        margin-left: 0;
-    }
-    
-    .message.user .message-content {
-        background: linear-gradient(135deg, #0891b2, #0e7490);
-        color: white;
-        border-bottom-right-radius: 8px;
-    }
-    
-    .message-time {
-        font-size: 0.75rem;
-        color: #64748b;
-        margin-top: 8px;
-        opacity: 0.8;
-        font-weight: 500;
-    }
-    
-    .message.user .message-time {
-        color: rgba(255, 255, 255, 0.8);
-    }
-    
-    .suggested-questions {
-        padding: 15px 20px;
-        background: white;
-        border-top: 1px solid #e2e8f0;
-    }
-    
-    .suggestions-title {
-        font-size: 0.9rem;
-        color: #64748b;
-        margin-bottom: 10px;
-        font-weight: 500;
-    }
-    
-    .suggestion-chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-    
-    .suggestion-chip {
-        background: #f1f5f9;
-        border: 1px solid #e2e8f0;
-        border-radius: 20px;
-        padding: 8px 16px;
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        color: #334155;
-    }
-    
-    .suggestion-chip:hover {
-        background: #e2e8f0;
-        border-color: #14b8a6;
-        color: #14b8a6;
-    }
-    
-    /* LINE-style Bottom Menu */
-    .line-bottom-menu {
-        background: #ffffff;
-        border-top: 1px solid #e5e5e5;
-        padding: 12px 8px 8px 8px;
-    }
-    
-    .line-menu-items {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-    }
-    
-    .line-menu-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 4px;
-        padding: 8px 12px;
-        cursor: pointer;
-        border-radius: 8px;
-        transition: background-color 0.2s ease;
-        min-width: 60px;
-    }
-    
-    .line-menu-item:hover {
-        background: #f5f5f5;
-    }
-    
-    .line-menu-item.active {
-        background: #e8f5f3;
-    }
-    
-    .menu-icon {
-        font-size: 20px;
-        line-height: 1;
-    }
-    
-    .menu-text {
-        font-size: 10px;
-        color: #666666;
-        font-weight: 500;
-        text-align: center;
-    }
-    
-    /* LINE-style Chat Input */
-    .line-chat-input {
-        background: #ffffff;
-        border-top: 1px solid #e5e5e5;
-        padding: 12px 16px;
-    }
-    
-    .line-input-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: #f5f5f5;
-        border-radius: 20px;
-        padding: 8px 12px;
-    }
-    
-    .line-input {
-        flex: 1;
-        border: none;
-        background: transparent;
-        outline: none;
-        font-size: 14px;
-        color: #333333;
-        padding: 4px 0;
-        font-family: inherit;
-    }
-    
-    .line-input::placeholder {
-        color: #999999;
-    }
-    
-    .line-send-button {
-        background: #14b8a6;
-        border: none;
-        color: white;
-        border-radius: 50%;
-        width: 32px;
-        height: 32px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background-color 0.2s ease;
-        flex-shrink: 0;
-    }
-    
-    .line-send-button:hover {
-        background: #0891b2;
-    }
-    
-    .line-send-button:disabled {
-        background: #cccccc;
-        cursor: not-allowed;
-    }
-    
-    .typing-indicator {
-        display: none;
-        padding: 15px 20px;
-        background: white;
-        border-radius: 20px;
-        border-bottom-left-radius: 8px;
-        max-width: 100px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    
-    .typing-dots {
-        display: flex;
-        gap: 4px;
-    }
-    
-    .typing-dot {
-        width: 8px;
-        height: 8px;
-        background: #94a3b8;
-        border-radius: 50%;
-        animation: typingDot 1.5s infinite;
-    }
-    
-    .typing-dot:nth-child(2) {
-        animation-delay: 0.2s;
-    }
-    
-    .typing-dot:nth-child(3) {
-        animation-delay: 0.4s;
-    }
-    
-    .welcome-message {
-        text-align: center;
-        padding: 40px 20px;
-        background: linear-gradient(135deg, #e0f2fe, #b3e5fc);
-        border-radius: 16px;
-        margin: 20px;
-        color: #0f172a;
-    }
-    
-    .welcome-title {
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 10px;
-        color: #0f172a;
-    }
-    
-    .quick-start-buttons {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        margin-top: 20px;
-    }
-    
-    .quick-start-btn {
-        background: #f8fafc;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 15px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        text-align: center;
-        font-size: 0.9rem;
-        color: #334155;
-    }
-    
-    .quick-start-btn:hover {
-        border-color: #14b8a6;
-        background: #f0fdfa;
-        color: #14b8a6;
-    }
-    
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    @keyframes typingDot {
-        0%, 20% {
-            transform: scale(1);
-            opacity: 1;
-        }
-        50% {
-            transform: scale(1.2);
-            opacity: 0.7;
-        }
-        80%, 100% {
-            transform: scale(1);
-            opacity: 1;
-        }
-    }
-    
-    /* Mobile Responsive */
+    /* モバイル対応 */
     @media (max-width: 768px) {
         .page-container {
-            padding: 60px 10px 0 10px;
+            padding: 60px 0 20px 0;
         }
         
-        .simulator-card {
-            padding: 25px;
-            margin-bottom: 20px;
+        .step-container {
+            padding: 40px 30px;
+            min-height: 400px;
         }
         
-        .simulator-title {
-            font-size: 1.5rem;
+        .step-title {
+            font-size: 1.8rem;
         }
         
-        .title-line-1, .title-line-2 {
-            display: block;
-            text-align: center;
+        .step-description {
+            font-size: 1rem;
         }
         
-        .chat-wrapper {
-            height: calc(100vh - 100px);
-            border-radius: 12px;
-        }
-        
-        .message-content {
-            max-width: 85%;
-        }
-        
-        .quick-start-buttons {
+        .options-grid.two-column,
+        .options-grid.three-column {
             grid-template-columns: 1fr;
         }
         
-        .suggestion-chips {
-            justify-content: center;
-        }
-        
-        .chat-title {
-            font-size: 1.2rem;
-        }
-        
-        .checkbox-group {
+        .navigation-buttons {
             flex-direction: column;
+            align-items: center;
         }
         
-        .help-icon {
-            width: 24px;
-            height: 24px;
-            font-size: 12px;
-            margin-left: 10px;
-        }
-        
-        .checkbox-item-enhanced {
-            padding: 12px 15px;
-        }
-        
-        .help-text {
-            padding: 15px;
-        }
-        
-        .line-chat-wrapper {
-            width: calc(100vw - 20px);
-            right: 10px;
-            height: 500px;
-            bottom: 80px;
-        }
-        
-        .floating-chat-button {
-            right: 10px;
-            bottom: 15px;
-        }
-        
-        .chat-button-text {
-            display: none;
+        .nav-btn {
+            width: 100%;
+            max-width: 300px;
         }
         
         .result-actions {
             flex-direction: column;
+            align-items: center;
+        }
+        
+        .result-btn {
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
         }
     }
     
     @media (max-width: 480px) {
-        .page-container {
-            padding: 60px 5px 0 5px;
+        .step-container {
+            padding: 30px 20px;
         }
         
-        .simulator-card {
-            padding: 20px;
+        .step-number {
+            font-size: 3rem;
+            top: 15px;
+            right: 20px;
         }
         
-        .chat-wrapper {
-            height: calc(100vh - 80px);
+        .step-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
         }
         
-        .chat-messages {
-            padding: 15px;
-        }
-        
-        .chat-input-area {
-            padding: 15px;
-        }
-        
-        .message-content {
-            max-width: 90%;
-            padding: 12px 15px;
+        .step-title {
+            font-size: 1.5rem;
         }
     }
     </style>
@@ -1121,982 +505,344 @@
 
     <!-- Page Container -->
     <section class="page-container">
-        <div class="container">
-            <!-- Plan Simulator Section -->
-            <div class="simulator-section">
-                <div class="simulator-card">
-                    <div class="simulator-header">
-                        <h1 class="simulator-title">
-                            <span class="title-line-1">料金プラン</span>
-                            <span class="title-line-2">シミュレーション</span>
-                        </h1>
-                        <p class="simulator-subtitle">あなたの事業状況に最適なプランをご提案いたします。<br>簡単な質問にお答えいただくだけで、最適なプランが分かります。</p>
-                    </div>
-                    
-                    <form class="simulator-form" id="simulatorForm">
-                        <div class="form-group">
-                            <label class="form-label">📈 年間売上高（予想）</label>
-                            <select class="form-select" id="annualRevenue" name="annualRevenue" required>
-                                <option value="">選択してください</option>
-                                <option value="under500">500万円未満</option>
-                                <option value="500-1000">500万円〜1,000万円未満</option>
-                                <option value="1000-3000">1,000万円超〜3,000万円</option>
-                                <option value="over3000">3,000万円超</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">事業形態</label>
-                            <select class="form-select" id="businessType" name="businessType" required>
-                                <option value="">選択してください</option>
-                                <option value="individual">個人事業主</option>
-                                <option value="corporation">法人</option>
-                                <option value="considering">法人化を検討中</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">📋 該当する項目をすべて選択してください</label>
-                            <p class="form-help-text">※ 消費税申告が必要かどうかを判定するために必要な情報です</p>
-                            <div class="checkbox-group-vertical">
-                                <div class="checkbox-item-with-help">
-                                    <label class="checkbox-item-enhanced">
-                                        <input type="checkbox" id="invoiceRegistered" value="invoice">
-                                        <span class="checkbox-text">インボイス発行事業者として登録済み</span>
-                                        <button type="button" class="help-icon" onclick="toggleHelp('invoice-help')">❓</button>
-                                    </label>
-                                    <div class="help-text" id="invoice-help" style="display: none;">
-                                        <p><strong>📋 インボイス発行事業者とは？</strong></p>
-                                        <p>適格請求書（インボイス）を発行できる事業者として税務署に登録している事業者のことです。2023年10月から始まったインボイス制度に対応するため、多くの事業者が登録しています。登録済みの場合は自動的に消費税の課税事業者となります。</p>
-                                    </div>
-                                </div>
-
-                                <div class="checkbox-item-with-help">
-                                    <label class="checkbox-item-enhanced">
-                                        <input type="checkbox" id="over1000Before" value="over1000_before">
-                                        <span class="checkbox-text">2年前の売上が1,000万円を超えている</span>
-                                        <button type="button" class="help-icon" onclick="toggleHelp('before-help')">❓</button>
-                                    </label>
-                                    <div class="help-text" id="before-help" style="display: none;">
-                                        <p><strong>基準期間とは？</strong></p>
-                                        <p>2年前の1年間を「基準期間」と呼びます。例えば、2024年分の申告であれば2022年の売上が対象です。基準期間の課税売上高が1,000万円を超えている場合、消費税の課税事業者となります。</p>
-                                    </div>
-                                </div>
-
-                                <div class="checkbox-item-with-help">
-                                    <label class="checkbox-item-enhanced">
-                                        <input type="checkbox" id="over1000Recent" value="over1000_recent">
-                                        <span class="checkbox-text">前年前半6ヶ月の売上が1,000万円を超えている</span>
-                                        <button type="button" class="help-icon" onclick="toggleHelp('recent-help')">❓</button>
-                                    </label>
-                                    <div class="help-text" id="recent-help" style="display: none;">
-                                        <p><strong>📅 特定期間とは？</strong></p>
-                                        <p>前年の1月から6月までの6ヶ月間を「特定期間」と呼びます。この期間の課税売上高または給与支払額のいずれかが1,000万円を超えている場合、消費税の課税事業者となります。</p>
-                                    </div>
-                                </div>
-
-                                <div class="checkbox-item-with-help">
-                                    <label class="checkbox-item-enhanced">
-                                        <input type="checkbox" id="voluntaryTaxable" value="voluntary">
-                                        <span class="checkbox-text">任意で課税事業者を選択している</span>
-                                        <button type="button" class="help-icon" onclick="toggleHelp('voluntary-help')">❓</button>
-                                    </label>
-                                    <div class="help-text" id="voluntary-help" style="display: none;">
-                                        <p><strong>✋ 任意の課税事業者選択とは？</strong></p>
-                                        <p>売上が1,000万円以下でも、自ら選択して消費税の課税事業者になることができます。「消費税課税事業者選択届出書」を税務署に提出している場合がこれに該当します。設備投資で消費税の還付を受けたい場合などに選択します。</p>
-                                    </div>
-                                </div>
-
-                                <div class="checkbox-item-with-help">
-                                    <label class="checkbox-item-enhanced">
-                                        <input type="checkbox" id="exportRefund" value="export_refund">
-                                        <span class="checkbox-text">輸出や消費税還付を受けたい</span>
-                                        <button type="button" class="help-icon" onclick="toggleHelp('export-help')">❓</button>
-                                    </label>
-                                    <div class="help-text" id="export-help" style="display: none;">
-                                        <p><strong>🌍 輸出・消費税還付とは？</strong></p>
-                                        <p>商品やサービスを海外に輸出する場合、国内の消費税は免税となります。また、仕入れなどで支払った消費税との差額で還付を受けられる場合があります。輸出業務や設備投資により消費税の還付を期待される場合は消費税申告が必要です。</p>
-                                    </div>
-                                </div>
-
-                                <div class="separator-line"></div>
-
-                                <div class="checkbox-item-with-help">
-                                    <label class="checkbox-item-enhanced">
-                                        <input type="checkbox" id="blueReturn" value="blue_return">
-                                        <span class="checkbox-text">青色申告の申請をしたい</span>
-                                        <button type="button" class="help-icon" onclick="toggleHelp('blue-help')">❓</button>
-                                    </label>
-                                    <div class="help-text" id="blue-help" style="display: none;">
-                                        <p><strong>💙 青色申告とは？</strong></p>
-                                        <p>帳簿をきちんとつけることを条件に、税制上の特典を受けられる申告方法です。65万円の特別控除や家族への給与の経費算入などのメリットがあります。</p>
-                                        
-                                        <p><strong>📅 青色申告承認申請書の提出期限</strong></p>
-                                        <p><strong>・新規開業の場合：</strong>開業から2ヶ月以内<br>
-                                        <strong>・既存事業者の場合：</strong>青色申告を受けようとする年の3月15日まで</p>
-                                        
-                                        <p><strong>💰 代行費用について</strong></p>
-                                        <p>青色申告承認申請書をご自身で提出されない場合、代行費用として別途5,000円（税込）を申し受けます。申請に関しては契約後のChatwork内でのご相談となります。</p>
-                                    </div>
-                                </div>
-
-                                <div class="checkbox-item-with-help">
-                                    <label class="checkbox-item-enhanced">
-                                        <input type="checkbox" id="businessRegistration" value="business_registration">
-                                        <span class="checkbox-text">開業届の申請をしたい</span>
-                                        <button type="button" class="help-icon" onclick="toggleHelp('business-help')">❓</button>
-                                    </label>
-                                    <div class="help-text" id="business-help" style="display: none;">
-                                        <p><strong>📄 開業届とは？</strong></p>
-                                        <p>個人事業を開始したことを税務署に届け出るための書類です。事業開始から1ヶ月以内に提出する必要があります。屋号の使用や青色申告の前提となる重要な手続きです。</p>
-                                        
-                                        <p><strong>📅 開業届の提出期限</strong></p>
-                                        <p>事業開始から1ヶ月以内に所轄の税務署に提出してください。</p>
-                                        
-                                        <p><strong>💰 代行費用について</strong></p>
-                                        <p>開業届をご自身で提出されない場合、代行費用として別途5,000円（税込）を申し受けます。申請に関しては契約後のChatwork内でのご相談となります。</p>
-                                    </div>
-                                </div>
-
-                                <div class="checkbox-item-with-help">
-                                    <label class="checkbox-item-enhanced">
-                                        <input type="checkbox" id="cryptoFx" value="crypto_fx">
-                                        <span class="checkbox-text">暗号資産・仮想通貨のFXでの利益がある</span>
-                                        <button type="button" class="help-icon" onclick="toggleHelp('crypto-help')">❓</button>
-                                    </label>
-                                    <div class="help-text" id="crypto-help" style="display: none;">
-                                        <p><strong>₿ 暗号資産・仮想通貨の税務とは？</strong></p>
-                                        <p>ビットコインなどの暗号資産の売買やFX取引で得た利益は、原則として雑所得となり確定申告が必要です。取引の記録をしっかり残しておくことが重要です。年間売上が1,000万円未満であれば当サービスで対応可能です。</p>
-                                        
-                                        <p><strong>💰 追加料金について</strong></p>
-                                        <p>暗号資産の雑所得申告には、別途30,000円（税込）の追加料金が発生いたします。申請に関しては契約後のChatwork内でのご相談となります。</p>
-                                    </div>
-                                </div>
-
-                                <div class="checkbox-item-with-help">
-                                    <label class="checkbox-item-enhanced">
-                                        <input type="checkbox" id="reselling" value="reselling">
-                                        <span class="checkbox-text">せどり・輸入・転売での利益がある</span>
-                                        <button type="button" class="help-icon" onclick="toggleHelp('reselling-help')">❓</button>
-                                    </label>
-                                    <div class="help-text" id="reselling-help" style="display: none;">
-                                        <p><strong>📦 せどり・転売ビジネスとは？</strong></p>
-                                        <p>商品を仕入れて販売する事業のことです。Amazon、メルカリ、eBayなどでの販売も含まれます。継続的に行っている場合は事業所得となり、確定申告が必要です。年間売上が1,000万円未満であれば当サービスで対応可能です。</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">📝 月間取引件数（予想）</label>
-                            <select class="form-select" id="monthlyTransactions" name="monthlyTransactions">
-                                <option value="">選択してください</option>
-                                <option value="under50">50件未満</option>
-                                <option value="50-100">50〜100件</option>
-                                <option value="100-200">100〜200件</option>
-                                <option value="over200">200件以上</option>
-                            </select>
-                        </div>
-
-                        <button type="submit" class="simulate-btn">最適なプランを診断する</button>
-                    </form>
-
-                    <div class="result-card" id="resultCard">
-                        <div class="result-title" id="resultTitle"></div>
-                        <div class="result-content" id="resultContent"></div>
-                        <div class="result-actions" id="resultActions"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- LINE-style Chatbot Container -->
-            <div class="line-chat-wrapper" id="chatWrapper" style="display: none;">
-                <!-- LINE-style Header -->
-                <div class="line-chat-header">
-                    <div class="line-header-content">
-                        <div class="line-business-icon">
-                            <div class="business-logo">💼</div>
-                        </div>
-                        <div class="line-business-info">
-                            <h3 class="line-business-name">みんなの税務顧問</h3>
-                            <p class="line-business-status">🟢 オンライン</p>
-                        </div>
-                    </div>
-                    <button class="line-close-button" onclick="closeChatSupport()">✕</button>
-                </div>
+        <div class="simulator-wrapper">
+            <div class="step-container" id="stepContainer">
+                <div class="progress-bar" id="progressBar" style="width: 0%;"></div>
+                <div class="step-number" id="stepNumber">1</div>
                 
-                <!-- LINE-style Messages Area -->
-                <div class="line-messages-container" id="chatMessages">
-                    <!-- Welcome Business Card -->
-                    <div class="line-welcome-card" id="welcomeMessage">
-                        <div class="business-card">
-                            <div class="business-card-header">
-                                <div class="business-icon">💼</div>
-                                <div class="business-info">
-                                    <h4>みんなの税務顧問</h4>
-                                    <p>税務のプロがサポートします</p>
-                                </div>
-                            </div>
-                            <div class="business-card-content">
-                                <p>🎉 こんにちは！税務に関するご質問にお答えします。</p>
-                                <p>💡 下のメニューからお選びいただくか、直接メッセージをお送りください。</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Step Content will be dynamically inserted here -->
+                <div id="stepContent"></div>
                 
-                <!-- LINE-style Bottom Menu -->
-                <div class="line-bottom-menu">
-                    <div class="line-menu-items">
-                        <div class="line-menu-item" onclick="showMenuContent('service')">
-                            <div class="menu-icon">📋</div>
-                            <span class="menu-text">サービス</span>
-                        </div>
-                        <div class="line-menu-item" onclick="showMenuContent('price')">
-                            <div class="menu-icon">💰</div>
-                            <span class="menu-text">料金</span>
-                        </div>
-                        <div class="line-menu-item" onclick="showMenuContent('faq')">
-                            <div class="menu-icon">❓</div>
-                            <span class="menu-text">よくある質問</span>
-                        </div>
-                        <div class="line-menu-item" onclick="showMenuContent('contact')">
-                            <div class="menu-icon">📞</div>
-                            <span class="menu-text">お問い合わせ</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- LINE-style Chat Input -->
-                <div class="line-chat-input">
-                    <div class="line-input-wrapper">
-                        <input 
-                            type="text" 
-                            class="line-input" 
-                            id="chatInput" 
-                            placeholder="メッセージを入力"
-                            onkeydown="handleInputKeydown(event)"
-                        />
-                        <button class="line-send-button" id="sendButton" onclick="sendMessage()">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M2 21L23 12L2 3L2 10L17 12L2 14L2 21Z" fill="currentColor"/>
-                            </svg>
-                        </button>
-                    </div>
+                <!-- Navigation Buttons -->
+                <div class="navigation-buttons" id="navigationButtons">
+                    <button class="nav-btn" id="prevBtn" onclick="previousStep()" style="display: none;">前に戻る</button>
+                    <button class="nav-btn primary" id="nextBtn" onclick="nextStep()" disabled>次に進む</button>
                 </div>
             </div>
         </div>
-
-        <!-- Floating Chat Support Button -->
-        <div class="floating-chat-button" id="floatingChatButton" onclick="toggleChatSupport()">
-            <div class="chat-button-icon">💬</div>
-            <div class="chat-button-text">お問い合わせはこちら</div>
-        </div>
-
-        <!-- Chat Overlay -->
-        <div class="chat-overlay" id="chatOverlay" style="display: none;" onclick="closeChatSupport()"></div>
     </section>
 
     <script>
-        // FAQ データベース（拡充版）
-        const faqDatabase = {
-            // サービスについて
-            "どのようなサービス": {
-                answer: "年商1,000万円以下の個人事業主やスタートアップの方向けに、AIを活用し低価格で税務顧問サービスを提供しています。チャットでの税務相談、記帳代行、確定申告のサポートを主なサービスとしています。",
-                category: "サービス"
-            },
-            "サービス内容": {
-                answer: "主に以下のサービスを提供しています：\n\n• Chatworkでの税務相談\n• 記帳代行\n• 確定申告書または決算申告書の作成・提出\n• 節税や資金繰りに関する情報提供\n\n月額980円（税込）から利用できる、小規模事業者特化のサービスです。",
-                category: "サービス"
-            },
-            "他の税理士事務所との違い": {
-                answer: "最新AIの活用により、月額980円（税込）からという圧倒的な低価格を実現している点が最大の特徴です。小規模事業者に特化することで、手厚いサポートを提供しています。",
-                category: "サービス"
-            },
-            "AIが対応": {
-                answer: "いいえ、ご相談にはAIではなく、担当者が直接対応いたしますのでご安心ください。AIは業務効率化のために活用していますが、お客様との相談は人が対応します。",
-                category: "サービス"
-            },
+        let currentStep = 1;
+        const totalSteps = 4;
+        let simulatorData = {};
 
-            // 新規追加FAQ
-            "領収書の撮影": {
-                answer: "スマートフォンで撮影、またはスキャンしたデータで撮影をしてください。撮影後は、こちらからお渡しするGoogleドライブの専用フォルダに保存していただきます。鮮明に写るよう、明るい場所で撮影をお願いいたします。",
-                category: "サービス"
+        const steps = {
+            1: {
+                icon: '💰',
+                title: '年間の売上金額はいくらですか？',
+                description: '起業1年目の方は想定される年間売上高（年商）を選択してください。',
+                type: 'single-choice',
+                options: [
+                    { value: 'under500', label: '500万円未満' },
+                    { value: '500-1000', label: '500万円～1,000万円未満' },
+                    { value: '1000-3000', label: '1,000万円超～3,000万円' },
+                    { value: 'over3000', label: '3,000万円超' }
+                ]
             },
-            "領収書撮影": {
-                answer: "スマートフォンで撮影、またはスキャンしたデータで撮影をしてください。撮影後は、こちらからお渡しするGoogleドライブの専用フォルダに保存していただきます。鮮明に写るよう、明るい場所で撮影をお願いいたします。",
-                category: "サービス"
+            2: {
+                icon: '📊',
+                title: '記帳代行は依頼しますか？',
+                description: '税理士に会計ソフトへの仕訳を依頼する場合は「必要」を選択してください。',
+                type: 'single-choice',
+                options: [
+                    { value: 'required', label: '必要' },
+                    { value: 'not-required', label: '不要' }
+                ]
             },
-            "決済されない": {
-                answer: "申し訳ございませんが、ご契約・決済完了後にChatworkでの税務相談サービスをご利用いただけます。まずはお申し込み手続きを完了していただき、決済確認後にサービスを開始させていただきます。",
-                category: "契約"
+            3: {
+                icon: '📋',
+                title: '該当する項目をすべて選択してください',
+                description: '※ 消費税申告が必要かどうかを判定するために必要な情報です',
+                type: 'multi-choice',
+                options: [
+                    { 
+                        value: 'invoice', 
+                        label: 'インボイス発行事業者として登録済み',
+                        help: '📋 インボイス発行事業者とは？\n\n適格請求書（インボイス）を発行できる事業者として税務署に登録している事業者のことです。2023年10月から始まったインボイス制度に対応するため、多くの事業者が登録しています。登録済みの場合は自動的に消費税の課税事業者となります。'
+                    },
+                    { 
+                        value: 'over1000Before', 
+                        label: '2年前の売上が1,000万円を超えている',
+                        help: '基準期間とは？\n\n2年前の1年間を「基準期間」と呼びます。例えば、2024年分の申告であれば2022年の売上が対象です。基準期間の課税売上高が1,000万円を超えている場合、消費税の課税事業者となります。'
+                    },
+                    { 
+                        value: 'over1000Recent', 
+                        label: '前年前半6ヶ月の売上が1,000万円を超えている',
+                        help: '📅 特定期間とは？\n\n前年の1月から6月までの6ヶ月間を「特定期間」と呼びます。この期間の課税売上高または給与支払額のいずれかが1,000万円を超えている場合、消費税の課税事業者となります。'
+                    },
+                    { 
+                        value: 'voluntary', 
+                        label: '任意で課税事業者を選択している',
+                        help: '✋ 任意の課税事業者選択とは？\n\n売上が1,000万円以下でも、自ら選択して消費税の課税事業者になることができます。「消費税課税事業者選択届出書」を税務署に提出している場合がこれに該当します。設備投資で消費税の還付を受けたい場合などに選択します。'
+                    },
+                    { 
+                        value: 'exportRefund', 
+                        label: '輸出や消費税還付を受けたい',
+                        help: '🌍 輸出・消費税還付とは？\n\n商品やサービスを海外に輸出する場合、国内の消費税は免税となります。また、仕入れなどで支払った消費税との差額で還付を受けられる場合があります。輸出業務や設備投資により消費税の還付を期待される場合は消費税申告が必要です。'
+                    },
+                    { 
+                        value: 'blueReturn', 
+                        label: '青色申告の申請をしたい',
+                        help: '💙 青色申告とは？\n\n帳簿をきちんとつけることを条件に、税制上の特典を受けられる申告方法です。65万円の特別控除や家族への給与の経費算入などのメリットがあります。\n\n📅 青色申告承認申請書の提出期限\n・新規開業の場合：開業から2ヶ月以内\n・既存事業者の場合：青色申告を受けようとする年の3月15日まで\n\n💰 代行費用について\n青色申告承認申請書をご自身で提出されない場合、代行費用として別途5,000円（税込）を申し受けます。申請に関しては契約後のChatwork内でのご相談となります。'
+                    },
+                    { 
+                        value: 'businessRegistration', 
+                        label: '開業届の申請をしたい',
+                        help: '📄 開業届とは？\n\n個人事業を開始したことを税務署に届け出るための書類です。事業開始から1ヶ月以内に提出する必要があります。屋号の使用や青色申告の前提となる重要な手続きです。\n\n📅 開業届の提出期限\n事業開始から1ヶ月以内に所轄の税務署に提出してください。\n\n💰 代行費用について\n開業届をご自身で提出されない場合、代行費用として別途5,000円（税込）を申し受けます。申請に関しては契約後のChatwork内でのご相談となります。'
+                    },
+                    { 
+                        value: 'cryptoFx', 
+                        label: '暗号資産・仮想通貨のFXでの利益がある',
+                        help: '₿ 暗号資産・仮想通貨の税務とは？\n\nビットコインなどの暗号資産の売買やFX取引で得た利益は、原則として雑所得となり確定申告が必要です。取引の記録をしっかり残しておくことが重要です。年間売上が1,000万円未満であれば当サービスで対応可能です。\n\n💰 追加料金について\n暗号資産の雑所得申告には、別途30,000円（税込）の追加料金が発生いたします。申請に関しては契約後のChatwork内でのご相談となります。'
+                    },
+                    { 
+                        value: 'reselling', 
+                        label: 'せどり・輸入・転売での利益がある',
+                        help: '📦 せどり・転売ビジネスとは？\n\n商品を仕入れて販売する事業のことです。Amazon、メルカリ、eBayなどでの販売も含まれます。継続的に行っている場合は事業所得となり、確定申告が必要です。年間売上が1,000万円未満であれば当サービスで対応可能です。'
+                    }
+                ]
             },
-            "チャット不可": {
-                answer: "申し訳ございませんが、ご契約・決済完了後にChatworkでの税務相談サービスをご利用いただけます。まずはお申し込み手続きを完了していただき、決済確認後にサービスを開始させていただきます。",
-                category: "契約"
-            },
-            "消費税申告": {
-                answer: "消費税の申告が必要になるのは、主に次のいずれかに当てはまる「課税事業者」です：\n\n• インボイス発行事業者（適格請求書発行事業者）の登録をしている\n• 2年前（基準期間）の課税売上高が1,000万円を超えている\n• 前年の前半6ヶ月（特定期間）の課税売上高または給与支払額が1,000万円を超えている\n• 任意で課税事業者になることを選択している\n\nどちらのタイプに該当するか、お気軽にご相談ください。",
-                category: "申告"
-            },
-            "消費税": {
-                answer: "消費税の申告が必要になるのは、主に次のいずれかに当てはまる「課税事業者」です：\n\n• インボイス発行事業者（適格請求書発行事業者）の登録をしている\n• 2年前（基準期間）の課税売上高が1,000万円を超えている\n• 前年の前半6ヶ月（特定期間）の課税売上高または給与支払額が1,000万円を超えている\n• 任意で課税事業者になることを選択している\n\nどちらのタイプに該当するか、お気軽にご相談ください。",
-                category: "申告"
-            },
-            "日割り": {
-                answer: "申し訳ございませんが、日割り計算での料金設定はございません。月額制でのご契約となります。ご契約月の途中からでも、1ヶ月分の料金をお支払いいただく形となります。",
-                category: "料金"
-            },
-            "青色申告": {
-                answer: "青色申告承認申請書の代行をご希望の場合は、別途5,000円（税込）で承ります。申請に関しては契約後のChatwork内でのご相談となります。",
-                category: "申告"
-            },
-            "青色申告をしたい": {
-                answer: "青色申告承認申請書の代行をご希望の場合は、別途5,000円（税込）で承ります。申請に関しては契約後のChatwork内でのご相談となります。",
-                category: "申告"
-            },
-            "開業届": {
-                answer: "開業届の代行をご希望の場合は、別途5,000円（税込）で承ります。申請に関しては契約後のChatwork内でのご相談となります。",
-                category: "申告"
-            },
-            "申請関連": {
-                answer: "青色申告承認申請書や開業届の代行をご希望の場合は、別途5,000円（税込）で承ります。申請に関しては契約後のChatwork内でのご相談となります。",
-                category: "その他"
-            },
-            "古物商": {
-                answer: "古物商の届出につきましては、ご自身で警察署へお手続きをお願いいたします。古物商に関する税務上の取り扱いについては、Chatworkにてご相談いただけます。",
-                category: "その他"
-            },
-            "マネーフォワード": {
-                answer: "マネーフォワードからfreeeへの変更、またはその逆の変更も可能です。会計ソフトの変更をご希望の場合は、データ移行の方法や設定についてサポートいたします。",
-                category: "サービス"
-            },
-            "freee": {
-                answer: "freeeからマネーフォワードへの変更、またはその逆の変更も可能です。会計ソフトの変更をご希望の場合は、データ移行の方法や設定についてサポートいたします。",
-                category: "サービス"
-            },
-            "電話したい": {
-                answer: "申し訳ございませんが、お電話でのサポートは行っておりません。ご質問・ご相談は、こちらのチャットボットまたはご契約後のChatworkにてお受けしております。より効率的にサポートをご提供するため、テキストベースでのやり取りをお願いしております。",
-                category: "サービス"
-            },
-            "電話": {
-                answer: "申し訳ございませんが、お電話でのサポートは行っておりません。ご質問・ご相談は、こちらのチャットボットまたはご契約後のChatworkにてお受けしております。より効率的にサポートをご提供するため、テキストベースでのやり取りをお願いしております。",
-                category: "サービス"
-            },
-            "メール": {
-                answer: "申し訳ございませんが、メールでのサポートは行っておりません。ご質問・ご相談は、こちらのチャットボットまたはご契約後のChatworkにてお受けしております。すべてのお問い合わせはチャットベースで承っております。",
-                category: "サービス"
-            },
-            "銀行口座": {
-                answer: "銀行口座やクレジットカードの連携は、クラウド会計ソフト（マネーフォワードまたはfreee）で連携をしていただきます。連携方法についてはChatworkにてサポートいたします。",
-                category: "サービス"
-            },
-            "クレジットカード": {
-                answer: "銀行口座やクレジットカードの連携は、クラウド会計ソフト（マネーフォワードまたはfreee）で連携をしていただきます。連携方法についてはChatworkにてサポートいたします。",
-                category: "サービス"
-            },
-            "暗号資産": {
-                answer: "暗号資産・仮想通貨のFXで利益が出た場合、年間売上が1,000万円未満であれば、こちらのサービスでご対応可能です。ただし、暗号資産の雑所得申告には別途30,000円（税込）の追加料金が発生いたします。申請に関しては契約後のChatwork内でのご相談となります。",
-                category: "申告"
-            },
-            "仮想通貨": {
-                answer: "暗号資産・仮想通貨のFXで利益が出た場合、年間売上が1,000万円未満であれば、こちらのサービスでご対応可能です。ただし、暗号資産の雑所得申告には別途30,000円（税込）の追加料金が発生いたします。申請に関しては契約後のChatwork内でのご相談となります。",
-                category: "申告"
-            },
-            "せどり": {
-                answer: "せどり・輸入・転売で利益がある場合、年間売上が1,000万円以下であればサービス対象となります。物販事業の税務処理についてもサポートいたします。",
-                category: "申告"
-            },
-            "転売": {
-                answer: "せどり・輸入・転売で利益がある場合、年間売上が1,000万円以下であればサービス対象となります。物販事業の税務処理についてもサポートいたします。",
-                category: "申告"
-            },
-            "輸入": {
-                answer: "せどり・輸入・転売で利益がある場合、年間売上が1,000万円以下であればサービス対象となります。物販事業の税務処理についてもサポートいたします。",
-                category: "申告"
-            },
-
-            // 既存のFAQ
-            "googleドライブ": {
-                answer: "ご契約後に、お客様専用のGoogleドライブフォルダを作成し、アクセス権限を付与いたします。こちらのフォルダに領収書やレシート、その他の資料をアップロードしていただければ、担当者が確認して記帳代行を行います。フォルダは整理された構造になっており、月別・カテゴリ別に保存していただけます。",
-                category: "サービス"
-            },
-            "資料共有": {
-                answer: "資料共有はGoogleドライブを使用します。ご契約後に、お客様専用のフォルダへのアクセス権限を付与いたします。領収書、レシート、請求書、銀行通帳のコピーなど、必要な資料をスマートフォンで撮影またはスキャンして、指定フォルダにアップロードしてください。",
-                category: "サービス"
-            },
-            "1000万円": {
-                answer: "「みんなの税務顧問」は年商1,000万円未満の事業者様を対象としたサービスです。ご契約前から1,000万円を超える見込みの場合や、ご契約期間の途中で年商が1,000万円を超えた場合は、運営母体である「ソルビス税理士法人」とのご契約に切り替えて、引き続きサポートさせていただきます。",
-                category: "サービス"
-            },
-            "対面": {
-                answer: "基本的にはChatworkでのやり取りとなり、対面やオンラインでの面談は行っておりません。日常的なご相談やご質問は、Chatworkを通じて担当者が直接対応いたします。業務を効率化することでお手頃な価格を実現しております。",
-                category: "サービス"
-            },
-            "chatwork": {
-                answer: "はい、ご契約後はChatworkを使用してやり取りをさせていただきます。Chatworkアカウントをお持ちでない場合は、無料でアカウント作成が可能です。担当者が専用のグループチャットを作成し、税務相談から日常的なコミュニケーションまで、すべてChatwork上で行います。",
-                category: "サービス"
-            },
-            "チャットワーク": {
-                answer: "はい、ご契約後はChatworkを使用してやり取りをさせていただきます。Chatworkアカウントをお持ちでない場合は、無料でアカウント作成が可能です。担当者が専用のグループチャットを作成し、税務相談から日常的なコミュニケーションまで、すべてChatwork上で行います。",
-                category: "サービス"
-            },
-
-            // 料金について
-            "料金": {
-                answer: "料金は以下の通りです：\n\n・月額顧問料\n980円（税込）\n\n・月間記帳代行料\n2,980円～（税込）/100件あたり\n\n・申告料\n39,800円（税込）\n\n・消費税申告料\n29,800円（税込）※別途\n\n・月間会計システム料\n980円（税込）\n\n詳細な料金プランの比較は、料金ページでご確認いただけます。",
-                category: "料金"
-            },
-            "契約期間": {
-                answer: "はい、初回のご契約から1年間の最低利用期間が設定されています。期間満了の7日前までに解約のお申し出がない場合、12ヶ月ごとに自動で更新されます。",
-                category: "契約"
-            },
-            "途中解約": {
-                answer: "最低利用期間内に解約される場合、残りの期間分の利用料金に相当する金額を違約金としてお支払いいただく必要があり、返金はございません。",
-                category: "契約"
-            },
-            "支払い方法": {
-                answer: "お支払いは年間前払い制です。\n\nご契約時に以下の料金をまとめてお支払いいただきます：\n\n・基本料金（1年分）\n・記帳代行料金（1年分）\n・会計ソフト使用料（1年分）\n・申告料\n\n詳細な金額は料金プランページでご確認ください。",
-                category: "契約"
-            },
-
-            // 申告について
-            "申告": {
-                answer: "期限内に申告を完了させるため、以下の期限までにご契約をお願いしております：\n\n【個人事業主の方（確定申告）】\n確定申告の期日（原則3月15日）の1ヶ月前まで\n\n【法人の方（決算申告）】\n法人の決算月の1ヶ月前まで\n\n例：12月決算の法人の場合、11月末までのご契約が必要です。\n\n上記期限を過ぎてからのご契約の場合、期限内の申告をお受けできない可能性があります。",
-                category: "申告"
-            },
-            "確定申告": {
-                answer: "【確定申告のご契約期限】\n\n確定申告の期日（原則3月15日）の1ヶ月前までにご契約をお願いしております。\n\n【期限を過ぎた場合】\n上記期限を過ぎてからのご契約の場合、期限内の申告をお受けできない可能性があります。\n\n早めのご契約をおすすめいたします。",
-                category: "申告"
-            },
-
-            // その他
-            "運営会社": {
-                answer: "ソルビス税理士法人が運営しております。",
-                category: "その他"
+            4: {
+                icon: '📝',
+                title: '月間取引件数（予想）',
+                description: '',
+                type: 'single-choice',
+                options: [
+                    { value: 'under50', label: '50件未満' },
+                    { value: '50-100', label: '50〜100件' },
+                    { value: '100-200', label: '100〜200件' },
+                    { value: 'over200', label: '200件以上' }
+                ]
             }
         };
 
-        let chatHistory = [];
-        let isTyping = false;
-
-        // プランシミュレーション機能
         function initializeSimulator() {
-            const simulatorForm = document.getElementById('simulatorForm');
-            if (simulatorForm) {
-                simulatorForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const formData = new FormData(e.target);
-                    const annualRevenue = formData.get('annualRevenue');
-                    const businessType = formData.get('businessType');
-                    const monthlyTransactions = formData.get('monthlyTransactions');
-                    
-                    console.log('=== プランシミュレーション デバッグ ===');
-                    console.log('Selected revenue:', annualRevenue);
-                    console.log('Business type:', businessType);
-                    console.log('Monthly transactions:', monthlyTransactions);
-                    
-                    // チェックボックスの取得
-                    const checkboxes = {
-                        invoice: document.getElementById('invoiceRegistered').checked,
-                        over1000Before: document.getElementById('over1000Before').checked,
-                        over1000Recent: document.getElementById('over1000Recent').checked,
-                        voluntary: document.getElementById('voluntaryTaxable').checked,
-                        exportRefund: document.getElementById('exportRefund').checked,
-                        blueReturn: document.getElementById('blueReturn').checked,
-                        businessRegistration: document.getElementById('businessRegistration').checked,
-                        cryptoFx: document.getElementById('cryptoFx').checked,
-                        reselling: document.getElementById('reselling').checked
-                    };
-                    
-                    console.log('Checkboxes:', checkboxes);
-                    
-                    const result = calculatePlan(annualRevenue, businessType, monthlyTransactions, checkboxes);
-                    console.log('Calculation result:', result);
-                    displayResult(result);
-                });
+            renderStep(currentStep);
+        }
+
+        function renderStep(stepNumber) {
+            const step = steps[stepNumber];
+            const stepContent = document.getElementById('stepContent');
+            const stepNumberEl = document.getElementById('stepNumber');
+            const progressBar = document.getElementById('progressBar');
+            
+            // Update step number and progress
+            stepNumberEl.textContent = `${stepNumber}/${totalSteps}`;
+            progressBar.style.width = `${(stepNumber / totalSteps) * 100}%`;
+            
+            let content = '';
+            
+            if (stepNumber <= totalSteps) {
+                content = `
+                    <div class="step-header">
+                        <div class="step-icon">${step.icon}</div>
+                        <h2 class="step-title">${step.title}</h2>
+                        ${step.description ? `<p class="step-description">${step.description}</p>` : ''}
+                    </div>
+                `;
+                
+                if (step.type === 'single-choice') {
+                    const columns = step.options.length <= 2 ? 'two-column' : 
+                                   step.options.length <= 3 ? 'three-column' : '';
+                    content += `<div class="options-grid ${columns}">`;
+                    step.options.forEach(option => {
+                        const isSelected = simulatorData[`step${stepNumber}`] === option.value;
+                        content += `
+                            <div class="option-item ${isSelected ? 'selected' : ''}" 
+                                 onclick="selectOption(${stepNumber}, '${option.value}')">
+                                ${option.label}
+                            </div>
+                        `;
+                    });
+                    content += '</div>';
+                } else if (step.type === 'multi-choice') {
+                    content += '<div class="checkbox-container">';
+                    step.options.forEach((option, index) => {
+                        const isSelected = simulatorData[`step${stepNumber}`] && 
+                                         simulatorData[`step${stepNumber}`].includes(option.value);
+                        content += `
+                            <div class="checkbox-item ${isSelected ? 'selected' : ''}" 
+                                 onclick="toggleOption(${stepNumber}, '${option.value}')">
+                                <span class="checkbox-text">${option.label}</span>
+                                ${option.help ? `<div class="help-icon" onclick="event.stopPropagation(); toggleHelp('help-${stepNumber}-${index}')">❓</div>` : ''}
+                            </div>
+                            ${option.help ? `<div class="help-text" id="help-${stepNumber}-${index}">${option.help.replace(/\n/g, '<br>')}</div>` : ''}
+                        `;
+                    });
+                    content += '</div>';
+                }
+            } else {
+                // Show results
+                const result = calculatePlan();
+                content = `
+                    <div class="result-container">
+                        <div class="result-card ${result.type}">
+                            <div class="result-header">
+                                <span class="result-icon">${result.icon}</span>
+                                <h2 class="result-title">${result.title}</h2>
+                            </div>
+                            <div class="result-content">${result.content}</div>
+                            <div class="result-actions">
+                                ${result.actions.map(action => 
+                                    `<a href="${action.url}" class="result-btn ${action.primary ? 'primary' : 'secondary'}" 
+                                       ${action.url.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''}>
+                                        ${action.text}
+                                    </a>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            stepContent.innerHTML = content;
+            updateNavigationButtons();
+        }
+
+        function selectOption(stepNumber, value) {
+            simulatorData[`step${stepNumber}`] = value;
+            renderStep(stepNumber);
+        }
+
+        function toggleOption(stepNumber, value) {
+            if (!simulatorData[`step${stepNumber}`]) {
+                simulatorData[`step${stepNumber}`] = [];
+            }
+            
+            const index = simulatorData[`step${stepNumber}`].indexOf(value);
+            if (index > -1) {
+                simulatorData[`step${stepNumber}`].splice(index, 1);
+            } else {
+                simulatorData[`step${stepNumber}`].push(value);
+            }
+            
+            renderStep(stepNumber);
+        }
+
+        function toggleHelp(helpId) {
+            const helpElement = document.getElementById(helpId);
+            if (helpElement) {
+                helpElement.classList.toggle('show');
             }
         }
 
-        function calculatePlan(revenue, businessType, transactions, checkboxes) {
-            console.log('calculatePlan called with revenue:', revenue);
-            console.log('revenue type:', typeof revenue);
-            console.log('Checking if', revenue, '=== "1000-3000":', revenue === '1000-3000');
-            console.log('Checking if', revenue, '=== "over3000":', revenue === 'over3000');
+        function nextStep() {
+            if (currentStep <= totalSteps) {
+                currentStep++;
+                renderStep(currentStep);
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                renderStep(currentStep);
+            }
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
             
-            // 【最優先】年間売上が1000万円を超える場合は消費税判定に関係なくソルビス税理士法人のみ案内
+            // Show/hide previous button
+            if (currentStep > 1 && currentStep <= totalSteps) {
+                prevBtn.style.display = 'block';
+            } else {
+                prevBtn.style.display = 'none';
+            }
+            
+            // Update next button
+            if (currentStep > totalSteps) {
+                nextBtn.style.display = 'none';
+            } else {
+                nextBtn.style.display = 'block';
+                
+                // Check if current step has valid selection
+                const isStepComplete = isCurrentStepComplete();
+                nextBtn.disabled = !isStepComplete;
+                
+                if (currentStep === totalSteps) {
+                    nextBtn.textContent = '最適なプランを診断する';
+                } else {
+                    nextBtn.textContent = '次に進む';
+                }
+            }
+        }
+
+        function isCurrentStepComplete() {
+            const stepData = simulatorData[`step${currentStep}`];
+            const step = steps[currentStep];
+            
+            if (step.type === 'single-choice') {
+                return stepData !== undefined;
+            } else if (step.type === 'multi-choice') {
+                return true; // Multi-choice can be empty
+            }
+            
+            return false;
+        }
+
+        function calculatePlan() {
+            const revenue = simulatorData.step1;
+            const bookkeeping = simulatorData.step2;
+            const conditions = simulatorData.step3 || [];
+            const transactions = simulatorData.step4;
+            
+            // 【最優先】年間売上が1000万円を超える場合はソルビス税理士法人を案内
             if (revenue === '1000-3000' || revenue === 'over3000') {
-                console.log('ソルビス税理士法人ルートに入りました');
                 return {
                     type: 'solvis',
-                    title: 'ソルビス税理士法人\nをご紹介いたします',
-                    content: `年間売上が1,000万円を超える事業者様は、「みんなの税務顧問」の対象外となります。\n\nより大規模な事業に対応可能な「ソルビス税理士法人」でのご契約をお願いいたします。\n\n・売上1,000万円超の事業に特化\n・より高度な税務相談\n・法人化支援\n・節税対策の提案\n・事業拡大に向けたアドバイス\n・消費税申告も含む総合サポート`,
+                    icon: '🏢',
+                    title: 'ソルビス税理士法人をご紹介いたします',
+                    content: `年間売上が1,000万円を超える事業者様は、「みんなの税務顧問」の対象外となります。<br><br>より大規模な事業に対応可能な「ソルビス税理士法人」でのご契約をお願いいたします。<br><br>・売上1,000万円超の事業に特化<br>・より高度な税務相談<br>・法人化支援<br>・節税対策の提案<br>・事業拡大に向けたアドバイス<br>・消費税申告も含む総合サポート`,
                     actions: [
                         { text: 'ソルビス税理士法人に相談', url: 'https://www.solvis-tax.com/', primary: true }
                     ]
                 };
             }
 
-            // 1000万円未満の場合のみ、消費税申告が必要かチェック
-            const needsConsumptionTax = checkboxes.invoice || checkboxes.over1000Before || 
-                                     checkboxes.over1000Recent || checkboxes.voluntary || checkboxes.exportRefund;
+            // 1000万円未満の場合、消費税申告が必要かチェック
+            const needsConsumptionTax = conditions.includes('invoice') || 
+                                      conditions.includes('over1000Before') || 
+                                      conditions.includes('over1000Recent') || 
+                                      conditions.includes('voluntary') || 
+                                      conditions.includes('exportRefund');
 
             // プラン判定（1000万円未満のみ）
             if (needsConsumptionTax) {
                 return {
                     type: 'consumption_tax',
+                    icon: '💸',
                     title: '消費税申告プランがおすすめです',
-                    content: `あなたの事業状況では消費税の申告が必要です。消費税申告に対応したプランをご提案いたします。\n\n• 年払い: 月額10,740円（年間128,880円）\n• 月払い: 月額12,300円（年間147,600円）\n\n年払いプランなら約12%お得になります！`,
+                    content: `お客様の事業状況では消費税の申告が必要です。消費税申告に対応したプランをご提案いたします。<br><br>• 年払い: 月額10,740円（年間128,880円）<br>• 月払い: 月額12,300円（年間147,600円）<br><br>年払いプランなら約12%お得になります！`,
                     actions: [
                         { text: '消費税申告プランを見る', url: '/cost.tax', primary: true },
                         { text: '詳しい料金を確認', url: '/cost', primary: false }
                     ]
                 };
             } else {
+                // 通常プランの場合の追加メッセージ
+                let additionalContent = '';
+                if (conditions.includes('blueReturn') || conditions.includes('businessRegistration')) {
+                    additionalContent = '<br><br>※申請代行について<br>・青色申告承認申請書、開業届の代行をご希望の場合は別途5,000円（税込）を申し受けます<br>・申請に関しては契約後のChatwork内でのご相談となります';
+                }
+
                 return {
                     type: 'standard',
+                    icon: '💰',
                     title: '通常プランがおすすめです',
-                    content: `あなたの事業状況に最適な通常プランをおすすめいたします。\n\n• 年払い: 月額8,256円（年間99,080円）\n• 月払い: 月額9,800円（年間117,600円）\n\n年払いプランなら約15%お得になります！${checkboxes.blueReturn || checkboxes.businessRegistration ? '\n\n※申請代行について\n・青色申告承認申請書、開業届の代行をご希望の場合は別途5,000円（税込）を申し受けます\n・申請に関しては契約後のChatwork内でのご相談となります' : ''}`,
+                    content: `お客様の事業状況に最適な通常プランをおすすめいたします。<br><br>• 年払い: 月額8,256円（年間99,080円）<br>• 月払い: 月額9,800円（年間117,600円）<br><br>年払いプランなら約15%お得になります！${additionalContent}`,
                     actions: [
                         { text: '通常プランを見る', url: '/cost', primary: true },
-                        { text: 'お申し込み', url: '/#contact', primary: true }
+                        { text: 'お申し込み', url: '/#contact', primary: false }
                     ]
                 };
             }
         }
 
-        function displayResult(result) {
-            const resultCard = document.getElementById('resultCard');
-            const resultTitle = document.getElementById('resultTitle');
-            const resultContent = document.getElementById('resultContent');
-            const resultActions = document.getElementById('resultActions');
-
-            // 既存のクラスをリセット
-            resultCard.className = 'result-card';
-            
-            // プランタイプに応じてクラスを追加
-            if (result.type) {
-                resultCard.classList.add(result.type);
-            }
-            
-            resultTitle.textContent = result.title;
-            resultContent.innerHTML = result.content.replace(/\n/g, '<br>');
-            
-            resultActions.innerHTML = '';
-            result.actions.forEach(action => {
-                const button = document.createElement('a');
-                button.href = action.url;
-                button.className = `result-btn ${action.primary ? '' : 'secondary'}`;
-                button.textContent = action.text;
-                if (action.url.startsWith('http')) {
-                    button.target = '_blank';
-                    button.rel = 'noopener noreferrer';
-                }
-                resultActions.appendChild(button);
-            });
-
-            resultCard.style.display = 'block';
-            resultCard.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // チャット初期化
-        function initializeChat() {
-            const messagesContainer = document.getElementById('chatMessages');
-            if (messagesContainer) {
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            }
-            
-            // 入力欄にフォーカス（チャットが開いている場合のみ）
-            const chatInput = document.getElementById('chatInput');
-            const chatWrapper = document.getElementById('chatWrapper');
-            if (chatInput && chatWrapper && chatWrapper.classList.contains('show')) {
-                chatInput.focus();
-            }
-        }
-
-        // メッセージ送信
-        function sendMessage() {
-            const input = document.getElementById('chatInput');
-            if (!input) return;
-            
-            const message = input.value.trim();
-            
-            if (message === '' || isTyping) return;
-            
-            // ウェルカムメッセージを非表示
-            const welcomeMessage = document.getElementById('welcomeMessage');
-            if (welcomeMessage) {
-                welcomeMessage.style.display = 'none';
-            }
-            
-            // ユーザーメッセージを表示
-            addMessage('user', message);
-            input.value = '';
-            
-            // ボットの返答を生成
-            generateBotResponse(message);
-            
-            // チャット履歴に追加
-            chatHistory.push({
-                type: 'user',
-                message: message,
-                timestamp: new Date()
-            });
-        }
-
-        // クイック質問送信
-        function sendQuickQuestion(question) {
-            const input = document.getElementById('chatInput');
-            input.value = question;
-            sendMessage();
-        }
-
-        // LINE風メッセージ追加
-        function addMessage(type, content, showTime = true) {
-            const messagesContainer = document.getElementById('chatMessages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `line-message ${type}`;
-            
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('ja-JP', { 
-                hour: '2-digit', 
-                minute: '2-digit' 
-            });
-            
-            messageDiv.innerHTML = `
-                <div class="line-message-content">
-                    ${content}
-                </div>
-                ${showTime ? `<div class="line-message-time">${timeString}</div>` : ''}
-            `;
-            
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        // ボットメッセージ専用関数（HTMLコンテンツ対応）
-        function addBotMessage(title, htmlContent, showTime = true) {
-            const messagesContainer = document.getElementById('chatMessages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'line-message bot';
-            
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('ja-JP', { 
-                hour: '2-digit', 
-                minute: '2-digit' 
-            });
-            
-            messageDiv.innerHTML = `
-                <div class="line-message-content">
-                    <div style="font-weight: 600; margin-bottom: 8px; color: #14b8a6;">${title}</div>
-                    ${htmlContent}
-                </div>
-                ${showTime ? `<div class="line-message-time">${timeString}</div>` : ''}
-            `;
-            
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        // ボットの返答生成
-        function generateBotResponse(userMessage) {
-            isTyping = true;
-            
-            // 短い遅延後にボット返答
-            setTimeout(() => {
-                const response = findBestResponse(userMessage);
-                addMessage('bot', response);
-                
-                // チャット履歴に追加
-                chatHistory.push({
-                    type: 'bot',
-                    message: response,
-                    timestamp: new Date()
-                });
-                
-                isTyping = false;
-            }, 800 + Math.random() * 400); // 0.8-1.2秒のランダム遅延
-        }
-
-        // LINE風の返答を生成
-        function findBestResponse(userMessage) {
-            const message = userMessage.toLowerCase();
-            
-            // キーワードマッチング
-            for (const [key, value] of Object.entries(faqDatabase)) {
-                if (message.includes(key.toLowerCase())) {
-                    return formatLineResponse(value.answer, value.category);
-                }
-            }
-            
-            // 部分マッチング
-            if (message.includes('サービス') || message.includes('何')) {
-                return formatLineResponse(faqDatabase["サービス内容"].answer, "サービス");
-            }
-            if (message.includes('料金') || message.includes('値段') || message.includes('費用')) {
-                return formatLineResponse(faqDatabase["料金"].answer, "料金");
-            }
-            if (message.includes('契約') || message.includes('期間')) {
-                return formatLineResponse(faqDatabase["契約期間"].answer, "契約");
-            }
-            if (message.includes('解約') || message.includes('やめ')) {
-                return formatLineResponse(faqDatabase["途中解約"].answer, "契約");
-            }
-            if (message.includes('申告') || message.includes('確定申告')) {
-                return formatLineResponse(faqDatabase["確定申告"].answer, "申告");
-            }
-            if (message.includes('会社') || message.includes('運営')) {
-                return formatLineResponse(faqDatabase["運営会社"].answer, "その他");
-            }
-            
-            // デフォルト返答（LINE風）
-            return formatDefaultResponse();
-        }
-
-        // 読みやすいレスポンス形式に整形
-        function formatLineResponse(answer, category) {
-            // 絵文字を最小限に
-            const categoryLabels = {
-                "サービス": "【サービス内容】",
-                "料金": "【料金について】", 
-                "契約": "【契約について】",
-                "申告": "【申告について】",
-                "その他": "【お問い合わせ】"
-            };
-            
-            const label = categoryLabels[category] || "【ご案内】";
-            
-            // テキストの整形：読みやすい改行とフォーマット
-            const formattedAnswer = answer
-                .replace(/\n\n/g, '\n\n')  // 段落間の改行を保持
-                .replace(/•/g, '・')       // シンプルな中点に
-                .replace(/✅/g, '・')      // チェックマークも中点に
-                .replace(/(\d+[,\d]*円)/g, '\n$1')  // 金額の前に改行
-                .replace(/([。！？])\s*([・\-\*])/g, '$1\n\n$2')  // 箇条書きの前に改行
-                .replace(/([。！？])\s*([ァ-ヶー]+)/g, '$1\n\n$2'); // 文の後に改行
-            
-            return `${label}\n\n${formattedAnswer}`;
-        }
-
-        // シンプルなデフォルト返答
-        function formatDefaultResponse() {
-            return `【お問い合わせ】
-
-ご質問ありがとうございます。
-
-申し訳ございませんが、お問い合わせの内容について詳しい回答が見つかりませんでした。
-
-以下のような質問にお答えできます：
-
-・サービス内容について
-・料金プランについて  
-・契約期間について
-・確定申告について
-
-下のメニューから選択いただくか、具体的にご質問ください。`;
-        }
-
-
-
-        // キーボードイベント処理
-        function handleInputKeydown(event) {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                sendMessage();
-            }
-        }
-
-        // 説明文の表示/非表示を切り替える関数
-        function toggleHelp(helpId) {
-            const helpElement = document.getElementById(helpId);
-            if (helpElement.style.display === 'none' || helpElement.style.display === '') {
-                helpElement.style.display = 'block';
-            } else {
-                helpElement.style.display = 'none';
-            }
-        }
-
-        // チャットサポートの開閉を制御する関数
-        function toggleChatSupport() {
-            const chatWrapper = document.getElementById('chatWrapper');
-            const chatOverlay = document.getElementById('chatOverlay');
-            const floatingButton = document.getElementById('floatingChatButton');
-
-            if (chatWrapper.classList.contains('show')) {
-                // チャット閉じる
-                closeChatSupport();
-            } else {
-                // チャット開く
-                chatWrapper.style.display = 'flex';
-                chatOverlay.style.display = 'block';
-                
-                // アニメーション用の遅延
-                setTimeout(() => {
-                    chatWrapper.classList.add('show');
-                    chatOverlay.classList.add('show');
-                }, 10);
-                
-                floatingButton.style.display = 'none';
-                
-                // ウェルカムメッセージを表示
-                const welcomeMessage = document.getElementById('welcomeMessage');
-                if (welcomeMessage) {
-                    welcomeMessage.style.display = 'block';
-                }
-                
-                // チャット初期化
-                initializeChat();
-            }
-        }
-
-        // LINE風メニューコンテンツ表示機能
-        function showMenuContent(menuType) {
-            // メニューアイテムのアクティブ状態更新
-            const menuItems = document.querySelectorAll('.line-menu-item');
-            menuItems.forEach(item => item.classList.remove('active'));
-            event.target.closest('.line-menu-item').classList.add('active');
-
-            let content = '';
-            let title = '';
-
-            switch(menuType) {
-                case 'service':
-                    title = 'サービス内容';
-                    content = `
-                        <div class="line-menu-content">
-                            <div class="menu-card" onclick="sendQuickQuestion('サービス内容を教えて')">
-                                <div class="menu-card-icon">📋</div>
-                                <div class="menu-card-text">
-                                    <h4>サービス概要</h4>
-                                    <p>税務顧問サービスの詳細</p>
-                                </div>
-                            </div>
-                            <div class="menu-card" onclick="sendQuickQuestion('他の税理士事務所との違いは？')">
-                                <div class="menu-card-icon">📊</div>
-                                <div class="menu-card-text">
-                                    <h4>当社の特徴</h4>
-                                    <p>他社との違いとメリット</p>
-                                </div>
-                            </div>
-                            <div class="menu-card" onclick="sendQuickQuestion('AIが対応するの？')">
-                                <div class="menu-card-icon">🤝</div>
-                                <div class="menu-card-text">
-                                    <h4>サポート体制</h4>
-                                    <p>担当者による対応について</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    break;
-                case 'price':
-                    title = '料金プラン';
-                    content = `
-                        <div class="line-menu-content">
-                            <div class="menu-card" onclick="sendQuickQuestion('料金について教えて')">
-                                <div class="menu-card-icon">💰</div>
-                                <div class="menu-card-text">
-                                    <h4>基本料金</h4>
-                                    <p>月額・年額プランの詳細</p>
-                                </div>
-                            </div>
-                            <div class="menu-card" onclick="window.open('/cost', '_blank')">
-                                <div class="menu-card-icon">📊</div>
-                                <div class="menu-card-text">
-                                    <h4>料金比較</h4>
-                                    <p>プラン別料金の比較表</p>
-                                </div>
-                            </div>
-                            <div class="menu-card" onclick="sendQuickQuestion('支払い方法について')">
-                                <div class="menu-card-icon">💳</div>
-                                <div class="menu-card-text">
-                                    <h4>お支払い方法</h4>
-                                    <p>決済方法と契約期間</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    break;
-                case 'faq':
-                    title = 'よくある質問';
-                    content = `
-                        <div class="line-menu-content">
-                            <div class="menu-card" onclick="sendQuickQuestion('確定申告について')">
-                                <div class="menu-card-icon">📄</div>
-                                <div class="menu-card-text">
-                                    <h4>確定申告</h4>
-                                    <p>申告の流れと期限</p>
-                                </div>
-                            </div>
-                            <div class="menu-card" onclick="sendQuickQuestion('消費税申告が必要か？')">
-                                <div class="menu-card-icon">💹</div>
-                                <div class="menu-card-text">
-                                    <h4>消費税申告</h4>
-                                    <p>申告要否の判定</p>
-                                </div>
-                            </div>
-                            <div class="menu-card" onclick="sendQuickQuestion('領収書の撮影方法は？')">
-                                <div class="menu-card-icon">📋</div>
-                                <div class="menu-card-text">
-                                    <h4>書類の管理</h4>
-                                    <p>領収書・資料の取扱い</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    break;
-                case 'contact':
-                    title = 'お問い合わせ';
-                    content = `
-                        <div class="line-menu-content">
-                            <div class="menu-card" onclick="window.open('/#contact', '_blank')">
-                                <div class="menu-card-icon">📝</div>
-                                <div class="menu-card-text">
-                                    <h4>お申し込み</h4>
-                                    <p>サービス申込フォーム</p>
-                                </div>
-                            </div>
-                            <div class="menu-card" onclick="sendQuickQuestion('サービス内容について詳しく教えて')">
-                                <div class="menu-card-icon">ℹ️</div>
-                                <div class="menu-card-text">
-                                    <h4>サービス詳細</h4>
-                                    <p>サービス内容の詳細</p>
-                                </div>
-                            </div>
-                            <div class="menu-card" onclick="sendQuickQuestion('運営会社について教えて')">
-                                <div class="menu-card-icon">🏢</div>
-                                <div class="menu-card-text">
-                                    <h4>運営会社</h4>
-                                    <p>ソルビス税理士法人について</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    break;
-            }
-
-            // メニューコンテンツを表示
-            addBotMessage(title, content, false);
-        }
-
-        function closeChatSupport() {
-            const chatWrapper = document.getElementById('chatWrapper');
-            const chatOverlay = document.getElementById('chatOverlay');
-            const floatingButton = document.getElementById('floatingChatButton');
-
-            chatWrapper.classList.remove('show');
-            chatOverlay.classList.remove('show');
-            
-            setTimeout(() => {
-                chatWrapper.style.display = 'none';
-                chatOverlay.style.display = 'none';
-                floatingButton.style.display = 'flex';
-            }, 300);
-        }
-
         // 初期化
         document.addEventListener('DOMContentLoaded', function() {
-            initializeChat();
             initializeSimulator();
         });
     </script>
