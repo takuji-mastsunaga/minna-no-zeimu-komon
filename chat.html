@@ -47,6 +47,22 @@
         padding: 0 20px;
     }
     
+    .page-title-section {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin: 0;
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
     .step-container {
         background: white;
         border-radius: 24px;
@@ -405,6 +421,14 @@
             padding: 0 10px;
         }
         
+        .page-title-section {
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 2rem;
+        }
+        
         .step-container {
             padding: 30px 20px;
             min-height: auto;
@@ -519,6 +543,14 @@
     @media (max-width: 480px) {
         .page-container {
             padding: 50px 8px 15px 8px;
+        }
+        
+        .page-title-section {
+            margin-bottom: 25px;
+        }
+        
+        .page-title {
+            font-size: 1.8rem;
         }
         
         .step-container {
@@ -636,6 +668,11 @@
     <!-- Page Container -->
     <section class="page-container">
         <div class="simulator-wrapper">
+            <!-- Page Title -->
+            <div class="page-title-section">
+                <h1 class="page-title">料金シミュレーター</h1>
+            </div>
+            
             <div class="step-container" id="stepContainer">
                 <div class="progress-bar" id="progressBar" style="width: 0%;"></div>
                 <div class="step-number" id="stepNumber">1</div>
