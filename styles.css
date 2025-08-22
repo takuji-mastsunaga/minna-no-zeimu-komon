@@ -844,7 +844,7 @@ body {
 /* ========== シミュレーションセクション ========== */
 .simulation-section {
     padding: 48px 0;
-    background: #e0f2f1; /* Light Teal background - same as contact */
+    background: #f0f9ff; /* Light Blue background - same as comparison */
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -863,7 +863,7 @@ body {
 }
 
 .simulation-section::before {
-    background: linear-gradient(135deg, #14b8a6, #81d8d0);
+    background: linear-gradient(135deg, #0ea5e9, #7dd3fc);
     width: 500px;
     height: 500px;
     top: -200px;
@@ -871,7 +871,7 @@ body {
 }
 
 .simulation-section::after {
-    background: linear-gradient(135deg, #a7e9e4, #e0f2f1);
+    background: linear-gradient(135deg, #bae6fd, #f0f9ff);
     width: 400px;
     height: 400px;
     bottom: -150px;
