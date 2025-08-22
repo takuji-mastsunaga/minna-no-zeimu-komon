@@ -398,68 +398,198 @@
     /* モバイル対応 */
     @media (max-width: 768px) {
         .page-container {
-            padding: 60px 0 20px 0;
+            padding: 60px 10px 20px 10px;
+        }
+        
+        .simulator-wrapper {
+            padding: 0 10px;
         }
         
         .step-container {
-            padding: 40px 30px;
-            min-height: 400px;
+            padding: 30px 20px;
+            min-height: auto;
+            margin: 0 auto;
+        }
+        
+        .step-number {
+            font-size: 2.5rem;
+            top: 10px;
+            right: 15px;
+            padding: 5px 15px;
         }
         
         .step-title {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
+            line-height: 1.4;
+            margin-bottom: 15px;
         }
         
         .step-description {
-            font-size: 1rem;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
         }
         
         .options-grid.two-column,
         .options-grid.three-column {
             grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        
+        .option-item {
+            padding: 18px 16px;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+        
+        .checkbox-container {
+            gap: 12px;
+        }
+        
+        .checkbox-item {
+            padding: 16px;
+        }
+        
+        .checkbox-text {
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
+        .help-icon {
+            width: 28px;
+            height: 28px;
+            font-size: 14px;
+            margin-left: 10px;
         }
         
         .navigation-buttons {
             flex-direction: column;
             align-items: center;
+            gap: 15px;
+            margin-top: 30px;
         }
         
         .nav-btn {
             width: 100%;
-            max-width: 300px;
+            max-width: 280px;
+            padding: 16px 24px;
+            font-size: 1rem;
+        }
+        
+        /* 結果カード用のモバイル対応 */
+        .result-card {
+            padding: 25px 20px;
+            margin: 15px auto;
+            border-radius: 16px;
+        }
+        
+        .result-title {
+            font-size: 1.5rem;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+        
+        .result-content {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            text-align: left;
         }
         
         .result-actions {
             flex-direction: column;
             align-items: center;
+            gap: 12px;
         }
         
         .result-btn {
             width: 100%;
-            max-width: 300px;
+            max-width: 280px;
             text-align: center;
+            padding: 16px 24px;
+            font-size: 1rem;
+            border-radius: 10px;
+        }
+        
+        /* プログレスバーのモバイル調整 */
+        .progress-bar {
+            height: 3px;
         }
     }
     
     @media (max-width: 480px) {
+        .page-container {
+            padding: 50px 8px 15px 8px;
+        }
+        
         .step-container {
-            padding: 30px 20px;
+            padding: 25px 15px;
+            border-radius: 16px;
         }
         
         .step-number {
-            font-size: 3rem;
-            top: 15px;
-            right: 20px;
+            font-size: 2rem;
+            top: 8px;
+            right: 12px;
+            padding: 4px 12px;
         }
         
         .step-icon {
-            width: 60px;
-            height: 60px;
-            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
         }
         
         .step-title {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+        }
+        
+        .step-description {
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+        
+        .option-item {
+            padding: 16px 14px;
+            font-size: 0.95rem;
+        }
+        
+        .checkbox-item {
+            padding: 14px;
+        }
+        
+        .checkbox-text {
+            font-size: 0.9rem;
+        }
+        
+        .help-icon {
+            width: 26px;
+            height: 26px;
+            font-size: 13px;
+        }
+        
+        .nav-btn {
+            padding: 15px 20px;
+            font-size: 0.95rem;
+        }
+        
+        .result-card {
+            padding: 20px 15px;
+            margin: 10px auto;
+        }
+        
+        .result-title {
+            font-size: 1.3rem;
+        }
+        
+        .result-content {
+            font-size: 0.95rem;
+        }
+        
+        .result-btn {
+            padding: 15px 20px;
+            font-size: 0.95rem;
         }
     }
     </style>
