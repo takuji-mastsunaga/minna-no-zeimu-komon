@@ -11,6 +11,10 @@
       "destination": "/chat.html"
     },
     {
+      "source": "/chatbot",
+      "destination": "/chatbot.html"
+    },
+    {
       "source": "/cost",
       "destination": "/cost.html"
     },
