@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>チャットボット - みんなの税務顧問</title>
-    <meta name="description" content="チャットで気軽に税務相談。よくある質問にリアルタイムでお答えします。個人事業主・スタートアップ向け税務サービスのチャットサポート。">
+    <title>チャットサポート - みんなの税務顧問</title>
+    <meta name="description" content="月額980円から始める税務顧問サービス。チャットで気軽にご相談ください。個人事業主・スタートアップ向け最安値水準の税理士サポート。">
     
     <!-- OGP Tags -->
-    <meta property="og:title" content="チャットボット - みんなの税務顧問">
-    <meta property="og:description" content="チャットで気軽に税務相談。よくある質問にリアルタイムでお答えします。個人事業主・スタートアップ向け税務サービスのチャットサポート。">
+    <meta property="og:title" content="チャットサポート - みんなの税務顧問">
+    <meta property="og:description" content="月額980円から始める税務顧問サービス。チャットで気軽にご相談ください。個人事業主・スタートアップ向け最安値水準の税理士サポート。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://minzei-tax.com/chatbot">
     <meta property="og:image" content="https://minzei-tax.com/images/thumbnail.png">
@@ -600,9 +600,9 @@
     <!-- Page Container -->
     <section class="page-container">
         <div class="center-message">
-            <h1>チャットサポート</h1>
-            <p>税務に関するご質問にお答えします。<br>右下のボタンからお気軽にお問い合わせください。</p>
-            <button class="center-cta" onclick="toggleChatSupport()">チャットを開始</button>
+            <h1>税務顧問サービス ご相談窓口</h1>
+            <p>月額980円から始める安心の税務サポート<br>まずはお気軽にご相談ください</p>
+            <button class="center-cta" onclick="toggleChatSupport()">ご相談を開始</button>
         </div>
         
         <!-- LINE-style Chatbot Container -->
@@ -615,7 +615,7 @@
                     </div>
                     <div class="line-business-info">
                         <h3 class="line-business-name">みんなの税務顧問</h3>
-                        <p class="line-business-status">🟢 オンライン</p>
+                        <p class="line-business-status">🟢 営業中</p>
                     </div>
                 </div>
                 <button class="line-close-button" onclick="closeChatSupport()">✕</button>
@@ -630,12 +630,12 @@
                             <div class="business-icon">💼</div>
                             <div class="business-info">
                                 <h4>みんなの税務顧問</h4>
-                                <p>税務のプロがサポートします</p>
+                                <p>月額980円〜の税務サポート</p>
                             </div>
                         </div>
                         <div class="business-card-content">
-                            <p>🎉 こんにちは！税務に関するご質問にお答えします。</p>
-                            <p>💡 下のメニューからお選びいただくか、直接メッセージをお送りください。</p>
+                            <p>こんにちは！税務顧問サービスについてご案内いたします。</p>
+                            <p>月額980円から税理士があなたの事業をフルサポート。下のメニューからお選びいただくか、直接ご質問ください。</p>
                         </div>
                     </div>
                 </div>
@@ -658,7 +658,7 @@
                     </div>
                     <div class="line-menu-item" onclick="showMenuContent('contact')">
                         <div class="menu-icon">📞</div>
-                        <span class="menu-text">お問い合わせ</span>
+                        <span class="menu-text">お申し込み</span>
                     </div>
                 </div>
             </div>
@@ -670,7 +670,7 @@
                         type="text" 
                         class="line-input" 
                         id="chatInput" 
-                        placeholder="メッセージを入力"
+                        placeholder="ご質問をどうぞ"
                         onkeydown="handleInputKeydown(event)"
                     />
                     <button class="line-send-button" id="sendButton" onclick="sendMessage()">
@@ -686,186 +686,186 @@
     <!-- Floating Chat Support Button -->
     <div class="floating-chat-button" id="floatingChatButton" onclick="toggleChatSupport()">
         <div class="chat-button-icon">💬</div>
-        <div class="chat-button-text">お問い合わせはこちら</div>
+        <div class="chat-button-text">ご相談はこちら</div>
     </div>
 
     <!-- Chat Overlay -->
     <div class="chat-overlay" id="chatOverlay" style="display: none;" onclick="closeChatSupport()"></div>
 
     <script>
-        // FAQ データベース（拡充版）
-        const faqDatabase = {
-            // サービスについて
+        // 営業特化型FAQデータベース
+        const salesFAQDatabase = {
+            // サービス概要・魅力
+            "サービス": {
+                answer: "年商1,000万円以下の個人事業主・スタートアップ様向けの、業界最安値水準の税務顧問サービスです。面倒な税務処理をすべてお任せいただけるので、本業に集中していただけます。",
+                category: "サービス"
+            },
             "どのようなサービス": {
-                answer: "年商1,000万円以下の個人事業主やスタートアップの方向けに、AIを活用し低価格で税務顧問サービスを提供しています。チャットでの税務相談、記帳代行、確定申告のサポートを主なサービスとしています。",
+                answer: "年商1,000万円以下の個人事業主・スタートアップ様向けの、業界最安値水準の税務顧問サービスです。面倒な税務処理をすべてお任せいただけるので、本業に集中していただけます。",
                 category: "サービス"
             },
-            "サービス内容": {
-                answer: "主に以下のサービスを提供しています：\n\n• Chatworkでの税務相談\n• 記帳代行\n• 確定申告書または決算申告書の作成・提出\n• 節税や資金繰りに関する情報提供\n\n月額980円（税込）から利用できる、小規模事業者特化のサービスです。",
+            "他の税理士": {
+                answer: "月額980円～という圧倒的な低価格でありながら、経験豊富な税理士が直接サポートいたします。小規模事業者様に特化することで、大手事務所では実現できない手厚いサービスを低価格で提供しています。",
                 category: "サービス"
             },
-            "他の税理士事務所との違い": {
-                answer: "最新AIの活用により、月額980円（税込）からという圧倒的な低価格を実現している点が最大の特徴です。小規模事業者に特化することで、手厚いサポートを提供しています。",
+            "違い": {
+                answer: "月額980円～という圧倒的な低価格でありながら、経験豊富な税理士が直接サポートいたします。小規模事業者様に特化することで、大手事務所では実現できない手厚いサービスを低価格で提供しています。",
                 category: "サービス"
             },
-            "AIが対応": {
-                answer: "いいえ、ご相談にはAIではなく、担当者が直接対応いたしますのでご安心ください。AIは業務効率化のために活用していますが、お客様との相談は人が対応します。",
+            "なぜ安い": {
+                answer: "効率的な業務フローと小規模事業者様への特化により、無駄なコストを削減しているためです。品質は一切妥協せず、必要なサービスを必要な分だけご提供することで、この価格を実現しています。",
+                category: "サービス"
+            },
+            "税理士": {
+                answer: "はい、すべて経験豊富な税理士・税理士事務所スタッフが直接対応いたします。AIや機械ではなく、プロの税理士があなたの事業をしっかりサポートいたします。",
                 category: "サービス"
             },
 
-            // 新規追加FAQ
-            "領収書の撮影": {
-                answer: "スマートフォンで撮影、またはスキャンしたデータで撮影をしてください。撮影後は、こちらからお渡しするGoogleドライブの専用フォルダに保存していただきます。鮮明に写るよう、明るい場所で撮影をお願いいたします。",
-                category: "サービス"
+            // 対象者・適用範囲
+            "誰が利用": {
+                answer: "年商1,000万円以下の個人事業主・フリーランス・スタートアップの方が対象です。「税理士は高い」「手続きが面倒」とお悩みの方にぴったりのサービスです。",
+                category: "対象者"
             },
-            "領収書撮影": {
-                answer: "スマートフォンで撮影、またはスキャンしたデータで撮影をしてください。撮影後は、こちらからお渡しするGoogleドライブの専用フォルダに保存していただきます。鮮明に写るよう、明るい場所で撮影をお願いいたします。",
-                category: "サービス"
-            },
-            "決済されない": {
-                answer: "申し訳ございませんが、ご契約・決済完了後にChatworkでの税務相談サービスをご利用いただけます。まずはお申し込み手続きを完了していただき、決済確認後にサービスを開始させていただきます。",
-                category: "契約"
-            },
-            "チャット不可": {
-                answer: "申し訳ございませんが、ご契約・決済完了後にChatworkでの税務相談サービスをご利用いただけます。まずはお申し込み手続きを完了していただき、決済確認後にサービスを開始させていただきます。",
-                category: "契約"
-            },
-            "消費税申告": {
-                answer: "消費税の申告が必要になるのは、主に次のいずれかに当てはまる「課税事業者」です：\n\n• インボイス発行事業者（適格請求書発行事業者）の登録をしている\n• 2年前（基準期間）の課税売上高が1,000万円を超えている\n• 前年の前半6ヶ月（特定期間）の課税売上高または給与支払額が1,000万円を超えている\n• 任意で課税事業者になることを選択している\n\nどちらのタイプに該当するか、お気軽にご相談ください。",
-                category: "申告"
-            },
-            "消費税": {
-                answer: "消費税の申告が必要になるのは、主に次のいずれかに当てはまる「課税事業者」です：\n\n• インボイス発行事業者（適格請求書発行事業者）の登録をしている\n• 2年前（基準期間）の課税売上高が1,000万円を超えている\n• 前年の前半6ヶ月（特定期間）の課税売上高または給与支払額が1,000万円を超えている\n• 任意で課税事業者になることを選択している\n\nどちらのタイプに該当するか、お気軽にご相談ください。",
-                category: "申告"
-            },
-            "日割り": {
-                answer: "申し訳ございませんが、日割り計算での料金設定はございません。月額制でのご契約となります。ご契約月の途中からでも、1ヶ月分の料金をお支払いいただく形となります。",
-                category: "料金"
-            },
-            "青色申告": {
-                answer: "青色申告承認申請書の代行をご希望の場合は、別途5,000円（税込）で承ります。申請に関しては契約後のChatwork内でのご相談となります。",
-                category: "申告"
-            },
-            "青色申告をしたい": {
-                answer: "青色申告承認申請書の代行をご希望の場合は、別途5,000円（税込）で承ります。申請に関しては契約後のChatwork内でのご相談となります。",
-                category: "申告"
-            },
-            "開業届": {
-                answer: "開業届の代行をご希望の場合は、別途5,000円（税込）で承ります。申請に関しては契約後のChatwork内でのご相談となります。",
-                category: "申告"
-            },
-            "申請関連": {
-                answer: "青色申告承認申請書や開業届の代行をご希望の場合は、別途5,000円（税込）で承ります。申請に関しては契約後のChatwork内でのご相談となります。",
-                category: "その他"
-            },
-            "古物商": {
-                answer: "古物商の届出につきましては、ご自身で警察署へお手続きをお願いいたします。古物商に関する税務上の取り扱いについては、Chatworkにてご相談いただけます。",
-                category: "その他"
-            },
-            "マネーフォワード": {
-                answer: "マネーフォワードからfreeeへの変更、またはその逆の変更も可能です。会計ソフトの変更をご希望の場合は、データ移行の方法や設定についてサポートいたします。",
-                category: "サービス"
-            },
-            "freee": {
-                answer: "freeeからマネーフォワードへの変更、またはその逆の変更も可能です。会計ソフトの変更をご希望の場合は、データ移行の方法や設定についてサポートいたします。",
-                category: "サービス"
-            },
-            "電話したい": {
-                answer: "申し訳ございませんが、お電話でのサポートは行っておりません。ご質問・ご相談は、こちらのチャットボットまたはご契約後のChatworkにてお受けしております。より効率的にサポートをご提供するため、テキストベースでのやり取りをお願いしております。",
-                category: "サービス"
-            },
-            "電話": {
-                answer: "申し訳ございませんが、お電話でのサポートは行っておりません。ご質問・ご相談は、こちらのチャットボットまたはご契約後のChatworkにてお受けしております。より効率的にサポートをご提供するため、テキストベースでのやり取りをお願いしております。",
-                category: "サービス"
-            },
-            "メール": {
-                answer: "申し訳ございませんが、メールでのサポートは行っておりません。ご質問・ご相談は、こちらのチャットボットまたはご契約後のChatworkにてお受けしております。すべてのお問い合わせはチャットベースで承っております。",
-                category: "サービス"
-            },
-            "銀行口座": {
-                answer: "銀行口座やクレジットカードの連携は、クラウド会計ソフト（マネーフォワードまたはfreee）で連携をしていただきます。連携方法についてはChatworkにてサポートいたします。",
-                category: "サービス"
-            },
-            "クレジットカード": {
-                answer: "銀行口座やクレジットカードの連携は、クラウド会計ソフト（マネーフォワードまたはfreee）で連携をしていただきます。連携方法についてはChatworkにてサポートいたします。",
-                category: "サービス"
-            },
-            "暗号資産": {
-                answer: "暗号資産・仮想通貨のFXで利益が出た場合、年間売上が1,000万円未満であれば、こちらのサービスでご対応可能です。ただし、暗号資産の雑所得申告には別途30,000円（税込）の追加料金が発生いたします。申請に関しては契約後のChatwork内でのご相談となります。",
-                category: "申告"
-            },
-            "仮想通貨": {
-                answer: "暗号資産・仮想通貨のFXで利益が出た場合、年間売上が1,000万円未満であれば、こちらのサービスでご対応可能です。ただし、暗号資産の雑所得申告には別途30,000円（税込）の追加料金が発生いたします。申請に関しては契約後のChatwork内でのご相談となります。",
-                category: "申告"
-            },
-            "せどり": {
-                answer: "せどり・輸入・転売で利益がある場合、年間売上が1,000万円以下であればサービス対象となります。物販事業の税務処理についてもサポートいたします。",
-                category: "申告"
-            },
-            "転売": {
-                answer: "せどり・輸入・転売で利益がある場合、年間売上が1,000万円以下であればサービス対象となります。物販事業の税務処理についてもサポートいたします。",
-                category: "申告"
-            },
-            "輸入": {
-                answer: "せどり・輸入・転売で利益がある場合、年間売上が1,000万円以下であればサービス対象となります。物販事業の税務処理についてもサポートいたします。",
-                category: "申告"
-            },
-
-            // 既存のFAQ
-            "googleドライブ": {
-                answer: "ご契約後に、お客様専用のGoogleドライブフォルダを作成し、アクセス権限を付与いたします。こちらのフォルダに領収書やレシート、その他の資料をアップロードしていただければ、担当者が確認して記帳代行を行います。フォルダは整理された構造になっており、月別・カテゴリ別に保存していただけます。",
-                category: "サービス"
-            },
-            "資料共有": {
-                answer: "資料共有はGoogleドライブを使用します。ご契約後に、お客様専用のフォルダへのアクセス権限を付与いたします。領収書、レシート、請求書、銀行通帳のコピーなど、必要な資料をスマートフォンで撮影またはスキャンして、指定フォルダにアップロードしてください。",
-                category: "サービス"
+            "利用できる": {
+                answer: "年商1,000万円以下の個人事業主・フリーランス・スタートアップの方が対象です。「税理士は高い」「手続きが面倒」とお悩みの方にぴったりのサービスです。",
+                category: "対象者"
             },
             "1000万円": {
-                answer: "「みんなの税務顧問」は年商1,000万円未満の事業者様を対象としたサービスです。ご契約前から1,000万円を超える見込みの場合や、ご契約期間の途中で年商が1,000万円を超えた場合は、運営母体である「ソルビス税理士法人」とのご契約に切り替えて、引き続きサポートさせていただきます。",
-                category: "サービス"
+                answer: "ご安心ください。売上が成長して1,000万円を超えた場合は、運営母体の「ソルビス税理士法人」で引き続きサポートさせていただきます。事業成長をトータルでお支えいたします。",
+                category: "対象者"
             },
-            "対面": {
-                answer: "基本的にはChatworkでのやり取りとなり、対面やオンラインでの面談は行っておりません。日常的なご相談やご質問は、Chatworkを通じて担当者が直接対応いたします。業務を効率化することでお手頃な価格を実現しております。",
-                category: "サービス"
+            "開業": {
+                answer: "もちろんです！開業直後で売上がまだ少ない方、これから事業を本格化される方こそ、当サービスをおすすめします。事業の成長とともに、税務面もしっかりサポートいたします。",
+                category: "対象者"
             },
-            "chatwork": {
-                answer: "はい、ご契約後はChatworkを使用してやり取りをさせていただきます。Chatworkアカウントをお持ちでない場合は、無料でアカウント作成が可能です。担当者が専用のグループチャットを作成し、税務相談から日常的なコミュニケーションまで、すべてChatwork上で行います。",
-                category: "サービス"
-            },
-            "チャットワーク": {
-                answer: "はい、ご契約後はChatworkを使用してやり取りをさせていただきます。Chatworkアカウントをお持ちでない場合は、無料でアカウント作成が可能です。担当者が専用のグループチャットを作成し、税務相談から日常的なコミュニケーションまで、すべてChatwork上で行います。",
-                category: "サービス"
+            "副業": {
+                answer: "はい、副業の方もご利用いただけます。会社員をしながら副業収入がある方、将来的に独立を考えている方にも最適なサービスです。",
+                category: "対象者"
             },
 
-            // 料金について
+            // 料金・コスト
             "料金": {
-                answer: "料金は以下の通りです：\n\n・月額顧問料\n980円（税込）\n\n・月間記帳代行料\n2,980円～（税込）/100件あたり\n\n・申告料\n39,800円（税込）\n\n・消費税申告料\n29,800円（税込）※別途\n\n・月間会計システム料\n980円（税込）\n\n詳細な料金プランの比較は、料金ページでご確認いただけます。",
+                answer: "月額980円～のお手頃価格でご利用いただけます。一般的な税理士事務所の月額2～5万円と比べて、圧倒的にお得です。年払いプランならさらに15%割引でご利用いただけます。",
                 category: "料金"
             },
-            "契約期間": {
-                answer: "はい、初回のご契約から1年間の最低利用期間が設定されています。期間満了の7日前までに解約のお申し出がない場合、12ヶ月ごとに自動で更新されます。",
-                category: "契約"
+            "いくら": {
+                answer: "月額980円～のお手頃価格でご利用いただけます。一般的な税理士事務所の月額2～5万円と比べて、圧倒的にお得です。年払いプランならさらに15%割引でご利用いただけます。",
+                category: "料金"
             },
-            "途中解約": {
-                answer: "最低利用期間内に解約される場合、残りの期間分の利用料金に相当する金額を違約金としてお支払いいただく必要があり、返金はございません。",
-                category: "契約"
+            "費用": {
+                answer: "基本的な税務顧問・記帳代行・確定申告がパッケージになっており、追加費用は最小限です。料金は明確で分かりやすく、後から高額請求されることはありません。",
+                category: "料金"
             },
-            "支払い方法": {
-                answer: "お支払いは年間前払い制です。\n\nご契約時に以下の料金をまとめてお支払いいただきます：\n\n・基本料金（1年分）\n・記帳代行料金（1年分）\n・会計ソフト使用料（1年分）\n・申告料\n\n詳細な金額は料金プランページでご確認ください。",
-                category: "契約"
+            "お得": {
+                answer: "一般的な税理士事務所では年間20～60万円かかりますが、当サービスなら年間10万円程度です。年間で数十万円の節約になり、浮いたお金を事業投資に回していただけます。",
+                category: "料金"
+            },
+            "比較": {
+                answer: "一般的な税理士事務所では年間20～60万円かかりますが、当サービスなら年間10万円程度です。年間で数十万円の節約になり、浮いたお金を事業投資に回していただけます。",
+                category: "料金"
             },
 
-            // 申告について
-            "申告": {
-                answer: "期限内に申告を完了させるため、以下の期限までにご契約をお願いしております：\n\n【個人事業主の方（確定申告）】\n確定申告の期日（原則3月15日）の1ヶ月前まで\n\n【法人の方（決算申告）】\n法人の決算月の1ヶ月前まで\n\n例：12月決算の法人の場合、11月末までのご契約が必要です。\n\n上記期限を過ぎてからのご契約の場合、期限内の申告をお受けできない可能性があります。",
-                category: "申告"
+            // サービス内容・範囲
+            "何をしてもらえる": {
+                answer: "面倒な記帳代行、確定申告書の作成・提出、税務に関するご相談対応を行います。税務のことは全てお任せいただき、あなたは本業に専念していただけます。",
+                category: "サービス内容"
+            },
+            "記帳": {
+                answer: "はい、領収書や取引データをお送りいただければ、面倒な記帳作業はすべて代行いたします。あなたの貴重な時間を本業に集中していただけます。",
+                category: "サービス内容"
             },
             "確定申告": {
-                answer: "【確定申告のご契約期限】\n\n確定申告の期日（原則3月15日）の1ヶ月前までにご契約をお願いしております。\n\n【期限を過ぎた場合】\n上記期限を過ぎてからのご契約の場合、期限内の申告をお受けできない可能性があります。\n\n早めのご契約をおすすめいたします。",
-                category: "申告"
+                answer: "もちろんです。確定申告書の作成から提出まで、すべて代行いたします。面倒な申告業務から解放され、安心して確定申告の時期を迎えていただけます。",
+                category: "サービス内容"
+            },
+            "相談": {
+                answer: "はい、ご契約後はいつでも税務に関するご相談をしていただけます。節税方法や経費の考え方など、事業に役立つアドバイスをご提供いたします。",
+                category: "サービス内容"
             },
 
-            // その他
+            // 契約・手続き
+            "契約": {
+                answer: "とても簡単です。①ウェブサイトからお申し込み　②料金のお支払い　③契約完了・サービス開始　の3ステップだけ。面倒な書類手続きや来店は一切不要です。",
+                category: "契約"
+            },
+            "流れ": {
+                answer: "とても簡単です。①ウェブサイトからお申し込み　②料金のお支払い　③契約完了・サービス開始　の3ステップだけ。面倒な書類手続きや来店は一切不要です。",
+                category: "契約"
+            },
+            "すぐ": {
+                answer: "はい、お申し込み・お支払い完了後、すぐにサービスを開始いたします。お急ぎの方でも安心してご利用いただけます。",
+                category: "契約"
+            },
+            "期間": {
+                answer: "安心してご利用いただくため、最低1年間のご契約をお願いしております。継続的にサポートさせていただくことで、より良いサービスをご提供できます。",
+                category: "契約"
+            },
+            "解約": {
+                answer: "ご契約期間満了後はいつでも解約可能です。もちろん、サービスにご満足いただけるよう最善を尽くしますので、長くお付き合いいただければと思います。",
+                category: "契約"
+            },
+
+            // 連絡・やりとり
+            "連絡": {
+                answer: "ご契約後はChatworkというビジネスチャットを利用して、いつでも気軽にご連絡いただけます。メールよりもスピーディで、お急ぎのご相談にも素早く対応いたします。",
+                category: "連絡"
+            },
+            "chatwork": {
+                answer: "ご契約後はChatworkというビジネスチャットを利用して、いつでも気軽にご連絡いただけます。メールよりもスピーディで、お急ぎのご相談にも素早く対応いたします。",
+                category: "連絡"
+            },
+            "電話": {
+                answer: "より効率的にサポートするため、やり取りはチャットを中心とさせていただいております。文字に残ることで、後から確認もしやすく安心です。",
+                category: "連絡"
+            },
+            "返事": {
+                answer: "営業時間内であれば、基本的に当日中にお返事いたします。お急ぎの場合も可能な限り迅速に対応いたしますので、ご安心ください。",
+                category: "連絡"
+            },
+
+            // データ・書類管理
+            "領収書": {
+                answer: "スマートフォンで撮影していただき、専用フォルダにアップロードするだけです。郵送や持参は不要で、とても簡単です。",
+                category: "データ管理"
+            },
+            "安全": {
+                answer: "はい、お客様の大切なデータは厳重に管理しております。税理士には守秘義務があり、情報管理には万全を期しておりますので、安心してお任せください。",
+                category: "データ管理"
+            },
+            "資料": {
+                answer: "ご安心ください。現在お持ちの資料から整理を始めて、必要に応じてサポートいたします。完璧に準備できていなくても、まずはご相談ください。",
+                category: "データ管理"
+            },
+
+            // 専門性・信頼性
+            "経験": {
+                answer: "運営母体の「ソルビス税理士法人」は豊富な実績を持つ税理士法人です。小規模事業者様から大企業まで幅広く対応しており、安心してお任せいただけます。",
+                category: "信頼性"
+            },
+            "間違い": {
+                answer: "万が一のミスについては、税理士賠償責任保険に加入しておりますので、適切に対応いたします。プロとして責任を持ってサービスをご提供いたします。",
+                category: "信頼性"
+            },
+            "税務署": {
+                answer: "はい、税務署からのお尋ねや確認事項についても、適切にサポートいたします。お客様が直接対応する必要はほとんどありません。",
+                category: "信頼性"
+            },
+
+            // 業種・特殊ケース
+            "業種": {
+                answer: "小売業、サービス業、IT関連、コンサルティング、クリエイター、フリーランスなど、幅広い業種に対応しております。まずはお気軽にご相談ください。",
+                category: "業種"
+            },
+            "ネット販売": {
+                answer: "EC・ネット販売事業者様も多数サポートしております。オンライン事業特有の税務処理についても、豊富な経験がございます。",
+                category: "業種"
+            },
+            "消費税": {
+                answer: "ご契約後に、お客様の事業状況を詳しくお聞きして、消費税申告の要否を判定いたします。複雑な判断もプロにお任せください。",
+                category: "業種"
+            },
+
+            // 運営会社
             "運営会社": {
                 answer: "ソルビス税理士法人が運営しております。",
                 category: "その他"
@@ -911,6 +911,15 @@
             
             // ボットの返答を生成
             generateBotResponse(message);
+            
+            // Analytics追跡
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'message_sent', {
+                    event_category: 'chatbot',
+                    event_label: 'user_question',
+                    custom_parameter_1: message.length
+                });
+            }
             
             // チャット履歴に追加
             chatHistory.push({
@@ -983,6 +992,15 @@
                 const response = findBestResponse(userMessage);
                 addMessage('bot', response);
                 
+                // Analytics追跡
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'bot_response', {
+                        event_category: 'chatbot',
+                        event_label: 'faq_response',
+                        custom_parameter_1: response.length
+                    });
+                }
+                
                 // チャット履歴に追加
                 chatHistory.push({
                     type: 'bot',
@@ -994,82 +1012,68 @@
             }, 800 + Math.random() * 400); // 0.8-1.2秒のランダム遅延
         }
 
-        // LINE風の返答を生成
+        // 営業特化の返答を生成
         function findBestResponse(userMessage) {
             const message = userMessage.toLowerCase();
             
             // キーワードマッチング
-            for (const [key, value] of Object.entries(faqDatabase)) {
+            for (const [key, value] of Object.entries(salesFAQDatabase)) {
                 if (message.includes(key.toLowerCase())) {
-                    return formatLineResponse(value.answer, value.category);
+                    return formatSalesResponse(value.answer, value.category);
                 }
             }
             
-            // 部分マッチング
-            if (message.includes('サービス') || message.includes('何')) {
-                return formatLineResponse(faqDatabase["サービス内容"].answer, "サービス");
+            // 部分マッチング（営業重視）
+            if (message.includes('申し込み') || message.includes('始め')) {
+                return formatSalesResponse("ご関心をお持ちいただき、ありがとうございます！月額980円から始められる安心の税務サポートです。まずは料金プランをご確認いただき、お気軽にお申し込みください。", "申し込み");
             }
-            if (message.includes('料金') || message.includes('値段') || message.includes('費用')) {
-                return formatLineResponse(faqDatabase["料金"].answer, "料金");
-            }
-            if (message.includes('契約') || message.includes('期間')) {
-                return formatLineResponse(faqDatabase["契約期間"].answer, "契約");
-            }
-            if (message.includes('解約') || message.includes('やめ')) {
-                return formatLineResponse(faqDatabase["途中解約"].answer, "契約");
-            }
-            if (message.includes('申告') || message.includes('確定申告')) {
-                return formatLineResponse(faqDatabase["確定申告"].answer, "申告");
-            }
-            if (message.includes('会社') || message.includes('運営')) {
-                return formatLineResponse(faqDatabase["運営会社"].answer, "その他");
+            if (message.includes('相談') || message.includes('聞きたい')) {
+                return formatSalesResponse("どのようなことでもお気軽にご相談ください。税務のプロが分かりやすくお答えいたします。具体的にどのようなことでお困りでしょうか？", "相談");
             }
             
-            // デフォルト返答（LINE風）
-            return formatDefaultResponse();
+            // デフォルト返答（営業トーン）
+            return formatSalesDefaultResponse();
         }
 
-        // 読みやすいレスポンス形式に整形
-        function formatLineResponse(answer, category) {
-            // 絵文字を最小限に
+        // 営業トーン重視のレスポンス形式
+        function formatSalesResponse(answer, category) {
             const categoryLabels = {
-                "サービス": "【サービス内容】",
-                "料金": "【料金について】", 
-                "契約": "【契約について】",
-                "申告": "【申告について】",
-                "その他": "【お問い合わせ】"
+                "サービス": "✨ サービスについて",
+                "料金": "💰 料金について", 
+                "契約": "📝 ご契約について",
+                "対象者": "👥 ご利用対象",
+                "サービス内容": "📋 サービス内容",
+                "連絡": "💬 ご連絡方法",
+                "データ管理": "📁 データ管理",
+                "信頼性": "🛡️ 安心・信頼",
+                "業種": "🏢 対応業種",
+                "その他": "ℹ️ その他のご案内"
             };
             
-            const label = categoryLabels[category] || "【ご案内】";
+            const label = categoryLabels[category] || "💡 ご案内";
             
-            // テキストの整形：読みやすい改行とフォーマット
-            const formattedAnswer = answer
-                .replace(/\n\n/g, '\n\n')  // 段落間の改行を保持
-                .replace(/•/g, '・')       // シンプルな中点に
-                .replace(/✅/g, '・')      // チェックマークも中点に
-                .replace(/(\d+[,\d]*円)/g, '\n$1')  // 金額の前に改行
-                .replace(/([。！？])\s*([・\-\*])/g, '$1\n\n$2')  // 箇条書きの前に改行
-                .replace(/([。！？])\s*([ァ-ヶー]+)/g, '$1\n\n$2'); // 文の後に改行
-            
-            return `${label}\n\n${formattedAnswer}`;
+            return `${label}
+
+${answer}
+
+他にもご質問がございましたら、いつでもお声かけください！`;
         }
 
-        // シンプルなデフォルト返答
-        function formatDefaultResponse() {
-            return `【お問い合わせ】
+        // 営業特化のデフォルト返答
+        function formatSalesDefaultResponse() {
+            return `💡 お問い合わせありがとうございます
 
-ご質問ありがとうございます。
+申し訳ございませんが、お問い合わせの内容について詳しくお答えできませんでした。
 
-申し訳ございませんが、お問い合わせの内容について詳しい回答が見つかりませんでした。
-
-以下のような質問にお答えできます：
-
+📋 よくあるご質問
 ・サービス内容について
 ・料金プランについて  
-・契約期間について
-・確定申告について
+・ご契約の流れについて
+・対象となる事業について
 
-下のメニューから選択いただくか、具体的にご質問ください。`;
+下のメニューからお選びいただくか、具体的にご質問ください。
+
+✨ 月額980円から始められる安心の税務サポートで、あなたの事業を全力でサポートいたします！`;
         }
 
         // キーボードイベント処理
@@ -1093,6 +1097,14 @@
                 // チャット開く
                 chatWrapper.style.display = 'flex';
                 chatOverlay.style.display = 'block';
+                
+                // Analytics追跡
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'chat_opened', {
+                        event_category: 'chatbot',
+                        event_label: 'user_interaction'
+                    });
+                }
                 
                 // アニメーション用の遅延
                 setTimeout(() => {
@@ -1125,117 +1137,125 @@
 
             switch(menuType) {
                 case 'service':
-                    title = 'サービス内容';
+                    title = '✨ サービスのご案内';
                     content = `
                         <div class="line-menu-content">
                             <div class="menu-card" onclick="sendQuickQuestion('サービス内容を教えて')">
                                 <div class="menu-card-icon">📋</div>
                                 <div class="menu-card-text">
                                     <h4>サービス概要</h4>
-                                    <p>税務顧問サービスの詳細</p>
+                                    <p>税務顧問サービスの詳細をご案内</p>
                                 </div>
                             </div>
                             <div class="menu-card" onclick="sendQuickQuestion('他の税理士事務所との違いは？')">
-                                <div class="menu-card-icon">📊</div>
+                                <div class="menu-card-icon">⭐</div>
                                 <div class="menu-card-text">
-                                    <h4>当社の特徴</h4>
+                                    <h4>当社の強み</h4>
                                     <p>他社との違いとメリット</p>
                                 </div>
                             </div>
-                            <div class="menu-card" onclick="sendQuickQuestion('AIが対応するの？')">
-                                <div class="menu-card-icon">🤝</div>
+                            <div class="menu-card" onclick="sendQuickQuestion('誰が利用できますか？')">
+                                <div class="menu-card-icon">👥</div>
                                 <div class="menu-card-text">
-                                    <h4>サポート体制</h4>
-                                    <p>担当者による対応について</p>
+                                    <h4>ご利用対象</h4>
+                                    <p>サービス対象となる事業者様</p>
                                 </div>
                             </div>
                         </div>
                     `;
                     break;
                 case 'price':
-                    title = '料金プラン';
+                    title = '💰 料金プランのご案内';
                     content = `
                         <div class="line-menu-content">
                             <div class="menu-card" onclick="sendQuickQuestion('料金について教えて')">
                                 <div class="menu-card-icon">💰</div>
                                 <div class="menu-card-text">
                                     <h4>基本料金</h4>
-                                    <p>月額・年額プランの詳細</p>
+                                    <p>月額980円〜のお得なプラン</p>
                                 </div>
                             </div>
                             <div class="menu-card" onclick="window.open('/cost', '_blank')">
                                 <div class="menu-card-icon">📊</div>
                                 <div class="menu-card-text">
                                     <h4>料金比較</h4>
-                                    <p>プラン別料金の比較表</p>
+                                    <p>プラン別の詳細比較表</p>
                                 </div>
                             </div>
-                            <div class="menu-card" onclick="sendQuickQuestion('支払い方法について')">
-                                <div class="menu-card-icon">💳</div>
+                            <div class="menu-card" onclick="sendQuickQuestion('他と比べてどのくらいお得？')">
+                                <div class="menu-card-icon">💡</div>
                                 <div class="menu-card-text">
-                                    <h4>お支払い方法</h4>
-                                    <p>決済方法と契約期間</p>
+                                    <h4>コストメリット</h4>
+                                    <p>他社との料金比較</p>
                                 </div>
                             </div>
                         </div>
                     `;
                     break;
                 case 'faq':
-                    title = 'よくある質問';
+                    title = '❓ よくあるご質問';
                     content = `
                         <div class="line-menu-content">
-                            <div class="menu-card" onclick="sendQuickQuestion('確定申告について')">
-                                <div class="menu-card-icon">📄</div>
+                            <div class="menu-card" onclick="sendQuickQuestion('契約の流れを教えて')">
+                                <div class="menu-card-icon">📝</div>
                                 <div class="menu-card-text">
-                                    <h4>確定申告</h4>
-                                    <p>申告の流れと期限</p>
+                                    <h4>ご契約について</h4>
+                                    <p>お申し込みから開始まで</p>
                                 </div>
                             </div>
-                            <div class="menu-card" onclick="sendQuickQuestion('消費税申告が必要か？')">
-                                <div class="menu-card-icon">💹</div>
+                            <div class="menu-card" onclick="sendQuickQuestion('どうやって連絡するの？')">
+                                <div class="menu-card-icon">💬</div>
                                 <div class="menu-card-text">
-                                    <h4>消費税申告</h4>
-                                    <p>申告要否の判定</p>
+                                    <h4>ご連絡方法</h4>
+                                    <p>サポートの受け方</p>
                                 </div>
                             </div>
-                            <div class="menu-card" onclick="sendQuickQuestion('領収書の撮影方法は？')">
-                                <div class="menu-card-icon">📋</div>
+                            <div class="menu-card" onclick="sendQuickQuestion('データ管理は安全？')">
+                                <div class="menu-card-icon">🛡️</div>
                                 <div class="menu-card-text">
-                                    <h4>書類の管理</h4>
-                                    <p>領収書・資料の取扱い</p>
+                                    <h4>安心・安全</h4>
+                                    <p>セキュリティについて</p>
                                 </div>
                             </div>
                         </div>
                     `;
                     break;
                 case 'contact':
-                    title = 'お問い合わせ';
+                    title = '🚀 お申し込み';
                     content = `
                         <div class="line-menu-content">
                             <div class="menu-card" onclick="window.open('/#contact', '_blank')">
-                                <div class="menu-card-icon">📝</div>
+                                <div class="menu-card-icon">✨</div>
                                 <div class="menu-card-text">
-                                    <h4>お申し込み</h4>
-                                    <p>サービス申込フォーム</p>
+                                    <h4>今すぐお申し込み</h4>
+                                    <p>月額980円〜のプランを選択</p>
                                 </div>
                             </div>
-                            <div class="menu-card" onclick="sendQuickQuestion('サービス内容について詳しく教えて')">
-                                <div class="menu-card-icon">ℹ️</div>
+                            <div class="menu-card" onclick="sendQuickQuestion('すぐに始められる？')">
+                                <div class="menu-card-icon">⚡</div>
                                 <div class="menu-card-text">
-                                    <h4>サービス詳細</h4>
-                                    <p>サービス内容の詳細</p>
+                                    <h4>開始までの期間</h4>
+                                    <p>サービス開始時期について</p>
                                 </div>
                             </div>
-                            <div class="menu-card" onclick="sendQuickQuestion('運営会社について教えて')">
-                                <div class="menu-card-icon">🏢</div>
+                            <div class="menu-card" onclick="window.open('tel:0120-xxx-xxx')">
+                                <div class="menu-card-icon">📞</div>
                                 <div class="menu-card-text">
-                                    <h4>運営会社</h4>
-                                    <p>ソルビス税理士法人について</p>
+                                    <h4>お電話でご相談</h4>
+                                    <p>直接お話しをお聞かせください</p>
                                 </div>
                             </div>
                         </div>
                     `;
                     break;
+            }
+
+            // Analytics追跡
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'menu_clicked', {
+                    event_category: 'chatbot',
+                    event_label: menuType
+                });
             }
 
             // メニューコンテンツを表示
@@ -1249,6 +1269,15 @@
 
             chatWrapper.classList.remove('show');
             chatOverlay.classList.remove('show');
+            
+            // Analytics追跡
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'chat_closed', {
+                    event_category: 'chatbot',
+                    event_label: 'user_interaction',
+                    custom_parameter_1: chatHistory.length
+                });
+            }
             
             setTimeout(() => {
                 chatWrapper.style.display = 'none';
