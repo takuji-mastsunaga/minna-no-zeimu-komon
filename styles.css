@@ -1464,49 +1464,42 @@ p.copyright {
     }
 }
 
-/* ========== チャットサポートセクション ========== */
-.chat-support-section {
-    padding: 80px 0;
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    text-align: center;
-}
-
-.chat-support-content {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.chat-support-notice .notice-text {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: #1e40af;
-    margin-bottom: 16px;
-}
-
-.chat-support-notice .notice-subtext {
-    font-size: 1.1rem;
-    color: #64748b;
-    margin-bottom: 40px;
-    line-height: 1.6;
-}
-
-.btn-start-chat {
+/* ========== フローティングお問い合わせボタン ========== */
+.floating-contact-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
     background: linear-gradient(135deg, #14b8a6, #0891b2);
     color: white;
-    border: none;
-    padding: 20px 40px;
-    font-size: 1.3rem;
-    font-weight: 600;
     border-radius: 50px;
+    padding: 15px 25px;
     cursor: pointer;
-    transition: all 0.3s ease;
     box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1001;
+    transition: all 0.3s ease;
     animation: pulse 2s infinite;
+    text-decoration: none;
+    border: none;
+    font-family: inherit;
 }
 
-.btn-start-chat:hover {
+.floating-contact-button:hover {
     transform: translateY(-3px);
     box-shadow: 0 12px 35px rgba(20, 184, 166, 0.4);
+}
+
+.contact-button-icon {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.contact-button-text {
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
 }
 
 @keyframes pulse {
@@ -1830,13 +1823,18 @@ p.copyright {
         font-size: 1rem;
     }
     
-    .chat-support-notice .notice-text {
-        font-size: 1.8rem;
+    .floating-contact-button {
+        padding: 12px 20px;
+        bottom: 15px;
+        right: 15px;
     }
     
-    .btn-start-chat {
-        padding: 16px 32px;
-        font-size: 1.1rem;
+    .contact-button-text {
+        font-size: 13px;
+    }
+    
+    .contact-button-icon {
+        font-size: 20px;
     }
     
     .fullscreen-chat-container {
