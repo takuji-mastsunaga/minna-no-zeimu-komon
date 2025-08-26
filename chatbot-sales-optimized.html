@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チャットサポート - みんなの税務顧問</title>
+    <meta name="description" content="月額980円から始める税務顧問サービス。チャットで気軽にご相談ください。個人事業主・スタートアップ向け最安値水準の税理士サポート。">
+    
+    <!-- OGP Tags -->
+    <meta property="og:title" content="チャットサポート - みんなの税務顧問">
+    <meta property="og:description" content="月額980円から始める税務顧問サービス。チャットで気軽にご相談ください。個人事業主・スタートアップ向け最安値水準の税理士サポート。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://minzei-tax.com/chatbot">
+    <meta property="og:image" content="https://minzei-tax.com/images/thumbnail.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" href="images/minzeikun.png" type="image/png">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Google Tag -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17411262353"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-17411262353');
+    </script>
+    
+    <style>
+    .page-container {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        padding: 80px 0 0 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    /* Floating Chat Support Button */
+    .floating-chat-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        color: white;
+        border-radius: 50px;
+        padding: 15px 25px;
+        cursor: pointer;
+        box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 1001;
+        transition: all 0.3s ease;
+        animation: pulse 2s infinite;
+    }
+    
+    .floating-chat-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(20, 184, 166, 0.4);
+    }
+    
+    .chat-button-icon {
+        font-size: 24px;
+        line-height: 1;
+    }
+    
+    .chat-button-text {
+        font-weight: 600;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+    
+    .chat-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+    
+    .chat-overlay.show {
+        opacity: 1;
+        pointer-events: all;
+    }
+    
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
+        }
+        50% {
+            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.6);
+        }
+        100% {
+            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
+        }
+    }
+    
+    /* LINE-style Chat Wrapper */
+    .line-chat-wrapper {
+        position: fixed;
+        bottom: 100px;
+        right: 20px;
+        width: 380px;
+        max-width: calc(100vw - 40px);
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+        height: 600px;
+        display: flex;
+        flex-direction: column;
+        z-index: 1000;
+        transform: translateY(20px);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid #e5e5e5;
+    }
+    
+    .line-chat-wrapper.show {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
+    }
+    
+    /* LINE-style Header */
+    .line-chat-header {
+        background: #ffffff;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 12px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 60px;
+    }
+    
+    .line-header-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .line-business-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .business-logo {
+        font-size: 20px;
+        color: white;
+    }
+    
+    .line-business-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    
+    .line-business-name {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+        color: #1a1a1a;
+    }
+    
+    .line-business-status {
+        font-size: 12px;
+        margin: 0;
+        color: #666666;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+    
+    .line-close-button {
+        background: #f5f5f5;
+        border: none;
+        color: #666666;
+        width: 32px;
+        height: 32px;
+        border-radius: 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        transition: background-color 0.2s ease;
+    }
+    
+    .line-close-button:hover {
+        background: #e5e5e5;
+        color: #333333;
+    }
+    
+    /* LINE-style Messages Area */
+    .line-messages-container {
+        flex: 1;
+        padding: 16px;
+        overflow-y: auto;
+        background: #f7f7f7;
+    }
+    
+    /* Business Card Welcome */
+    .line-welcome-card {
+        margin-bottom: 16px;
+    }
+    
+    .business-card {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e5e5e5;
+        overflow: hidden;
+    }
+    
+    .business-card-header {
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .business-icon {
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+    }
+    
+    .business-info h4 {
+        margin: 0 0 4px 0;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    
+    .business-info p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 13px;
+    }
+    
+    .business-card-content {
+        padding: 16px;
+        background: white;
+    }
+    
+    .business-card-content p {
+        margin: 0 0 8px 0;
+        color: #333333;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    
+    .business-card-content p:last-child {
+        margin-bottom: 0;
+    }
+    
+    /* LINE-style Menu Content */
+    .line-menu-content {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 8px;
+    }
+    
+    .menu-card {
+        background: #ffffff;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .menu-card:hover {
+        background: #f8f9fa;
+        border-color: #14b8a6;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(20, 184, 166, 0.1);
+    }
+    
+    .menu-card-icon {
+        font-size: 20px;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+    
+    .menu-card-text {
+        flex: 1;
+    }
+    
+    .menu-card-text h4 {
+        margin: 0 0 2px 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333333;
+    }
+    
+    .menu-card-text p {
+        margin: 0;
+        font-size: 12px;
+        color: #666666;
+        line-height: 1.3;
+    }
+    
+    /* LINE-style Messages */
+    .line-message {
+        margin-bottom: 12px;
+        display: flex;
+        flex-direction: column;
+        animation: slideInUp 0.3s ease-out;
+    }
+    
+    .line-message.bot {
+        align-items: flex-start;
+    }
+    
+    .line-message.user {
+        align-items: flex-end;
+    }
+    
+    .line-message-content {
+        max-width: 80%;
+        padding: 8px 12px;
+        border-radius: 16px;
+        font-size: 14px;
+        line-height: 1.4;
+        word-wrap: break-word;
+    }
+    
+    .line-message.bot .line-message-content {
+        background: #ffffff;
+        color: #333333;
+        border: 1px solid #e5e5e5;
+        border-bottom-left-radius: 4px;
+    }
+    
+    .line-message.user .line-message-content {
+        background: #14b8a6;
+        color: white;
+        border-bottom-right-radius: 4px;
+    }
+    
+    .line-message-time {
+        font-size: 10px;
+        color: #999999;
+        margin: 4px 8px 0 8px;
+    }
+    
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Welcome message */
+    .welcome-message {
+        text-align: center;
+        padding: 40px 20px;
+        background: linear-gradient(135deg, #e0f2fe, #b3e5fc);
+        border-radius: 16px;
+        margin: 20px;
+        color: #0f172a;
+    }
+    
+    .welcome-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #0f172a;
+    }
+    
+    /* LINE-style Bottom Menu */
+    .line-bottom-menu {
+        background: #ffffff;
+        border-top: 1px solid #e5e5e5;
+        padding: 12px 8px 8px 8px;
+    }
+    
+    .line-menu-items {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    
+    .line-menu-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: background-color 0.2s ease;
+        min-width: 60px;
+    }
+    
+    .line-menu-item:hover {
+        background: #f5f5f5;
+    }
+    
+    .line-menu-item.active {
+        background: #e8f5f3;
+    }
+    
+    .menu-icon {
+        font-size: 20px;
+        line-height: 1;
+    }
+    
+    .menu-text {
+        font-size: 10px;
+        color: #666666;
+        font-weight: 500;
+        text-align: center;
+    }
+    
+    /* LINE-style Chat Input */
+    .line-chat-input {
+        background: #ffffff;
+        border-top: 1px solid #e5e5e5;
+        padding: 12px 16px;
+    }
+    
+    .line-input-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f5f5f5;
+        border-radius: 20px;
+        padding: 8px 12px;
+    }
+    
+    .line-input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        outline: none;
+        font-size: 14px;
+        color: #333333;
+        padding: 4px 0;
+        font-family: inherit;
+    }
+    
+    .line-input::placeholder {
+        color: #999999;
+    }
+    
+    .line-send-button {
+        background: #14b8a6;
+        border: none;
+        color: white;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s ease;
+        flex-shrink: 0;
+    }
+    
+    .line-send-button:hover {
+        background: #0891b2;
+    }
+    
+    .line-send-button:disabled {
+        background: #cccccc;
+        cursor: not-allowed;
+    }
+    
+    /* Center message for when chat is not opened */
+    .center-message {
+        text-align: center;
+        padding: 40px 20px;
+        color: #6b7280;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    .center-message h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 20px;
+    }
+    
+    .center-message p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+    
+    .center-cta {
+        background: linear-gradient(135deg, #14b8a6, #0891b2);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+    
+    .center-cta:hover {
+        transform: translateY(-2px);
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .line-chat-wrapper {
+            width: calc(100vw - 20px);
+            right: 10px;
+            height: 500px;
+            bottom: 80px;
+        }
+        
+        .floating-chat-button {
+            right: 10px;
+            bottom: 15px;
+        }
+        
+        .chat-button-text {
+            display: none;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <h1><a href="/">みんなの税務顧問</a></h1>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <nav class="nav-desktop">
+                    <a href="/#services" class="nav-link">サービス内容</a>
+                    <a href="/#plans" class="nav-link">料金</a>
+                    <a href="/#cost-comparison" class="nav-link">コスト比較</a>
+                </nav>
+                
+                <!-- Desktop CTA Button -->
+                <div class="cta-desktop">
+                    <a href="/#contact" class="btn btn-primary">申込はこちら</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="メニューを開く">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <!-- Mobile Menu -->
+                <nav class="mobile-menu" id="mobileMenu">
+                    <a href="/#services" class="mobile-nav-link">サービス内容</a>
+                    <a href="/#plans" class="mobile-nav-link">料金</a>
+                    <a href="/#cost-comparison" class="mobile-nav-link">コスト比較</a>
+                    <a href="/#contact" class="btn btn-primary mobile-cta">申込はこちら</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Container -->
+    <section class="page-container">
+        <div class="center-message">
+            <h1>税務顧問サービス ご相談窓口</h1>
+            <p>月額980円から始める安心の税務サポート<br>まずはお気軽にご相談ください</p>
+            <button class="center-cta" onclick="toggleChatSupport()">ご相談を開始</button>
+        </div>
+        
+        <!-- LINE-style Chatbot Container -->
+        <div class="line-chat-wrapper" id="chatWrapper" style="display: none;">
+            <!-- LINE-style Header -->
+            <div class="line-chat-header">
+                <div class="line-header-content">
+                    <div class="line-business-icon">
+                        <div class="business-logo">💼</div>
+                    </div>
+                    <div class="line-business-info">
+                        <h3 class="line-business-name">みんなの税務顧問</h3>
+                        <p class="line-business-status">🟢 営業中</p>
+                    </div>
+                </div>
+                <button class="line-close-button" onclick="closeChatSupport()">✕</button>
+            </div>
+            
+            <!-- LINE-style Messages Area -->
+            <div class="line-messages-container" id="chatMessages">
+                <!-- Welcome Business Card -->
+                <div class="line-welcome-card" id="welcomeMessage">
+                    <div class="business-card">
+                        <div class="business-card-header">
+                            <div class="business-icon">💼</div>
+                            <div class="business-info">
+                                <h4>みんなの税務顧問</h4>
+                                <p>月額980円〜の税務サポート</p>
+                            </div>
+                        </div>
+                        <div class="business-card-content">
+                            <p>こんにちは！税務顧問サービスについてご案内いたします。</p>
+                            <p>月額980円から税理士があなたの事業をフルサポート。下のメニューからお選びいただくか、直接ご質問ください。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- LINE-style Bottom Menu -->
+            <div class="line-bottom-menu">
+                <div class="line-menu-items">
+                    <div class="line-menu-item" onclick="showMenuContent('service')">
+                        <div class="menu-icon">📋</div>
+                        <span class="menu-text">サービス</span>
+                    </div>
+                    <div class="line-menu-item" onclick="showMenuContent('price')">
+                        <div class="menu-icon">💰</div>
+                        <span class="menu-text">料金</span>
+                    </div>
+                    <div class="line-menu-item" onclick="showMenuContent('faq')">
+                        <div class="menu-icon">❓</div>
+                        <span class="menu-text">よくある質問</span>
+                    </div>
+                    <div class="line-menu-item" onclick="showMenuContent('contact')">
+                        <div class="menu-icon">📞</div>
+                        <span class="menu-text">お申し込み</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- LINE-style Chat Input -->
+            <div class="line-chat-input">
+                <div class="line-input-wrapper">
+                    <input 
+                        type="text" 
+                        class="line-input" 
+                        id="chatInput" 
+                        placeholder="ご質問をどうぞ"
+                        onkeydown="handleInputKeydown(event)"
+                    />
+                    <button class="line-send-button" id="sendButton" onclick="sendMessage()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M2 21L23 12L2 3L2 10L17 12L2 14L2 21Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Chat Support Button -->
+    <div class="floating-chat-button" id="floatingChatButton" onclick="toggleChatSupport()">
+        <div class="chat-button-icon">💬</div>
+        <div class="chat-button-text">ご相談はこちら</div>
+    </div>
+
+    <!-- Chat Overlay -->
+    <div class="chat-overlay" id="chatOverlay" style="display: none;" onclick="closeChatSupport()"></div>
+
+    <script>
+        // 営業特化型FAQデータベース
+        const salesFAQDatabase = {
+            // サービス概要・魅力
+            "サービス": {
+                answer: "年商1,000万円以下の個人事業主・スタートアップ様向けの、業界最安値水準の税務顧問サービスです。面倒な税務処理をすべてお任せいただけるので、本業に集中していただけます。",
+                category: "サービス"
+            },
+            "どのようなサービス": {
+                answer: "年商1,000万円以下の個人事業主・スタートアップ様向けの、業界最安値水準の税務顧問サービスです。面倒な税務処理をすべてお任せいただけるので、本業に集中していただけます。",
+                category: "サービス"
+            },
+            "他の税理士": {
+                answer: "月額980円～という圧倒的な低価格でありながら、経験豊富な税理士が直接サポートいたします。小規模事業者様に特化することで、大手事務所では実現できない手厚いサービスを低価格で提供しています。",
+                category: "サービス"
+            },
+            "違い": {
+                answer: "月額980円～という圧倒的な低価格でありながら、経験豊富な税理士が直接サポートいたします。小規模事業者様に特化することで、大手事務所では実現できない手厚いサービスを低価格で提供しています。",
+                category: "サービス"
+            },
+            "なぜ安い": {
+                answer: "効率的な業務フローと小規模事業者様への特化により、無駄なコストを削減しているためです。品質は一切妥協せず、必要なサービスを必要な分だけご提供することで、この価格を実現しています。",
+                category: "サービス"
+            },
+            "税理士": {
+                answer: "はい、すべて経験豊富な税理士・税理士事務所スタッフが直接対応いたします。AIや機械ではなく、プロの税理士があなたの事業をしっかりサポートいたします。",
+                category: "サービス"
+            },
+
+            // 対象者・適用範囲
+            "誰が利用": {
+                answer: "年商1,000万円以下の個人事業主・フリーランス・スタートアップの方が対象です。「税理士は高い」「手続きが面倒」とお悩みの方にぴったりのサービスです。",
+                category: "対象者"
+            },
+            "利用できる": {
+                answer: "年商1,000万円以下の個人事業主・フリーランス・スタートアップの方が対象です。「税理士は高い」「手続きが面倒」とお悩みの方にぴったりのサービスです。",
+                category: "対象者"
+            },
+            "1000万円": {
+                answer: "ご安心ください。売上が成長して1,000万円を超えた場合は、運営母体の「ソルビス税理士法人」で引き続きサポートさせていただきます。事業成長をトータルでお支えいたします。",
+                category: "対象者"
+            },
+            "開業": {
+                answer: "もちろんです！開業直後で売上がまだ少ない方、これから事業を本格化される方こそ、当サービスをおすすめします。事業の成長とともに、税務面もしっかりサポートいたします。",
+                category: "対象者"
+            },
+            "副業": {
+                answer: "はい、副業の方もご利用いただけます。会社員をしながら副業収入がある方、将来的に独立を考えている方にも最適なサービスです。",
+                category: "対象者"
+            },
+
+            // 料金・コスト
+            "料金": {
+                answer: "月額980円～のお手頃価格でご利用いただけます。一般的な税理士事務所の月額2～5万円と比べて、圧倒的にお得です。年払いプランならさらに15%割引でご利用いただけます。",
+                category: "料金"
+            },
+            "いくら": {
+                answer: "月額980円～のお手頃価格でご利用いただけます。一般的な税理士事務所の月額2～5万円と比べて、圧倒的にお得です。年払いプランならさらに15%割引でご利用いただけます。",
+                category: "料金"
+            },
+            "費用": {
+                answer: "基本的な税務顧問・記帳代行・確定申告がパッケージになっており、追加費用は最小限です。料金は明確で分かりやすく、後から高額請求されることはありません。",
+                category: "料金"
+            },
+            "お得": {
+                answer: "一般的な税理士事務所では年間20～60万円かかりますが、当サービスなら年間10万円程度です。年間で数十万円の節約になり、浮いたお金を事業投資に回していただけます。",
+                category: "料金"
+            },
+            "比較": {
+                answer: "一般的な税理士事務所では年間20～60万円かかりますが、当サービスなら年間10万円程度です。年間で数十万円の節約になり、浮いたお金を事業投資に回していただけます。",
+                category: "料金"
+            },
+
+            // サービス内容・範囲
+            "何をしてもらえる": {
+                answer: "面倒な記帳代行、確定申告書の作成・提出、税務に関するご相談対応を行います。税務のことは全てお任せいただき、あなたは本業に専念していただけます。",
+                category: "サービス内容"
+            },
+            "記帳": {
+                answer: "はい、領収書や取引データをお送りいただければ、面倒な記帳作業はすべて代行いたします。あなたの貴重な時間を本業に集中していただけます。",
+                category: "サービス内容"
+            },
+            "確定申告": {
+                answer: "もちろんです。確定申告書の作成から提出まで、すべて代行いたします。面倒な申告業務から解放され、安心して確定申告の時期を迎えていただけます。",
+                category: "サービス内容"
+            },
+            "相談": {
+                answer: "はい、ご契約後はいつでも税務に関するご相談をしていただけます。節税方法や経費の考え方など、事業に役立つアドバイスをご提供いたします。",
+                category: "サービス内容"
+            },
+
+            // 契約・手続き
+            "契約": {
+                answer: "とても簡単です。①ウェブサイトからお申し込み　②料金のお支払い　③契約完了・サービス開始　の3ステップだけ。面倒な書類手続きや来店は一切不要です。",
+                category: "契約"
+            },
+            "流れ": {
+                answer: "とても簡単です。①ウェブサイトからお申し込み　②料金のお支払い　③契約完了・サービス開始　の3ステップだけ。面倒な書類手続きや来店は一切不要です。",
+                category: "契約"
+            },
+            "すぐ": {
+                answer: "はい、お申し込み・お支払い完了後、すぐにサービスを開始いたします。お急ぎの方でも安心してご利用いただけます。",
+                category: "契約"
+            },
+            "期間": {
+                answer: "安心してご利用いただくため、最低1年間のご契約をお願いしております。継続的にサポートさせていただくことで、より良いサービスをご提供できます。",
+                category: "契約"
+            },
+            "解約": {
+                answer: "ご契約期間満了後はいつでも解約可能です。もちろん、サービスにご満足いただけるよう最善を尽くしますので、長くお付き合いいただければと思います。",
+                category: "契約"
+            },
+
+            // 連絡・やりとり
+            "連絡": {
+                answer: "ご契約後はChatworkというビジネスチャットを利用して、いつでも気軽にご連絡いただけます。メールよりもスピーディで、お急ぎのご相談にも素早く対応いたします。",
+                category: "連絡"
+            },
+            "chatwork": {
+                answer: "ご契約後はChatworkというビジネスチャットを利用して、いつでも気軽にご連絡いただけます。メールよりもスピーディで、お急ぎのご相談にも素早く対応いたします。",
+                category: "連絡"
+            },
+            "電話": {
+                answer: "より効率的にサポートするため、やり取りはチャットを中心とさせていただいております。文字に残ることで、後から確認もしやすく安心です。",
+                category: "連絡"
+            },
+            "返事": {
+                answer: "営業時間内であれば、基本的に当日中にお返事いたします。お急ぎの場合も可能な限り迅速に対応いたしますので、ご安心ください。",
+                category: "連絡"
+            },
+
+            // データ・書類管理
+            "領収書": {
+                answer: "スマートフォンで撮影していただき、専用フォルダにアップロードするだけです。郵送や持参は不要で、とても簡単です。",
+                category: "データ管理"
+            },
+            "安全": {
+                answer: "はい、お客様の大切なデータは厳重に管理しております。税理士には守秘義務があり、情報管理には万全を期しておりますので、安心してお任せください。",
+                category: "データ管理"
+            },
+            "資料": {
+                answer: "ご安心ください。現在お持ちの資料から整理を始めて、必要に応じてサポートいたします。完璧に準備できていなくても、まずはご相談ください。",
+                category: "データ管理"
+            },
+
+            // 専門性・信頼性
+            "経験": {
+                answer: "運営母体の「ソルビス税理士法人」は豊富な実績を持つ税理士法人です。小規模事業者様から大企業まで幅広く対応しており、安心してお任せいただけます。",
+                category: "信頼性"
+            },
+            "間違い": {
+                answer: "万が一のミスについては、税理士賠償責任保険に加入しておりますので、適切に対応いたします。プロとして責任を持ってサービスをご提供いたします。",
+                category: "信頼性"
+            },
+            "税務署": {
+                answer: "はい、税務署からのお尋ねや確認事項についても、適切にサポートいたします。お客様が直接対応する必要はほとんどありません。",
+                category: "信頼性"
+            },
+
+            // 業種・特殊ケース
+            "業種": {
+                answer: "小売業、サービス業、IT関連、コンサルティング、クリエイター、フリーランスなど、幅広い業種に対応しております。まずはお気軽にご相談ください。",
+                category: "業種"
+            },
+            "ネット販売": {
+                answer: "EC・ネット販売事業者様も多数サポートしております。オンライン事業特有の税務処理についても、豊富な経験がございます。",
+                category: "業種"
+            },
+            "消費税": {
+                answer: "ご契約後に、お客様の事業状況を詳しくお聞きして、消費税申告の要否を判定いたします。複雑な判断もプロにお任せください。",
+                category: "業種"
+            },
+
+            // 運営会社
+            "運営会社": {
+                answer: "ソルビス税理士法人が運営しております。",
+                category: "その他"
+            }
+        };
+
+        let chatHistory = [];
+        let isTyping = false;
+
+        // チャット初期化
+        function initializeChat() {
+            const messagesContainer = document.getElementById('chatMessages');
+            if (messagesContainer) {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            // 入力欄にフォーカス（チャットが開いている場合のみ）
+            const chatInput = document.getElementById('chatInput');
+            const chatWrapper = document.getElementById('chatWrapper');
+            if (chatInput && chatWrapper && chatWrapper.classList.contains('show')) {
+                chatInput.focus();
+            }
+        }
+
+        // メッセージ送信
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            if (!input) return;
+            
+            const message = input.value.trim();
+            
+            if (message === '' || isTyping) return;
+            
+            // ウェルカムメッセージを非表示
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            if (welcomeMessage) {
+                welcomeMessage.style.display = 'none';
+            }
+            
+            // ユーザーメッセージを表示
+            addMessage('user', message);
+            input.value = '';
+            
+            // ボットの返答を生成
+            generateBotResponse(message);
+            
+            // Analytics追跡
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'message_sent', {
+                    event_category: 'chatbot',
+                    event_label: 'user_question',
+                    custom_parameter_1: message.length
+                });
+            }
+            
+            // チャット履歴に追加
+            chatHistory.push({
+                type: 'user',
+                message: message,
+                timestamp: new Date()
+            });
+        }
+
+        // クイック質問送信
+        function sendQuickQuestion(question) {
+            const input = document.getElementById('chatInput');
+            input.value = question;
+            sendMessage();
+        }
+
+        // LINE風メッセージ追加
+        function addMessage(type, content, showTime = true) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `line-message ${type}`;
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ja-JP', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            messageDiv.innerHTML = `
+                <div class="line-message-content">
+                    ${content}
+                </div>
+                ${showTime ? `<div class="line-message-time">${timeString}</div>` : ''}
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // ボットメッセージ専用関数（HTMLコンテンツ対応）
+        function addBotMessage(title, htmlContent, showTime = true) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'line-message bot';
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ja-JP', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            messageDiv.innerHTML = `
+                <div class="line-message-content">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: #14b8a6;">${title}</div>
+                    ${htmlContent}
+                </div>
+                ${showTime ? `<div class="line-message-time">${timeString}</div>` : ''}
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // ボットの返答生成
+        function generateBotResponse(userMessage) {
+            isTyping = true;
+            
+            // 短い遅延後にボット返答
+            setTimeout(() => {
+                const response = findBestResponse(userMessage);
+                addMessage('bot', response);
+                
+                // Analytics追跡
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'bot_response', {
+                        event_category: 'chatbot',
+                        event_label: 'faq_response',
+                        custom_parameter_1: response.length
+                    });
+                }
+                
+                // チャット履歴に追加
+                chatHistory.push({
+                    type: 'bot',
+                    message: response,
+                    timestamp: new Date()
+                });
+                
+                isTyping = false;
+            }, 800 + Math.random() * 400); // 0.8-1.2秒のランダム遅延
+        }
+
+        // 営業特化の返答を生成
+        function findBestResponse(userMessage) {
+            const message = userMessage.toLowerCase();
+            
+            // キーワードマッチング
+            for (const [key, value] of Object.entries(salesFAQDatabase)) {
+                if (message.includes(key.toLowerCase())) {
+                    return formatSalesResponse(value.answer, value.category);
+                }
+            }
+            
+            // 部分マッチング（営業重視）
+            if (message.includes('申し込み') || message.includes('始め')) {
+                return formatSalesResponse("ご関心をお持ちいただき、ありがとうございます！月額980円から始められる安心の税務サポートです。まずは料金プランをご確認いただき、お気軽にお申し込みください。", "申し込み");
+            }
+            if (message.includes('相談') || message.includes('聞きたい')) {
+                return formatSalesResponse("どのようなことでもお気軽にご相談ください。税務のプロが分かりやすくお答えいたします。具体的にどのようなことでお困りでしょうか？", "相談");
+            }
+            
+            // デフォルト返答（営業トーン）
+            return formatSalesDefaultResponse();
+        }
+
+        // 営業トーン重視のレスポンス形式
+        function formatSalesResponse(answer, category) {
+            const categoryLabels = {
+                "サービス": "✨ サービスについて",
+                "料金": "💰 料金について", 
+                "契約": "📝 ご契約について",
+                "対象者": "👥 ご利用対象",
+                "サービス内容": "📋 サービス内容",
+                "連絡": "💬 ご連絡方法",
+                "データ管理": "📁 データ管理",
+                "信頼性": "🛡️ 安心・信頼",
+                "業種": "🏢 対応業種",
+                "その他": "ℹ️ その他のご案内"
+            };
+            
+            const label = categoryLabels[category] || "💡 ご案内";
+            
+            return `${label}
+
+${answer}
+
+他にもご質問がございましたら、いつでもお声かけください！`;
+        }
+
+        // 営業特化のデフォルト返答
+        function formatSalesDefaultResponse() {
+            return `💡 お問い合わせありがとうございます
+
+申し訳ございませんが、お問い合わせの内容について詳しくお答えできませんでした。
+
+📋 よくあるご質問
+・サービス内容について
+・料金プランについて  
+・ご契約の流れについて
+・対象となる事業について
+
+下のメニューからお選びいただくか、具体的にご質問ください。
+
+✨ 月額980円から始められる安心の税務サポートで、あなたの事業を全力でサポートいたします！`;
+        }
+
+        // キーボードイベント処理
+        function handleInputKeydown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        // チャットサポートの開閉を制御する関数
+        function toggleChatSupport() {
+            const chatWrapper = document.getElementById('chatWrapper');
+            const chatOverlay = document.getElementById('chatOverlay');
+            const floatingButton = document.getElementById('floatingChatButton');
+
+            if (chatWrapper.classList.contains('show')) {
+                // チャット閉じる
+                closeChatSupport();
+            } else {
+                // チャット開く
+                chatWrapper.style.display = 'flex';
+                chatOverlay.style.display = 'block';
+                
+                // Analytics追跡
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'chat_opened', {
+                        event_category: 'chatbot',
+                        event_label: 'user_interaction'
+                    });
+                }
+                
+                // アニメーション用の遅延
+                setTimeout(() => {
+                    chatWrapper.classList.add('show');
+                    chatOverlay.classList.add('show');
+                }, 10);
+                
+                floatingButton.style.display = 'none';
+                
+                // ウェルカムメッセージを表示
+                const welcomeMessage = document.getElementById('welcomeMessage');
+                if (welcomeMessage) {
+                    welcomeMessage.style.display = 'block';
+                }
+                
+                // チャット初期化
+                initializeChat();
+            }
+        }
+
+        // LINE風メニューコンテンツ表示機能
+        function showMenuContent(menuType) {
+            // メニューアイテムのアクティブ状態更新
+            const menuItems = document.querySelectorAll('.line-menu-item');
+            menuItems.forEach(item => item.classList.remove('active'));
+            event.target.closest('.line-menu-item').classList.add('active');
+
+            let content = '';
+            let title = '';
+
+            switch(menuType) {
+                case 'service':
+                    title = '✨ サービスのご案内';
+                    content = `
+                        <div class="line-menu-content">
+                            <div class="menu-card" onclick="sendQuickQuestion('サービス内容を教えて')">
+                                <div class="menu-card-icon">📋</div>
+                                <div class="menu-card-text">
+                                    <h4>サービス概要</h4>
+                                    <p>税務顧問サービスの詳細をご案内</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="sendQuickQuestion('他の税理士事務所との違いは？')">
+                                <div class="menu-card-icon">⭐</div>
+                                <div class="menu-card-text">
+                                    <h4>当社の強み</h4>
+                                    <p>他社との違いとメリット</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="sendQuickQuestion('誰が利用できますか？')">
+                                <div class="menu-card-icon">👥</div>
+                                <div class="menu-card-text">
+                                    <h4>ご利用対象</h4>
+                                    <p>サービス対象となる事業者様</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'price':
+                    title = '💰 料金プランのご案内';
+                    content = `
+                        <div class="line-menu-content">
+                            <div class="menu-card" onclick="sendQuickQuestion('料金について教えて')">
+                                <div class="menu-card-icon">💰</div>
+                                <div class="menu-card-text">
+                                    <h4>基本料金</h4>
+                                    <p>月額980円〜のお得なプラン</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="window.open('/cost', '_blank')">
+                                <div class="menu-card-icon">📊</div>
+                                <div class="menu-card-text">
+                                    <h4>料金比較</h4>
+                                    <p>プラン別の詳細比較表</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="sendQuickQuestion('他と比べてどのくらいお得？')">
+                                <div class="menu-card-icon">💡</div>
+                                <div class="menu-card-text">
+                                    <h4>コストメリット</h4>
+                                    <p>他社との料金比較</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'faq':
+                    title = '❓ よくあるご質問';
+                    content = `
+                        <div class="line-menu-content">
+                            <div class="menu-card" onclick="sendQuickQuestion('契約の流れを教えて')">
+                                <div class="menu-card-icon">📝</div>
+                                <div class="menu-card-text">
+                                    <h4>ご契約について</h4>
+                                    <p>お申し込みから開始まで</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="sendQuickQuestion('どうやって連絡するの？')">
+                                <div class="menu-card-icon">💬</div>
+                                <div class="menu-card-text">
+                                    <h4>ご連絡方法</h4>
+                                    <p>サポートの受け方</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="sendQuickQuestion('データ管理は安全？')">
+                                <div class="menu-card-icon">🛡️</div>
+                                <div class="menu-card-text">
+                                    <h4>安心・安全</h4>
+                                    <p>セキュリティについて</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'contact':
+                    title = '🚀 お申し込み';
+                    content = `
+                        <div class="line-menu-content">
+                            <div class="menu-card" onclick="window.open('/#contact', '_blank')">
+                                <div class="menu-card-icon">✨</div>
+                                <div class="menu-card-text">
+                                    <h4>今すぐお申し込み</h4>
+                                    <p>月額980円〜のプランを選択</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="sendQuickQuestion('すぐに始められる？')">
+                                <div class="menu-card-icon">⚡</div>
+                                <div class="menu-card-text">
+                                    <h4>開始までの期間</h4>
+                                    <p>サービス開始時期について</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="window.open('tel:0120-xxx-xxx')">
+                                <div class="menu-card-icon">📞</div>
+                                <div class="menu-card-text">
+                                    <h4>お電話でご相談</h4>
+                                    <p>直接お話しをお聞かせください</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+
+            // Analytics追跡
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'menu_clicked', {
+                    event_category: 'chatbot',
+                    event_label: menuType
+                });
+            }
+
+            // メニューコンテンツを表示
+            addBotMessage(title, content, false);
+        }
+
+        function closeChatSupport() {
+            const chatWrapper = document.getElementById('chatWrapper');
+            const chatOverlay = document.getElementById('chatOverlay');
+            const floatingButton = document.getElementById('floatingChatButton');
+
+            chatWrapper.classList.remove('show');
+            chatOverlay.classList.remove('show');
+            
+            // Analytics追跡
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'chat_closed', {
+                    event_category: 'chatbot',
+                    event_label: 'user_interaction',
+                    custom_parameter_1: chatHistory.length
+                });
+            }
+            
+            setTimeout(() => {
+                chatWrapper.style.display = 'none';
+                chatOverlay.style.display = 'none';
+                floatingButton.style.display = 'flex';
+            }, 300);
+        }
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeChat();
+        });
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
