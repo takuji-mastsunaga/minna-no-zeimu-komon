@@ -593,9 +593,9 @@
                         <div class="menu-icon">❓</div>
                         <span class="menu-text">よくある質問</span>
                     </div>
-                    <div class="line-menu-item" onclick="showMenuContent('contact')">
-                        <div class="menu-icon">📞</div>
-                        <span class="menu-text">お申し込み</span>
+                    <div class="line-menu-item" onclick="showMenuContent('additional')">
+                        <div class="menu-icon">📋</div>
+                        <span class="menu-text">追加プラン</span>
                     </div>
                 </div>
             </div>
@@ -1034,29 +1034,36 @@ ${answer}
                         </div>
                     `;
                     break;
-                case 'contact':
-                    title = '🚀 お申し込み';
+                case 'additional':
+                    title = '📋 追加プラン・オプション';
                     content = `
                         <div class="line-menu-content">
+                            <div class="menu-card" onclick="sendQuickQuestion('青色申告承認申請書の代行について')">
+                                <div class="menu-card-icon">📝</div>
+                                <div class="menu-card-text">
+                                    <h4>青色申告承認申請書代行</h4>
+                                    <p>別途5,000円（税込）で代行いたします</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="sendQuickQuestion('開業届の代行について')">
+                                <div class="menu-card-icon">📄</div>
+                                <div class="menu-card-text">
+                                    <h4>開業届代行</h4>
+                                    <p>別途5,000円（税込）で代行いたします</p>
+                                </div>
+                            </div>
+                            <div class="menu-card" onclick="sendQuickQuestion('暗号資産の申告について')">
+                                <div class="menu-card-icon">💰</div>
+                                <div class="menu-card-text">
+                                    <h4>暗号資産申告</h4>
+                                    <p>別途30,000円（税込）の追加料金</p>
+                                </div>
+                            </div>
                             <div class="menu-card" onclick="window.open('/#contact', '_blank')">
-                                <div class="menu-card-icon">✨</div>
-                                <div class="menu-card-text">
-                                    <h4>今すぐお申し込み</h4>
-                                    <p>月額980円〜のプランを選択</p>
-                                </div>
-                            </div>
-                            <div class="menu-card" onclick="sendQuickQuestion('すぐに始められる？')">
-                                <div class="menu-card-icon">⚡</div>
-                                <div class="menu-card-text">
-                                    <h4>開始までの期間</h4>
-                                    <p>サービス開始時期について</p>
-                                </div>
-                            </div>
-                            <div class="menu-card" onclick="window.open('tel:0120-xxx-xxx')">
                                 <div class="menu-card-icon">📞</div>
                                 <div class="menu-card-text">
-                                    <h4>お電話でご相談</h4>
-                                    <p>直接お話しをお聞かせください</p>
+                                    <h4>ご相談・お申し込み</h4>
+                                    <p>チャットでの対応となります</p>
                                 </div>
                             </div>
                         </div>
