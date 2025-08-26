@@ -229,7 +229,7 @@ const knowledgeBase = {
 };
 
 // チャット要素の取得
-const startChatButton = document.getElementById('startChatButton');
+const floatingContactButton = document.getElementById('floatingContactButton');
 const fullscreenChatOverlay = document.getElementById('fullscreenChatOverlay');
 const closeChatButton = document.getElementById('closeChatButton');
 const chatMessages = document.getElementById('chatMessages');
@@ -237,9 +237,9 @@ const chatInput = document.getElementById('chatInput');
 const sendButton = document.getElementById('sendButton');
 const welcomeMessage = document.getElementById('welcomeMessage');
 
-// チャット開始ボタンのイベントリスナー
-if (startChatButton) {
-    startChatButton.addEventListener('click', openFullscreenChat);
+// フローティングお問い合わせボタンのイベントリスナー
+if (floatingContactButton) {
+    floatingContactButton.addEventListener('click', openFullscreenChat);
 }
 
 // チャット閉じるボタンのイベントリスナー
