@@ -313,23 +313,16 @@
         </div>
     </section>
 
-    <!-- Simulation Section -->
-    <section class="simulation-section">
+    <!-- Chat Support Section -->
+    <section class="chat-support-section">
         <div class="container">
-            <div class="simulation-content">
-                <div class="simulation-notice">
-                    <p class="notice-text">📊 シミュレーションはこちら！</p>
-                    <p class="notice-subtext">1分で最適な料金プランを診断</p>
+            <div class="chat-support-content">
+                <div class="chat-support-notice">
+                    <p class="notice-text">💬 税務顧問サービス ご相談窓口</p>
+                    <p class="notice-subtext">月額980円から始める安心の税務サポート<br>まずはお気軽にご相談ください</p>
                 </div>
-                <a href="https://www.minzei-tax.com/chat" class="simulation-video-link">
-                    <video id="simulationVideo" muted loop playsinline preload="metadata" loading="lazy">
-                        <source src="images/simulation.mp4" type="video/mp4">
-                        <img src="images/simulation.png" alt="1分でできる料金シミュレーション" loading="lazy">
-                        お使いのブラウザは動画の再生に対応していません。
-                    </video>
-                </a>
-                <div class="simulation-cta">
-                    <p class="cta-text">↑ クリックして料金シミュレーションを開始</p>
+                <div class="chat-support-cta">
+                    <button id="startChatButton" class="btn-start-chat">ご相談を開始</button>
                 </div>
             </div>
         </div>
@@ -406,6 +399,78 @@
             </div>
         </div>
     </footer>
+
+    <!-- Full Screen Chat -->
+    <div class="fullscreen-chat-overlay" id="fullscreenChatOverlay" style="display: none;">
+        <div class="fullscreen-chat-container">
+            <!-- Chat Header -->
+            <div class="fullscreen-chat-header">
+                <div class="chat-header-content">
+                    <div class="chat-business-icon">
+                        <span class="business-logo">💼</span>
+                    </div>
+                    <div class="chat-business-info">
+                        <h3 class="chat-business-name">みんなの税務顧問</h3>
+                        <p class="chat-business-status">🟢 営業中</p>
+                    </div>
+                </div>
+                <button class="chat-close-button" id="closeChatButton" aria-label="チャットを閉じる">
+                    <span>✕</span>
+                </button>
+            </div>
+
+            <!-- Chat Messages Area -->
+            <div class="fullscreen-chat-messages" id="chatMessages">
+                <!-- Welcome Message -->
+                <div class="welcome-message" id="welcomeMessage">
+                    <div class="welcome-content">
+                        <div class="welcome-icon">💼</div>
+                        <h4>みんなの税務顧問</h4>
+                        <p class="welcome-subtitle">月額980円〜の税務サポート</p>
+                        <p class="welcome-description">こんにちは！税務顧問サービスについてご案内いたします。</p>
+                        <p class="welcome-description">月額980円から税理士があなたの事業をフルサポート。下のメニューからお選びいただくか、直接ご質問ください。</p>
+                        
+                        <!-- Quick Menu -->
+                        <div class="quick-menu">
+                            <button class="quick-menu-item" onclick="sendQuickMessage('サービス内容を教えて')">
+                                <span class="menu-icon">📋</span>
+                                <span class="menu-label">サービス</span>
+                            </button>
+                            <button class="quick-menu-item" onclick="sendQuickMessage('料金について教えて')">
+                                <span class="menu-icon">💰</span>
+                                <span class="menu-label">料金</span>
+                            </button>
+                            <button class="quick-menu-item" onclick="sendQuickMessage('よくある質問')">
+                                <span class="menu-icon">❓</span>
+                                <span class="menu-label">よくある質問</span>
+                            </button>
+                            <button class="quick-menu-item" onclick="window.open('#contact', '_self'); closeFullscreenChat();">
+                                <span class="menu-icon">📞</span>
+                                <span class="menu-label">お申し込み</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input Area -->
+            <div class="fullscreen-chat-input-area">
+                <div class="chat-input-container">
+                    <input type="text" 
+                           class="chat-input" 
+                           id="chatInput" 
+                           placeholder="ご質問をどうぞ..." 
+                           autocomplete="off">
+                    <button class="chat-send-button" id="sendButton" aria-label="送信">
+                        <span>📤</span>
+                    </button>
+                </div>
+                <div class="chat-input-footer">
+                    <span class="chat-footer-text">💬 ご相談はこちら</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
