@@ -847,7 +847,7 @@ body {
 /* ========== シミュレーションセクション ========== */
 .simulation-section {
     padding: 40px 0 48px 0; /* 上部に余白を追加して適切な間隔を確保 */
-    background: #f0f9ff; /* Light Blue background - same as comparison */
+    background: #fff; /* White background - same as about section */
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -856,33 +856,10 @@ body {
     margin: 0; /* マージンを除去 */
 }
 
-/* 申込セクションと同じ流体アニメーション背景 */
+/* 申込セクションと同じ流体アニメーション背景 - 無効化 */
 .simulation-section::before,
 .simulation-section::after {
-    content: '';
-    position: absolute;
-    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    opacity: 0.25;
-    filter: blur(60px);
-    z-index: 0;
-    animation: fluid-bg-animation 40s ease-in-out infinite;
-}
-
-.simulation-section::before {
-    background: linear-gradient(135deg, #0ea5e9, #7dd3fc);
-    width: 500px;
-    height: 500px;
-    top: -200px;
-    left: -250px;
-}
-
-.simulation-section::after {
-    background: linear-gradient(135deg, #bae6fd, #f0f9ff);
-    width: 400px;
-    height: 400px;
-    bottom: -150px;
-    right: -100px;
-    animation-direction: reverse;
+    display: none;
 }
 
 .simulation-content {
@@ -977,18 +954,9 @@ body {
         font-size: 0.8rem;
     }
     
-    .simulation-section::before {
-        width: 300px;
-        height: 300px;
-        top: -150px;
-        left: -150px;
-    }
-    
+        .simulation-section::before,
     .simulation-section::after {
-        width: 250px;
-        height: 250px;
-        bottom: -100px;
-        right: -50px;
+        display: none;
     }
 }
 
@@ -1013,18 +981,9 @@ body {
         padding: 0 16px;
     }
     
-    .simulation-section::before {
-        width: 200px;
-        height: 200px;
-        top: -100px;
-        left: -100px;
-    }
-    
+        .simulation-section::before,
     .simulation-section::after {
-        width: 150px;
-        height: 150px;
-        bottom: -75px;
-        right: -25px;
+        display: none;
     }
 }
 
