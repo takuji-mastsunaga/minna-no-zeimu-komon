@@ -1034,20 +1034,48 @@
 
             // プラン判定（1000万円未満のみ）
             if (needsConsumptionTax) {
+                // オプションサービスの追加メッセージ（消費税申告プラン用）
+                let additionalContentTax = '';
+                const step4Options = simulatorData.step4 || [];
+                if (step4Options.length > 0) {
+                    additionalContentTax = '<br><br>※選択されたオプションサービスについて<br>';
+                    if (step4Options.includes('blueReturn')) {
+                        additionalContentTax += '・青色申告承認申請書代行: 別途5,000円（税込）<br>';
+                    }
+                    if (step4Options.includes('businessRegistration')) {
+                        additionalContentTax += '・開業届代行: 別途5,000円（税込）<br>';
+                    }
+                    if (step4Options.includes('cryptoFx')) {
+                        additionalContentTax += '・暗号資産雑所得申告: 別途30,000円（税込）<br>';
+                    }
+                    additionalContentTax += '<br>オプションサービスは契約後、Chatwork内でご連絡をお願いいたします。';
+                }
+
                 return {
                     type: 'consumption_tax',
                     icon: '',
                     title: '消費税申告プランがおすすめです',
-                    content: `お客様の事業状況では消費税の申告が必要です。消費税申告に対応したプランをご提案いたします。<br><br>• 年払い: 月額10,740円（年間128,880円）<br>• 月払い: 月額12,300円（年間147,600円）<br><br>年払いプランなら約12%お得になります！`,
+                    content: `お客様の事業状況では消費税の申告が必要です。消費税申告に対応したプランをご提案いたします。<br><br>• 年払い: 月額10,740円（年間128,880円）<br>• 月払い: 月額12,300円（年間147,600円）<br><br>年払いプランなら約12%お得になります！${additionalContentTax}`,
                     actions: [
                         { text: '消費税申告プランを見る', url: '/cost.tax', primary: true }
                     ]
                 };
             } else {
-                // 通常プランの場合の追加メッセージ
+                // オプションサービスの追加メッセージ
                 let additionalContent = '';
-                if (conditions.includes('blueReturn') || conditions.includes('businessRegistration')) {
-                    additionalContent = '<br><br>※申請代行について<br>・青色申告承認申請書、開業届の代行をご希望の場合は別途5,000円（税込）を申し受けます<br>・申請に関しては契約後のChatwork内でのご相談となります';
+                const step4Options = simulatorData.step4 || [];
+                if (step4Options.length > 0) {
+                    additionalContent = '<br><br>※選択されたオプションサービスについて<br>';
+                    if (step4Options.includes('blueReturn')) {
+                        additionalContent += '・青色申告承認申請書代行: 別途5,000円（税込）<br>';
+                    }
+                    if (step4Options.includes('businessRegistration')) {
+                        additionalContent += '・開業届代行: 別途5,000円（税込）<br>';
+                    }
+                    if (step4Options.includes('cryptoFx')) {
+                        additionalContent += '・暗号資産雑所得申告: 別途30,000円（税込）<br>';
+                    }
+                    additionalContent += '<br>オプションサービスは契約後、Chatwork内でご連絡をお願いいたします。';
                 }
 
                 return {
