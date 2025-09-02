@@ -159,6 +159,35 @@
         color: white;
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
+        position: relative;
+    }
+    
+    .option-item.selected:hover {
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        border-color: #dc2626;
+        box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
+    }
+    
+    .option-item.selected::after {
+        content: '✓ 選択済み（クリックで解除）';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.75rem;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        background: rgba(0,0,0,0.8);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        white-space: nowrap;
+    }
+    
+    .option-item.selected:hover::after {
+        opacity: 1;
+        content: '❌ クリックで選択解除';
+        background: rgba(220, 38, 38, 0.9);
     }
     
     /* 2カラムレイアウト用 */
@@ -201,6 +230,12 @@
         background: #f0fdfa;
         border-color: #14b8a6;
         color: #0f766e;
+        position: relative;
+    }
+    
+    .checkbox-item.selected:hover {
+        background: #fef2f2;
+        border-color: #dc2626;
     }
     
     .checkbox-text {
@@ -208,10 +243,23 @@
         font-weight: 600;
         font-size: 1rem;
         color: #374151;
+        position: relative;
     }
     
     .checkbox-item.selected .checkbox-text {
         color: #0f766e;
+    }
+    
+    .checkbox-item.selected .checkbox-text::before {
+        content: '✓ ';
+        color: #14b8a6;
+        font-weight: 700;
+        margin-right: 8px;
+    }
+    
+    .checkbox-item.selected:hover .checkbox-text::before {
+        content: '❌ ';
+        color: #dc2626;
     }
     
     .help-icon {
@@ -869,7 +917,12 @@
         }
 
         function selectOption(stepNumber, value) {
-            simulatorData[`step${stepNumber}`] = value;
+            // 既に選択されている項目を再度クリックした場合は選択を解除
+            if (simulatorData[`step${stepNumber}`] === value) {
+                delete simulatorData[`step${stepNumber}`];
+            } else {
+                simulatorData[`step${stepNumber}`] = value;
+            }
             renderStep(stepNumber);
         }
 
