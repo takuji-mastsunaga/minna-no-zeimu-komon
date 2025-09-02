@@ -844,8 +844,15 @@
             const progressBar = document.getElementById('progressBar');
             
             // Update step number and progress
-            stepNumberEl.textContent = `${stepNumber}/${totalSteps}`;
-            progressBar.style.width = `${(stepNumber / totalSteps) * 100}%`;
+            if (stepNumber <= totalSteps) {
+                stepNumberEl.textContent = `${stepNumber}/${totalSteps}`;
+                stepNumberEl.style.display = 'block';
+                progressBar.style.width = `${(stepNumber / totalSteps) * 100}%`;
+            } else {
+                // Hide step number for result page
+                stepNumberEl.style.display = 'none';
+                progressBar.style.width = '100%';
+            }
             
             let content = '';
             
