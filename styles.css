@@ -260,7 +260,7 @@ body {
 }
 
 .elegant-title {
-    font-family: 'Noto Serif JP', serif;
+    font-family: 'Noto Sans JP', sans-serif;
     font-size: 1.8rem; /* Final adjustment for mobile */
     font-weight: 500;
     color: #1f2937;
@@ -270,7 +270,7 @@ body {
 }
 
 .elegant-text {
-    font-family: 'Noto Serif JP', serif;
+    font-family: 'Noto Sans JP', sans-serif;
     font-size: 1rem; /* Adjust for mobile */
     color: #374151;
     line-height: 2;
