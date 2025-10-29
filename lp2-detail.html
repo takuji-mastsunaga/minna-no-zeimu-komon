@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>詳細情報入力 - みんなの税務顧問</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background: #F0F4F8;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+      background: #fff;
+      min-height: 100vh;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .header {
+      background: #fff;
+      padding: 20px 15px;
+      text-align: center;
+      border-bottom: 1px solid #E5E7EB;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header h1 {
+      font-size: 18px;
+      color: #1F2937;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: #6B7280;
+    }
+
+    .content {
+      padding: 40px;
+      min-height: 500px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 22px;
+      color: #1F2937;
+      margin-bottom: 8px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #6B7280;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    label .required {
+      color: #EF4444;
+      margin-left: 4px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #E0F2F1;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      background: #fff;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #26A69A;
+      box-shadow: 0 0 0 3px rgba(38, 166, 154, 0.1);
+    }
+
+    .button {
+      background: #26A69A;
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .button:hover {
+      background: #00897B;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(38, 166, 154, 0.3);
+    }
+
+    .button:disabled {
+      background: #9CA3AF;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .error-message {
+      background: #FEE2E2;
+      color: #DC2626;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .success-message {
+      background: #D1FAE5;
+      border-left: 4px solid #10B981;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 16px;
+      color: #065F46;
+    }
+
+    .info-box {
+      background: #F0FDF9;
+      border-left: 4px solid #26A69A;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #00695C;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #6B7280;
+    }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #26A69A;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .content {
+        padding: 25px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .header h1 {
+        font-size: 16px;
+      }
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      font-weight: normal;
+      cursor: pointer;
+    }
+
+    .radio-group input[type="radio"] {
+      margin-right: 8px;
+      cursor: pointer;
+    }
+
+    .accounting-software-other {
+      margin-top: 12px;
+      display: none;
+    }
+
+    .accounting-software-other.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📋 詳細情報入力</h1>
+      <p>お申し込みありがとうございます。追加情報のご入力をお願いいたします。</p>
+    </div>
+
+    <div class="content">
+      <!-- 認証セクション -->
+      <section id="auth-section" class="section active">
+        <h1 style="font-size: 22px; margin-bottom: 20px;">簡易認証</h1>
+
+      <div class="info-box">
+        決済時に入力されたメールアドレスの<strong>最初の3文字</strong>を入力してください。
+      </div>
+
+      <div id="auth-error" class="error-message"></div>
+
+      <div class="form-group">
+        <label for="email-prefix">メールアドレスの最初の3文字<span class="required">*</span></label>
+        <input 
+          type="text" 
+          id="email-prefix" 
+          placeholder="例: abc"
+          maxlength="3"
+          autocomplete="off"
+        />
+      </div>
+
+      <button class="button" onclick="authenticate()">認証する</button>
+      </section>
+
+      <!-- フォームセクション -->
+      <section id="form-section" class="section">
+        <h1 style="font-size: 22px; margin-bottom: 20px;">📝 詳細情報入力</h1>
+        <p class="subtitle" id="form-subtitle"></p>
+
+      <div id="form-error" class="error-message"></div>
+
+      <form id="lp2-form">
+        <!-- 法人情報（法人のみ） -->
+        <div id="corporate-fields" style="display: none;">
+          <h3 style="margin: 24px 0 16px; color: #26A69A; font-size: 18px; font-weight: 600;">法人情報</h3>
+          
+          <div class="form-group">
+            <label for="corp-name">法人名<span class="required">*</span></label>
+            <input type="text" id="corp-name" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="corp-postal">法人郵便番号<span class="required">*</span></label>
+              <input type="text" id="corp-postal" placeholder="例: 123-4567" />
+            </div>
+            <div class="form-group">
+              <label for="corp-address">法人住所<span class="required">*</span></label>
+              <input type="text" id="corp-address" placeholder="都道府県市区町村以下" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 代表者情報/個人情報 -->
+        <h3 style="margin: 24px 0 16px; color: #26A69A; font-size: 18px; font-weight: 600;" id="personal-info-title">代表者情報</h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="rep-name" id="rep-name-label">代表者名<span class="required">*</span></label>
+            <input type="text" id="rep-name" placeholder="例: 山田太郎" />
+          </div>
+          <div class="form-group">
+            <label for="rep-furigana">フリガナ<span class="required">*</span></label>
+            <input type="text" id="rep-furigana" placeholder="例: ヤマダタロウ" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="rep-postal" id="rep-postal-label">代表者郵便番号<span class="required">*</span></label>
+            <input type="text" id="rep-postal" placeholder="例: 123-4567" />
+          </div>
+          <div class="form-group">
+            <label for="rep-address" id="rep-address-label">代表者住所<span class="required">*</span></label>
+            <input type="text" id="rep-address" placeholder="都道府県市区町村以下" />
+          </div>
+        </div>
+
+        <!-- e-Tax情報 -->
+        <h3 style="margin: 24px 0 16px; color: #26A69A; font-size: 18px; font-weight: 600;">e-Tax/eLTAX情報</h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="etax-id">e-tax利用者識別番号<span class="required">*</span></label>
+            <input type="text" id="etax-id" placeholder="16桁の番号" maxlength="16" />
+          </div>
+          <div class="form-group">
+            <label for="etax-password">e-tax暗証番号/パスワード<span class="required">*</span></label>
+            <input type="text" id="etax-password" placeholder="8桁または任意の文字列" />
+          </div>
+        </div>
+
+        <!-- eLTAX（法人のみ） -->
+        <div id="eltax-fields" style="display: none;">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="eltax-id">e-Ltax利用者ID<span class="required">*</span></label>
+              <input type="text" id="eltax-id" />
+            </div>
+            <div class="form-group">
+              <label for="eltax-password">e-Ltax暗証番号<span class="required">*</span></label>
+              <input type="text" id="eltax-password" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 会計ソフト情報 -->
+        <h3 style="margin: 24px 0 16px; color: #26A69A; font-size: 18px; font-weight: 600;">会計ソフト情報</h3>
+
+        <div class="form-group">
+          <label>会計ソフト使用状況<span class="required">*</span></label>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="accounting-software" value="使用している" onchange="toggleAccountingSoftwareFields()">
+              使用している
+            </label>
+            <label>
+              <input type="radio" name="accounting-software" value="使用していない" onchange="toggleAccountingSoftwareFields()">
+              使用していない
+            </label>
+          </div>
+        </div>
+
+        <div id="accounting-software-fields" style="display: none;">
+          <div class="form-group">
+            <label for="software-name">使用会計ソフト名<span class="required">*</span></label>
+            <select id="software-name" onchange="toggleOtherSoftware()">
+              <option value="">選択してください</option>
+              <option value="freee">freee</option>
+              <option value="マネーフォワード">マネーフォワード</option>
+              <option value="弥生">弥生</option>
+              <option value="その他">その他</option>
+            </select>
+          </div>
+
+          <div class="form-group accounting-software-other" id="other-software-field">
+            <label for="other-software-name">その他会計ソフト名<span class="required">*</span></label>
+            <input type="text" id="other-software-name" placeholder="使用している会計ソフト名を入力" />
+          </div>
+
+          <div class="form-group">
+            <label for="cloud-email">クラウド会計メールアドレス</label>
+            <input type="email" id="cloud-email" placeholder="例: example@email.com" />
+          </div>
+        </div>
+
+        <button type="submit" class="button" id="submit-btn">入力内容を送信する</button>
+      </form>
+      </section>
+
+      <!-- 完了セクション -->
+      <section id="complete-section" class="section">
+        <div class="success-message">
+          <h2 style="margin-bottom: 16px; color: #065F46; font-size: 20px;">✅ 入力完了</h2>
+          <p>詳細情報のご入力ありがとうございました。</p>
+          <p style="margin-top: 12px;">担当者より3営業日以内にご連絡させていただきます。</p>
+        </div>
+      </section>
+
+      <!-- ローディング -->
+      <section id="loading-section" class="section">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>処理中...</p>
+        </div>
+      </section>
+
+      <!-- 既に入力済み -->
+      <section id="already-completed-section" class="section">
+        <div class="info-box">
+          <h2 style="margin-bottom: 16px; color: #00695C; font-size: 20px;">ℹ️ 既に入力済みです</h2>
+          <p>詳細情報は既にご入力いただいております。</p>
+          <p style="margin-top: 12px;">変更が必要な場合は、<a href="mailto:minzei@solvis-group.com" style="color: #26A69A; text-decoration: underline;">minzei@solvis-group.com</a> までご連絡ください。</p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbxOzL6nobt5YybWDIz8Vk3wbatxxdkixmoeT-ACQBxP4UtFu6TqZ9LpZnvMKV2kybOG/exec'; // v33
+
+    let sessionId = '';
+    let entityType = '';
+    let lp2Completed = false;
+
+    // URLパラメータからsession_idを取得
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      sessionId = urlParams.get('session_id');
+
+      if (!sessionId) {
+        showError('auth-error', '不正なアクセスです。メールに記載されたリンクからアクセスしてください。');
+        document.querySelector('#auth-section .button').disabled = true;
+      }
+    });
+
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(sectionId).classList.add('active');
+    }
+
+    function showError(elementId, message) {
+      const errorEl = document.getElementById(elementId);
+      errorEl.textContent = message;
+      errorEl.classList.add('show');
+    }
+
+    function hideError(elementId) {
+      const errorEl = document.getElementById(elementId);
+      errorEl.classList.remove('show');
+    }
+
+    // 認証処理
+    async function authenticate() {
+      const emailPrefix = document.getElementById('email-prefix').value.trim();
+
+      if (!emailPrefix || emailPrefix.length !== 3) {
+        showError('auth-error', 'メールアドレスの最初の3文字を入力してください。');
+        return;
+      }
+
+      hideError('auth-error');
+      showSection('loading-section');
+
+      try {
+        const response = await fetch(GAS_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            action: 'authenticateLP2',
+            sessionId: sessionId,
+            emailPrefix: emailPrefix
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          // 認証成功 - フォームデータ取得
+          await loadFormData();
+        } else {
+          showSection('auth-section');
+          showError('auth-error', data.message || '認証に失敗しました。');
+        }
+      } catch (error) {
+        showSection('auth-section');
+        showError('auth-error', '通信エラーが発生しました。');
+        console.error(error);
+      }
+    }
+
+    // フォームデータ取得
+    async function loadFormData() {
+      try {
+        const response = await fetch(GAS_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            action: 'getLP2FormData',
+            sessionId: sessionId
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          entityType = data.entityType;
+          lp2Completed = data.lp2Completed;
+
+          if (lp2Completed) {
+            // 既に入力済み
+            showSection('already-completed-section');
+          } else {
+            // フォーム表示
+            setupForm(entityType);
+            showSection('form-section');
+          }
+        } else {
+          showSection('auth-section');
+          showError('auth-error', data.message || 'データの取得に失敗しました。');
+        }
+      } catch (error) {
+        showSection('auth-section');
+        showError('auth-error', '通信エラーが発生しました。');
+        console.error(error);
+      }
+    }
+
+    // フォーム設定
+    function setupForm(type) {
+      const isCorporate = type === '法人';
+
+      document.getElementById('form-subtitle').textContent = isCorporate ? '法人のお客様' : '個人のお客様';
+
+      // 法人フィールドの表示/非表示
+      document.getElementById('corporate-fields').style.display = isCorporate ? 'block' : 'none';
+      document.getElementById('eltax-fields').style.display = isCorporate ? 'block' : 'none';
+
+      // ラベルの変更
+      if (isCorporate) {
+        document.getElementById('personal-info-title').textContent = '代表者情報';
+        document.getElementById('rep-name-label').innerHTML = '代表者名<span class="required">*</span>';
+        document.getElementById('rep-postal-label').innerHTML = '代表者郵便番号<span class="required">*</span>';
+        document.getElementById('rep-address-label').innerHTML = '代表者住所<span class="required">*</span>';
+      } else {
+        document.getElementById('personal-info-title').textContent = '個人情報';
+        document.getElementById('rep-name-label').innerHTML = '名前<span class="required">*</span>';
+        document.getElementById('rep-postal-label').innerHTML = '郵便番号<span class="required">*</span>';
+        document.getElementById('rep-address-label').innerHTML = '住所<span class="required">*</span>';
+      }
+    }
+
+    // 会計ソフトフィールドの表示/非表示
+    function toggleAccountingSoftwareFields() {
+      const using = document.querySelector('input[name="accounting-software"]:checked')?.value === '使用している';
+      document.getElementById('accounting-software-fields').style.display = using ? 'block' : 'none';
+    }
+
+    // その他会計ソフトフィールドの表示/非表示
+    function toggleOtherSoftware() {
+      const isOther = document.getElementById('software-name').value === 'その他';
+      document.getElementById('other-software-field').classList.toggle('show', isOther);
+    }
+
+    // フォーム送信
+    document.getElementById('lp2-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const isCorporate = entityType === '法人';
+      const usingSoftware = document.querySelector('input[name="accounting-software"]:checked')?.value === '使用している';
+      const softwareName = document.getElementById('software-name').value;
+
+      // バリデーション
+      const data = {
+        corpName: isCorporate ? document.getElementById('corp-name').value.trim() : '',
+        corpPostal: isCorporate ? document.getElementById('corp-postal').value.trim() : '',
+        corpAddress: isCorporate ? document.getElementById('corp-address').value.trim() : '',
+        repName: document.getElementById('rep-name').value.trim(),
+        repFurigana: document.getElementById('rep-furigana').value.trim(),
+        repPostal: document.getElementById('rep-postal').value.trim(),
+        repAddress: document.getElementById('rep-address').value.trim(),
+        etaxId: document.getElementById('etax-id').value.trim(),
+        etaxPassword: document.getElementById('etax-password').value.trim(),
+        eltaxId: isCorporate ? document.getElementById('eltax-id').value.trim() : '',
+        eltaxPassword: isCorporate ? document.getElementById('eltax-password').value.trim() : '',
+        accountingSoftware: document.querySelector('input[name="accounting-software"]:checked')?.value || '',
+        softwareName: usingSoftware ? softwareName : '',
+        otherSoftwareName: (usingSoftware && softwareName === 'その他') ? document.getElementById('other-software-name').value.trim() : '',
+        cloudEmail: usingSoftware ? document.getElementById('cloud-email').value.trim() : ''
+      };
+
+      // 必須チェック
+      if (isCorporate && (!data.corpName || !data.corpPostal || !data.corpAddress)) {
+        showError('form-error', '法人情報の必須項目を入力してください。');
+        return;
+      }
+
+      if (!data.repName || !data.repFurigana || !data.repPostal || !data.repAddress) {
+        showError('form-error', '個人/代表者情報の必須項目を入力してください。');
+        return;
+      }
+
+      if (!data.etaxId || !data.etaxPassword) {
+        showError('form-error', 'e-Tax情報の必須項目を入力してください。');
+        return;
+      }
+
+      if (isCorporate && (!data.eltaxId || !data.eltaxPassword)) {
+        showError('form-error', 'e-Ltax情報の必須項目を入力してください。');
+        return;
+      }
+
+      if (!data.accountingSoftware) {
+        showError('form-error', '会計ソフト使用状況を選択してください。');
+        return;
+      }
+
+      if (usingSoftware && !data.softwareName) {
+        showError('form-error', '使用会計ソフト名を選択してください。');
+        return;
+      }
+
+      if (usingSoftware && data.softwareName === 'その他' && !data.otherSoftwareName) {
+        showError('form-error', 'その他会計ソフト名を入力してください。');
+        return;
+      }
+
+      hideError('form-error');
+      showSection('loading-section');
+
+      // データ送信
+      try {
+        const response = await fetch(GAS_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            action: 'saveLP2Data',
+            sessionId: sessionId,
+            data: JSON.stringify(data)
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showSection('complete-section');
+        } else {
+          showSection('form-section');
+          showError('form-error', result.message || '保存に失敗しました。');
+        }
+      } catch (error) {
+        showSection('form-section');
+        showError('form-error', '通信エラーが発生しました。');
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>
+

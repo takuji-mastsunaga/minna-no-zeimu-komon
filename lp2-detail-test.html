@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>【テスト版】詳細情報入力 - みんなの税務顧問</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background: #F0F4F8;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+      background: #fff;
+      min-height: 100vh;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .header {
+      background: #fff;
+      padding: 20px 15px;
+      text-align: center;
+      border-bottom: 1px solid #E5E7EB;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header h1 {
+      font-size: 18px;
+      color: #1F2937;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .header .test-badge {
+      display: inline-block;
+      background: #EF4444;
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-left: 8px;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: #6B7280;
+    }
+
+    .content {
+      padding: 40px;
+      min-height: 500px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 22px;
+      color: #1F2937;
+      margin-bottom: 8px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #6B7280;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    label .required {
+      color: #EF4444;
+      margin-left: 4px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #E0F2F1;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      background: #fff;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #26A69A;
+      box-shadow: 0 0 0 3px rgba(38, 166, 154, 0.1);
+    }
+
+    .button {
+      background: #26A69A;
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .button:hover {
+      background: #00897B;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(38, 166, 154, 0.3);
+    }
+
+    .button:disabled {
+      background: #9CA3AF;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .error-message {
+      background: #FEE2E2;
+      color: #DC2626;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .success-message {
+      background: #D1FAE5;
+      border-left: 4px solid #10B981;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 16px;
+      color: #065F46;
+    }
+
+    .info-box {
+      background: #F0FDF9;
+      border-left: 4px solid #26A69A;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #00695C;
+    }
+
+    .warning-box {
+      background: #FEF3C7;
+      border-left: 4px solid #F59E0B;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #6B7280;
+    }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #26A69A;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .content {
+        padding: 25px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .header h1 {
+        font-size: 16px;
+      }
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      font-weight: normal;
+      cursor: pointer;
+    }
+
+    .radio-group input[type="radio"] {
+      margin-right: 8px;
+      cursor: pointer;
+    }
+
+    .accounting-software-other {
+      margin-top: 12px;
+      display: none;
+    }
+
+    .accounting-software-other.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📋 詳細情報入力<span class="test-badge">テスト版</span></h1>
+      <p>お申し込みありがとうございます。追加情報のご入力をお願いいたします。</p>
+    </div>
+
+    <div class="content">
+      <!-- 認証セクション -->
+      <section id="auth-section" class="section active">
+        <h1 style="font-size: 22px; margin-bottom: 20px;">簡易認証</h1>
+
+        <div class="warning-box">
+          <strong>⚠️ テスト環境です</strong><br>
+          これはテスト用のページです。本番のデータは使用されません。
+        </div>
+
+      <div class="info-box">
+        決済時に入力されたメールアドレスの<strong>最初の3文字</strong>を入力してください。
+      </div>
+
+      <div id="auth-error" class="error-message"></div>
+
+      <div class="form-group">
+        <label for="email-prefix">メールアドレスの最初の3文字<span class="required">*</span></label>
+        <input 
+          type="text" 
+          id="email-prefix" 
+          placeholder="例: abc"
+          maxlength="3"
+          autocomplete="off"
+        />
+      </div>
+
+      <button class="button" onclick="authenticate()">認証する</button>
+      </section>
+
+      <!-- フォームセクション以下は本番版と同じ構造 -->
+      <section id="form-section" class="section">
+        <h1 style="font-size: 22px; margin-bottom: 20px;">📝 詳細情報入力</h1>
+        <p class="subtitle" id="form-subtitle"></p>
+        <div id="form-error" class="error-message"></div>
+        <!-- 以下、本番版と同じフォーム内容 -->
+      </section>
+
+      <!-- 完了セクション -->
+      <section id="complete-section" class="section">
+        <div class="success-message">
+          <h2 style="margin-bottom: 16px; color: #065F46; font-size: 20px;">✅ 【テスト】入力完了</h2>
+          <p>テスト環境での入力が完了しました。</p>
+          <p style="margin-top: 12px;">実際の本番環境では、担当者より3営業日以内にご連絡させていただきます。</p>
+        </div>
+      </section>
+
+      <!-- ローディング -->
+      <section id="loading-section" class="section">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>処理中...</p>
+        </div>
+      </section>
+
+      <!-- 既に入力済み -->
+      <section id="already-completed-section" class="section">
+        <div class="info-box">
+          <h2 style="margin-bottom: 16px; color: #00695C; font-size: 20px;">ℹ️ 既に入力済みです</h2>
+          <p>詳細情報は既にご入力いただいております。</p>
+          <p style="margin-top: 12px;">変更が必要な場合は、<a href="mailto:minzei@solvis-group.com" style="color: #26A69A; text-decoration: underline;">minzei@solvis-group.com</a> までご連絡ください。</p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // ========== GAS Web App URL (TEST VERSION - v33) ==========
+    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbx56HIAEoHu5crtrLtBKf6Ri0V_UrofleO-RpQTRM7PlwEY8nnr2l9bsiB1COgHlTEGfw/exec'; // 🧪 テスト用 v1
+
+    console.log('🧪 テスト版 LP2 読み込み完了');
+    console.log('GAS API URL:', GAS_API_URL);
+
+    let sessionId = '';
+    let entityType = '';
+    let lp2Completed = false;
+
+    // URLパラメータからsession_idを取得
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      sessionId = urlParams.get('session_id');
+
+      if (!sessionId) {
+        showError('auth-error', '不正なアクセスです。メールに記載されたリンクからアクセスしてください。');
+        document.querySelector('#auth-section .button').disabled = true;
+      }
+
+      // テスト環境の警告を表示
+      const testWarning = document.createElement('div');
+      testWarning.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#EF4444;color:#fff;padding:12px 20px;border-radius:8px;font-weight:700;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);';
+      testWarning.textContent = '🧪 テスト環境';
+      document.body.appendChild(testWarning);
+    });
+
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(sectionId).classList.add('active');
+    }
+
+    function showError(elementId, message) {
+      const errorEl = document.getElementById(elementId);
+      errorEl.textContent = message;
+      errorEl.classList.add('show');
+    }
+
+    function hideError(elementId) {
+      const errorEl = document.getElementById(elementId);
+      errorEl.classList.remove('show');
+    }
+
+    // 認証処理
+    async function authenticate() {
+      const emailPrefix = document.getElementById('email-prefix').value.trim();
+
+      if (!emailPrefix || emailPrefix.length !== 3) {
+        showError('auth-error', 'メールアドレスの最初の3文字を入力してください。');
+        return;
+      }
+
+      hideError('auth-error');
+      showSection('loading-section');
+
+      console.log('🧪 テスト環境: 認証処理をシミュレート中...');
+      
+      // テスト環境での動作確認
+      setTimeout(() => {
+        showSection('complete-section');
+        console.log('🧪 テスト環境: 認証成功（シミュレート）');
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
+
+
+

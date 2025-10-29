@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お申し込み完了 - みんなの税務顧問</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 600px;
+      width: 100%;
+      padding: 60px 40px;
+      text-align: center;
+    }
+    
+    .success-icon {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: scaleIn 0.5s ease-out;
+    }
+    
+    .success-icon svg {
+      width: 60px;
+      height: 60px;
+      fill: white;
+    }
+    
+    @keyframes scaleIn {
+      0% {
+        transform: scale(0);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    
+    h1 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    
+    .message {
+      font-size: 16px;
+      color: #666;
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+    
+    .info-box {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 30px;
+      margin-bottom: 30px;
+      text-align: left;
+    }
+    
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e9ecef;
+    }
+    
+    .info-item:last-child {
+      border-bottom: none;
+    }
+    
+    .info-label {
+      font-weight: 600;
+      color: #495057;
+    }
+    
+    .info-value {
+      color: #667eea;
+      font-weight: 600;
+    }
+    
+    .next-steps {
+      background: #e7f3ff;
+      border-left: 4px solid #667eea;
+      padding: 20px;
+      margin-bottom: 30px;
+      text-align: left;
+    }
+    
+    .next-steps h3 {
+      color: #667eea;
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    
+    .next-steps ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .next-steps li {
+      padding: 8px 0;
+      color: #495057;
+      position: relative;
+      padding-left: 25px;
+    }
+    
+    .next-steps li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #667eea;
+      font-weight: bold;
+    }
+    
+    .button {
+      display: inline-block;
+      padding: 15px 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin-top: 20px;
+    }
+    
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+    
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 10px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    @media (max-width: 640px) {
+      .container {
+        padding: 40px 20px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      .info-item {
+        flex-direction: column;
+        gap: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24">
+        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+      </svg>
+    </div>
+    
+    <h1>お申し込みありがとうございます！</h1>
+    
+    <div class="message">
+      決済が正常に完了しました。<br>
+      確認メールを送信いたしましたので、ご確認ください。
+    </div>
+    
+    <div id="loadingBox" class="info-box">
+      <div style="text-align: center; padding: 20px;">
+        <div class="loading"></div>
+        <span>決済情報を確認中...</span>
+      </div>
+    </div>
+    
+    <div id="infoBox" class="info-box hidden">
+      <div class="info-item">
+        <span class="info-label">決済ステータス</span>
+        <span class="info-value" id="paymentStatus">完了</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">サブスクリプションID</span>
+        <span class="info-value" id="subscriptionId">-</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">顧客ID</span>
+        <span class="info-value" id="customerId">-</span>
+      </div>
+    </div>
+    
+    <div class="next-steps">
+      <h3>📋 今後の流れ</h3>
+      <ul>
+        <li>担当者より3営業日以内にご連絡いたします</li>
+        <li>必要書類のご案内をメールでお送りします</li>
+        <li>オンライン面談の日程調整を行います</li>
+        <li>サービス開始後、定期的にサポートいたします</li>
+      </ul>
+    </div>
+    
+    <a href="/" class="button">ホームに戻る</a>
+  </div>
+
+  <script>
+    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbxOzL6nobt5YybWDIz8Vk3wbatxxdkixmoeT-ACQBxP4UtFu6TqZ9LpZnvMKV2kybOG/exec'; // v33
+    
+    // URLパラメータからsession_idを取得
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session_id');
+    
+    if (sessionId) {
+      // Checkout Session から UUID を取得してステータスを確認
+      // （実装は後で行います）
+      setTimeout(() => {
+        document.getElementById('loadingBox').classList.add('hidden');
+        document.getElementById('infoBox').classList.remove('hidden');
+      }, 2000);
+    } else {
+      // session_idがない場合はローディングを非表示
+      document.getElementById('loadingBox').classList.add('hidden');
+      document.getElementById('infoBox').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
+
+
