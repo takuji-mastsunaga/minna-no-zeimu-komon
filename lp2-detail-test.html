@@ -409,14 +409,219 @@
       hideError('auth-error');
       showSection('loading-section');
 
-      console.log('🧪 テスト環境: 認証処理をシミュレート中...');
-      
-      // テスト環境での動作確認
-      setTimeout(() => {
-        showSection('complete-section');
-        console.log('🧪 テスト環境: 認証成功（シミュレート）');
-      }, 1500);
+      console.log('🧪 テスト環境: 認証処理開始');
+
+      try {
+        const response = await fetch(GAS_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            action: 'authenticateLP2',
+            sessionId: sessionId,
+            emailPrefix: emailPrefix
+          })
+        });
+
+        const data = await response.json();
+        console.log('🧪 認証レスポンス:', data);
+
+        if (data.success) {
+          if (data.authenticated) {
+            console.log('🧪 認証成功 - entityType:', data.entityType);
+            // 認証成功 - フォームデータ取得
+            await loadFormData();
+          } else {
+            showSection('auth-section');
+            showError('auth-error', data.message || '認証に失敗しました。');
+          }
+        } else {
+          showSection('auth-section');
+          showError('auth-error', data.message || '認証に失敗しました。');
+        }
+      } catch (error) {
+        console.error('🧪 認証エラー:', error);
+        showSection('auth-section');
+        showError('auth-error', '通信エラーが発生しました。');
+      }
     }
+
+    // フォームデータ取得
+    async function loadFormData() {
+      console.log('🧪 フォームデータ取得開始');
+      try {
+        const response = await fetch(GAS_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            action: 'getLP2FormData',
+            sessionId: sessionId
+          })
+        });
+
+        const data = await response.json();
+        console.log('🧪 フォームデータレスポンス:', data);
+
+        if (data.success) {
+          entityType = data.entityType;
+          lp2Completed = data.lp2Completed;
+
+          if (lp2Completed) {
+            console.log('🧪 既に入力済み');
+            // 既に入力済み
+            showSection('already-completed-section');
+          } else {
+            console.log('🧪 フォーム表示 - entityType:', entityType);
+            // フォーム表示
+            setupForm(entityType);
+            showSection('form-section');
+          }
+        } else {
+          showSection('auth-section');
+          showError('auth-error', data.message || 'データの取得に失敗しました。');
+        }
+      } catch (error) {
+        console.error('🧪 データ取得エラー:', error);
+        showSection('auth-section');
+        showError('auth-error', '通信エラーが発生しました。');
+      }
+    }
+
+    // フォーム設定
+    function setupForm(type) {
+      const isCorporate = type === '法人';
+      console.log('🧪 フォーム設定 - isCorporate:', isCorporate);
+
+      document.getElementById('form-subtitle').textContent = isCorporate ? '法人のお客様' : '個人のお客様';
+
+      // 法人フィールドの表示/非表示
+      document.getElementById('corporate-fields').style.display = isCorporate ? 'block' : 'none';
+      document.getElementById('eltax-fields').style.display = isCorporate ? 'block' : 'none';
+
+      // ラベルの変更
+      if (isCorporate) {
+        document.getElementById('personal-info-title').textContent = '代表者情報';
+        document.getElementById('rep-name-label').innerHTML = '代表者名<span class="required">*</span>';
+        document.getElementById('rep-postal-label').innerHTML = '代表者郵便番号<span class="required">*</span>';
+        document.getElementById('rep-address-label').innerHTML = '代表者住所<span class="required">*</span>';
+      } else {
+        document.getElementById('personal-info-title').textContent = '個人情報';
+        document.getElementById('rep-name-label').innerHTML = '名前<span class="required">*</span>';
+        document.getElementById('rep-postal-label').innerHTML = '郵便番号<span class="required">*</span>';
+        document.getElementById('rep-address-label').innerHTML = '住所<span class="required">*</span>';
+      }
+    }
+
+    // 会計ソフトフィールドの表示/非表示
+    function toggleAccountingSoftwareFields() {
+      const using = document.querySelector('input[name="accounting-software"]:checked')?.value === '使用している';
+      document.getElementById('accounting-software-fields').style.display = using ? 'block' : 'none';
+    }
+
+    // その他会計ソフトフィールドの表示/非表示
+    function toggleOtherSoftware() {
+      const isOther = document.getElementById('software-name').value === 'その他';
+      document.getElementById('other-software-field').classList.toggle('show', isOther);
+    }
+
+    // フォーム送信
+    document.getElementById('lp2-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      console.log('🧪 フォーム送信開始');
+
+      const isCorporate = entityType === '法人';
+      const usingSoftware = document.querySelector('input[name="accounting-software"]:checked')?.value === '使用している';
+      const softwareName = document.getElementById('software-name').value;
+
+      // バリデーション
+      const data = {
+        corpName: isCorporate ? document.getElementById('corp-name').value.trim() : '',
+        corpPostal: isCorporate ? document.getElementById('corp-postal').value.trim() : '',
+        corpAddress: isCorporate ? document.getElementById('corp-address').value.trim() : '',
+        repName: document.getElementById('rep-name').value.trim(),
+        repFurigana: document.getElementById('rep-furigana').value.trim(),
+        repPostal: document.getElementById('rep-postal').value.trim(),
+        repAddress: document.getElementById('rep-address').value.trim(),
+        etaxId: document.getElementById('etax-id').value.trim(),
+        etaxPassword: document.getElementById('etax-password').value.trim(),
+        eltaxId: isCorporate ? document.getElementById('eltax-id').value.trim() : '',
+        eltaxPassword: isCorporate ? document.getElementById('eltax-password').value.trim() : '',
+        accountingSoftware: document.querySelector('input[name="accounting-software"]:checked')?.value || '',
+        softwareName: usingSoftware ? softwareName : '',
+        otherSoftwareName: (usingSoftware && softwareName === 'その他') ? document.getElementById('other-software-name').value.trim() : '',
+        cloudEmail: usingSoftware ? document.getElementById('cloud-email').value.trim() : ''
+      };
+
+      console.log('🧪 送信データ:', data);
+
+      // 必須チェック
+      if (isCorporate && (!data.corpName || !data.corpPostal || !data.corpAddress)) {
+        showError('form-error', '法人情報の必須項目を入力してください。');
+        return;
+      }
+
+      if (!data.repName || !data.repFurigana || !data.repPostal || !data.repAddress) {
+        showError('form-error', '個人/代表者情報の必須項目を入力してください。');
+        return;
+      }
+
+      if (!data.etaxId || !data.etaxPassword) {
+        showError('form-error', 'e-Tax情報の必須項目を入力してください。');
+        return;
+      }
+
+      if (isCorporate && (!data.eltaxId || !data.eltaxPassword)) {
+        showError('form-error', 'e-Ltax情報の必須項目を入力してください。');
+        return;
+      }
+
+      if (!data.accountingSoftware) {
+        showError('form-error', '会計ソフト使用状況を選択してください。');
+        return;
+      }
+
+      if (usingSoftware && !data.softwareName) {
+        showError('form-error', '使用会計ソフト名を選択してください。');
+        return;
+      }
+
+      if (usingSoftware && data.softwareName === 'その他' && !data.otherSoftwareName) {
+        showError('form-error', 'その他会計ソフト名を入力してください。');
+        return;
+      }
+
+      hideError('form-error');
+      showSection('loading-section');
+
+      // データ送信
+      try {
+        const response = await fetch(GAS_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            action: 'saveLP2Data',
+            sessionId: sessionId,
+            data: JSON.stringify(data)
+          })
+        });
+
+        const result = await response.json();
+        console.log('🧪 保存レスポンス:', result);
+
+        if (result.success) {
+          console.log('🧪 保存成功');
+          showSection('complete-section');
+        } else {
+          console.error('🧪 保存失敗:', result.message);
+          showSection('form-section');
+          showError('form-error', result.message || '保存に失敗しました。');
+        }
+      } catch (error) {
+        console.error('🧪 通信エラー:', error);
+        showSection('form-section');
+        showError('form-error', '通信エラーが発生しました。');
+      }
+    });
   </script>
 </body>
 </html>
