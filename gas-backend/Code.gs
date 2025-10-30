@@ -545,6 +545,67 @@ function ensureLP2Headers_(masterSheet, headers, startColAB = 28) {
 }
 
 /**
+ * 採番を生成（A列用）
+ * フォーマット：X_YY_ZZZZ_〇〇〇〇
+ * - X: 1=法人、2=個人
+ * - YY: 契約年度（下2桁）
+ * - ZZZZ: 年度・種別ごとの連番（0001〜9999）
+ * - 〇〇〇〇: 法人名/氏名
+ */
+function generateClientNumber(master, entityType, companyName, individualName, paymentDate) {
+  try {
+    // 1) X部分：法人=1、個人=2
+    const typeCode = (entityType === '法人') ? '1' : '2';
+    
+    // 2) YY部分：契約年度の下2桁
+    const date = new Date(paymentDate);
+    const year = date.getFullYear();
+    const yearCode = String(year).slice(-2); // 下2桁
+    
+    // 3) ZZZZ部分：年度・種別ごとの連番を生成
+    // 既存のA列データから同じ年度・種別の最大連番を取得
+    const allData = master.getRange(2, 1, Math.max(1, master.getLastRow() - 1), 1).getValues();
+    let maxSerial = 0;
+    
+    const prefix = typeCode + '_' + yearCode + '_';
+    for (let i = 0; i < allData.length; i++) {
+      const cellValue = String(allData[i][0] || '');
+      if (cellValue.startsWith(prefix)) {
+        // 例: "1_25_0123_株式会社ABC" から "0123" を抽出
+        const parts = cellValue.split('_');
+        if (parts.length >= 3) {
+          const serialStr = parts[2]; // "0123"
+          const serial = parseInt(serialStr, 10);
+          if (!isNaN(serial) && serial > maxSerial) {
+            maxSerial = serial;
+          }
+        }
+      }
+    }
+    
+    const nextSerial = maxSerial + 1;
+    if (nextSerial > 9999) {
+      throw new Error('連番が上限（9999）を超えました。年度: ' + year + ', 種別: ' + entityType);
+    }
+    
+    const serialCode = String(nextSerial).padStart(4, '0'); // 0001, 0002, ...
+    
+    // 4) 〇〇〇〇部分：法人名/氏名
+    const name = (entityType === '法人') ? (companyName || '未設定') : (individualName || '未設定');
+    
+    // 5) 採番を生成
+    const clientNumber = typeCode + '_' + yearCode + '_' + serialCode + '_' + name;
+    
+    Logger.log('採番生成: ' + clientNumber);
+    return clientNumber;
+    
+  } catch (err) {
+    Logger.log('採番生成エラー: ' + err);
+    return ''; // エラー時は空文字を返す
+  }
+}
+
+/**
  * 仮保存シートからマスタシートにデータを移動（決済完了時）
  * @param {string} uuid
  * @param {Object} paymentData - {status, uuid, paymentDate, customerId, subscriptionId, email}
@@ -583,9 +644,23 @@ function moveFromPendingToMaster(uuid, paymentData) {
 
     // 3) マスタシートに新規行を追加
     const masterRowIndex = master.getLastRow() + 1;
+    
+    // 3-0) LP①データ（G〜AA列）を先に書き込み（採番生成に必要な情報を取得するため）
+    master.getRange(masterRowIndex, 7, 1, LP1_HEADERS.length).setValues([lp1Data]);
 
-    // 3-1) A列は将来のクライアント採番用に予約（空のまま）
-    // master.getRange(masterRowIndex, 1).setValue(uuid); // ← 削除: UUIDはAC列に保存
+    // 3-1) A列に採番を生成して保存
+    // lp1Dataから必要な情報を取得
+    const entityType = lp1Data[0] || ''; // G列：個人・法人
+    const companyName = ''; // AG列は後で取得（LP2データ）
+    const individualName = ''; // AW列は後で取得（LP2データ）
+    
+    // LP2データが未入力の段階では名前が取れないため、仮の採番を生成
+    // LP2入力完了時に再生成する
+    const tempClientNumber = generateClientNumber(master, entityType, companyName, individualName, paymentData.paymentDate);
+    if (tempClientNumber) {
+      master.getRange(masterRowIndex, 1).setValue(tempClientNumber);
+      logWebhookEvent('moveFromPendingToMaster', uuid, 'client_number_saved', 'Client Number: ' + tempClientNumber, '');
+    }
     
     // 3-2) E列にメールアドレスを書き込み（Stripe Sessionから取得）
     const email = paymentData.email || '';
@@ -620,10 +695,7 @@ function moveFromPendingToMaster(uuid, paymentData) {
       logWebhookEvent('moveFromPendingToMaster', uuid, 'promo_headers_added', 'Promo headers added', '');
     }
 
-    // 4) LP①データ（G〜AA列）をマスタに書き込み
-    master.getRange(masterRowIndex, 7, 1, LP1_HEADERS.length).setValues([lp1Data]);
-    
-    // 4-1) AA列（初年度合計金額）をStripeの実際の決済金額（プロモーションコード適用後）に上書き
+    // 4) AA列（初年度合計金額）をStripeの実際の決済金額（プロモーションコード適用後）に上書き
     const actualAmount = paymentData.actualAmount || 0;
     if (actualAmount > 0) {
       master.getRange(masterRowIndex, 27).setValue(actualAmount);  // AA列 = 27列目
@@ -1606,8 +1678,31 @@ function saveLP2Data(sessionId, data) {
 
     // 9. BZ列（78列目）に現在日時を記録
     masterSheet.getRange(rowIndex, 78).setValue(new Date());
+    
+    // 10. A列の採番を更新（法人名/氏名が取得できたので再生成）
+    const companyName = masterSheet.getRange(rowIndex, 33).getValue(); // AG列：法人名
+    const individualName = masterSheet.getRange(rowIndex, 49).getValue(); // AW列：氏名
+    const paymentDate = masterSheet.getRange(rowIndex, 30).getValue(); // AD列：決済日時
+    
+    // 既存の採番を取得（年度・連番は維持）
+    const oldClientNumber = masterSheet.getRange(rowIndex, 1).getValue() || '';
+    const parts = String(oldClientNumber).split('_');
+    
+    if (parts.length >= 3) {
+      // 既存の採番から年度と連番を取得
+      const typeCode = parts[0]; // 1 or 2
+      const yearCode = parts[1]; // YY
+      const serialCode = parts[2]; // ZZZZ
+      
+      // 名前部分だけを更新
+      const name = (entityType === '法人') ? (companyName || '未設定') : (individualName || '未設定');
+      const newClientNumber = typeCode + '_' + yearCode + '_' + serialCode + '_' + name;
+      
+      masterSheet.getRange(rowIndex, 1).setValue(newClientNumber);
+      logWebhookEvent('saveLP2Data', uuid, 'client_number_updated', 'Updated Client Number: ' + newClientNumber, '');
+    }
 
-    // 10. ログ記録
+    // 11. ログ記録
     logWebhookEvent('saveLP2Data', uuid, 'success', 'LP2 data saved', '');
 
     return {
