@@ -2,10 +2,8 @@
 const mobileMenuToggle = document.getElementById('mobileMenuToggle');
 const mobileMenu = document.getElementById('mobileMenu');
 const termsCheckbox = document.getElementById('terms-agreement');
-const applyNoTaxBtn = document.getElementById('apply-no-tax');
-const applyWithTaxBtn = document.getElementById('apply-with-tax');
-const errorNoTax = document.getElementById('error-no-tax');
-const errorWithTax = document.getElementById('error-with-tax');
+const applyButton = document.getElementById('apply-button');
+const errorMessage = document.getElementById('error-message');
 
 // モバイルメニューの切り替え
 if (mobileMenuToggle && mobileMenu) {
@@ -37,47 +35,31 @@ navLinks.forEach(link => {
 });
 
 // 利用規約チェックボックスの状態管理
-if (termsCheckbox && applyNoTaxBtn && applyWithTaxBtn && errorNoTax && errorWithTax) {
+if (termsCheckbox && applyButton && errorMessage) {
     termsCheckbox.addEventListener('change', function() {
         const isChecked = this.checked;
         
         // ボタンの有効/無効とクラス切り替え
-        applyNoTaxBtn.disabled = !isChecked;
-        applyWithTaxBtn.disabled = !isChecked;
+        applyButton.disabled = !isChecked;
         
         if (isChecked) {
-            applyNoTaxBtn.classList.add('active');
-            applyWithTaxBtn.classList.add('active');
-            errorNoTax.classList.add('hidden');
-            errorWithTax.classList.add('hidden');
+            applyButton.classList.add('active');
+            errorMessage.classList.add('hidden');
         } else {
-            applyNoTaxBtn.classList.remove('active');
-            applyWithTaxBtn.classList.remove('active');
-            errorNoTax.classList.remove('hidden');
-            errorWithTax.classList.remove('hidden');
+            applyButton.classList.remove('active');
+            errorMessage.classList.remove('hidden');
         }
     });
 }
 
 // 申し込みボタンのイベントハンドラ
-if (applyNoTaxBtn) {
-    applyNoTaxBtn.addEventListener('click', function() {
+if (applyButton) {
+    applyButton.addEventListener('click', function() {
         if (!termsCheckbox.checked) {
             alert('利用規約への同意が必要です。');
             return;
         }
-        // 通常プラン料金ページにリダイレクト
-        window.location.href = 'https://www.minzei-tax.com/cost';
-    });
-}
-
-if (applyWithTaxBtn) {
-    applyWithTaxBtn.addEventListener('click', function() {
-        if (!termsCheckbox.checked) {
-            alert('利用規約への同意が必要です。');
-            return;
-        }
-        // 消費税申告プラン料金ページにリダイレクト
+        // 料金ページにリダイレクト
         window.location.href = 'https://www.minzei-tax.com/cost.tax';
     });
 }
@@ -85,8 +67,7 @@ if (applyWithTaxBtn) {
 // ページ読み込み時の初期化
 document.addEventListener('DOMContentLoaded', function() {
     // 初期状態でボタンを無効化
-    if (applyNoTaxBtn) applyNoTaxBtn.disabled = true;
-    if (applyWithTaxBtn) applyWithTaxBtn.disabled = true;
+    if (applyButton) applyButton.disabled = true;
     
     // エラーメッセージは初期表示のまま（クラスで制御）
 });
