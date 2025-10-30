@@ -954,14 +954,32 @@ function handleCheckoutCompleted(session) {
       }
     }
     
+    // 通貨を確認（JPYは最小通貨単位が1円なので変換不要）
+    const currency = (session.currency || 'jpy').toLowerCase();
+    const isZeroDecimalCurrency = ['jpy', 'krw', 'vnd', 'clp', 'pyg'].indexOf(currency) !== -1;
+    
     const discountAmount = (session.total_details && session.total_details.amount_discount) ? session.total_details.amount_discount : 0;
-    const discountYen = Math.floor(discountAmount / 100); // セント→円変換
+    const amountTotal = session.amount_total || 0;
+    const amountSubtotal = session.amount_subtotal || 0;
+    
+    // 通貨に応じて変換（JPYなどのゼロデシマル通貨は変換不要）
+    const discountYen = isZeroDecimalCurrency ? discountAmount : Math.floor(discountAmount / 100);
+    const totalYen = isZeroDecimalCurrency ? amountTotal : Math.floor(amountTotal / 100);
+    const subtotalYen = isZeroDecimalCurrency ? amountSubtotal : Math.floor(amountSubtotal / 100);
+    
+    // デバッグ用：Stripeから取得した金額情報をログ出力
+    Logger.log('=== Stripe Amount Details ===');
+    Logger.log('Currency: ' + currency.toUpperCase() + (isZeroDecimalCurrency ? ' (Zero-decimal)' : ''));
+    Logger.log('Amount Subtotal (元の金額): ' + amountSubtotal + ' → ' + subtotalYen + ' yen');
+    Logger.log('Amount Discount (割引額): ' + discountAmount + ' → ' + discountYen + ' yen');
+    Logger.log('Amount Total (請求額): ' + amountTotal + ' → ' + totalYen + ' yen');
+    Logger.log('Promo Code: ' + promoCode);
     
     logWebhookEvent(
       'checkout.session.completed',
       uuid,
       'processing',
-      'Customer: ' + customerId + ', Subscription: ' + subscriptionId + ', Email: ' + email + ', Tax: ' + (hasTaxObligation ? '課税' : '非課税') + (promoCode ? ', Promo: ' + promoCode : ''),
+      'Customer: ' + customerId + ', Subscription: ' + subscriptionId + ', Email: ' + email + ', Tax: ' + (hasTaxObligation ? '課税' : '非課税') + (promoCode ? ', Promo: ' + promoCode + ', Discount: ' + discountYen + '円' : ''),
       ''
     );
     
