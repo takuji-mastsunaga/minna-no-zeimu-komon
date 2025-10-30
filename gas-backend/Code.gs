@@ -16,7 +16,7 @@ const BASIC_HEADERS = [
   '未使用C',                 // C列: Googleドライブ関連（未使用）
   '未使用D',                 // D列: Googleドライブ関連（未使用）
   '決済時のメールアドレス',  // E列: 決済時のメールアドレス
-  'タイムスタンプ'           // F列: Googleドライブ生成時のタイムスタンプ
+  '課税対象者'               // F列: 課税/非課税の区分
 ];
 
 // G〜AA（LP①）のヘッダー（既存スキーマ）
@@ -587,6 +587,11 @@ function moveFromPendingToMaster(uuid, paymentData) {
       master.getRange(masterRowIndex, 5).setValue(email);
       logWebhookEvent('moveFromPendingToMaster', uuid, 'email_saved', 'Email: ' + email, '');
     }
+    
+    // 3-3) F列に課税対象者を書き込み（課税/非課税）
+    const taxStatus = paymentData.hasTaxObligation ? '課税' : '非課税';
+    master.getRange(masterRowIndex, 6).setValue(taxStatus);
+    logWebhookEvent('moveFromPendingToMaster', uuid, 'tax_status_saved', 'Tax Status: ' + taxStatus, '');
 
     // 4) LP①データ（G〜AA列）をマスタに書き込み
     master.getRange(masterRowIndex, 7, 1, LP1_HEADERS.length).setValues([lp1Data]);
@@ -768,6 +773,7 @@ function createStripeCheckoutSession(uuid, payment) {
     payloadParts.push('metadata[uuid]=' + encodeURIComponent(uuid));
     payloadParts.push('metadata[entity_type]=' + encodeURIComponent(payment.entityType || 'individual'));
     payloadParts.push('metadata[plan_type]=' + encodeURIComponent(payment.planType));
+    payloadParts.push('metadata[has_tax_obligation]=' + encodeURIComponent(payment.hasTaxObligation ? 'true' : 'false'));
 
     const options = {
       method: 'post',
@@ -878,11 +884,14 @@ function handleCheckoutCompleted(session) {
     // Stripe Sessionからメールアドレスを取得
     const email = session.customer_details?.email || session.customer_email || '';
     
+    // Stripe Sessionから課税判定を取得
+    const hasTaxObligation = session.metadata.has_tax_obligation === 'true';
+    
     logWebhookEvent(
       'checkout.session.completed',
       uuid,
       'processing',
-      'Customer: ' + customerId + ', Subscription: ' + subscriptionId + ', Email: ' + email,
+      'Customer: ' + customerId + ', Subscription: ' + subscriptionId + ', Email: ' + email + ', Tax: ' + (hasTaxObligation ? '課税' : '非課税'),
       ''
     );
     
@@ -893,7 +902,8 @@ function handleCheckoutCompleted(session) {
       paymentDate: new Date().toISOString(),
       customerId: customerId,
       subscriptionId: subscriptionId,
-      email: email  // Stripeから取得したメールアドレス
+      email: email,  // Stripeから取得したメールアドレス
+      hasTaxObligation: hasTaxObligation  // 課税判定
     };
     
     const moveResult = moveFromPendingToMaster(uuid, paymentData);
