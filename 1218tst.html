@@ -672,8 +672,8 @@ eLTAXのウェブサイトから利用者IDを取得できます。
   </div>
 
   <script>
-    // ========== GAS Web App URL (v41 - 日本円（JPY）通貨単位修正、割引額9,908円を正しく保存) ==========
-        const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbxhydA-xNDR7krGLMIQD7OjEfNCZpBE-ShO6YtlO5kZn9xZYOHuvqYhredvW2o4QkQ/exec';
+    // ========== GAS Web App URL (v42 - オプション毎年継続、AA列をプロモ後金額に修正) ==========
+        const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbwHWWGY843y8ltYM1-_uQMuVbEnTPqB_gedwIYu1XR71mT4pZ5HiceSX_iccdUkFr3B/exec';
 
     const appState = {
       currentStep: 0, stepHistory: [],
@@ -1219,11 +1219,11 @@ eLTAXのウェブサイトから利用者IDを取得できます。
       items.forEach(i=>{ html+=`<div class="price-item"><span>${i.name}</span><span>¥${i.price.toLocaleString()}</span></div>`; });
 
       if(optionsTotal>0){
-        html+=`<div class="price-item"><span>追加オプション（初回決済時）</span><span>¥${optionsTotal.toLocaleString()}</span></div>`;
+        html+=`<div class="price-item"><span>追加オプション</span><span>¥${optionsTotal.toLocaleString()}</span></div>`;
       }
       const total=appState.basePrice+optionsTotal;
       html+=`<div class="price-item"><span>初年度合計金額</span><span>¥${total.toLocaleString()}</span></div>`;
-      html+='<p style="margin-top:15px;font-size:12px;color:#6B7280;">※翌期のオプション料金は初回から13ヶ月後のお支払いとなります</p>';
+      html+='<p style="margin-top:15px;font-size:12px;color:#6B7280;">※オプション料金は毎年継続してお支払いとなります</p>';
 
       if(appState.isYearEndPeriod && (appState.hasDependent || appState.hasDirector)){
         html+=`

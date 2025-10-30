@@ -622,6 +622,13 @@ function moveFromPendingToMaster(uuid, paymentData) {
 
     // 4) LP①データ（G〜AA列）をマスタに書き込み
     master.getRange(masterRowIndex, 7, 1, LP1_HEADERS.length).setValues([lp1Data]);
+    
+    // 4-1) AA列（初年度合計金額）をStripeの実際の決済金額（プロモーションコード適用後）に上書き
+    const actualAmount = paymentData.actualAmount || 0;
+    if (actualAmount > 0) {
+      master.getRange(masterRowIndex, 27).setValue(actualAmount);  // AA列 = 27列目
+      logWebhookEvent('moveFromPendingToMaster', uuid, 'actual_amount_saved', 'Actual Amount (after discount): ' + actualAmount + '円', '');
+    }
 
     // 5) 決済データヘッダーを確保（AB〜AF列）
     const headerRow = master.getRange(1, 28, 1, PAYMENT_HEADERS.length).getValues()[0];
@@ -751,7 +758,7 @@ function createStripeCheckoutSession(uuid, payment) {
       quantity: 1
     }];
 
-    // オプション追加
+    // オプション追加（サブスクリプションで毎年継続）
     if (payment.options && payment.options.length > 0) {
       payment.options.forEach(function(option) {
         lineItems.push({
@@ -760,7 +767,10 @@ function createStripeCheckoutSession(uuid, payment) {
             product_data: {
               name: option.name
             },
-            unit_amount: option.amount
+            unit_amount: option.amount,
+            recurring: {
+              interval: payment.planType === 'yearly' ? 'year' : 'month'
+            }
           },
           quantity: 1
         });
@@ -786,6 +796,10 @@ function createStripeCheckoutSession(uuid, payment) {
         payloadParts.push('line_items[' + index + '][price_data][currency]=' + encodeURIComponent(item.price_data.currency));
         payloadParts.push('line_items[' + index + '][price_data][product_data][name]=' + encodeURIComponent(item.price_data.product_data.name));
         payloadParts.push('line_items[' + index + '][price_data][unit_amount]=' + encodeURIComponent(item.price_data.unit_amount));
+        // recurring設定を追加（オプションを毎年継続）
+        if (item.price_data.recurring) {
+          payloadParts.push('line_items[' + index + '][price_data][recurring][interval]=' + encodeURIComponent(item.price_data.recurring.interval));
+        }
         payloadParts.push('line_items[' + index + '][quantity]=' + encodeURIComponent(item.quantity));
       }
     });
@@ -794,6 +808,7 @@ function createStripeCheckoutSession(uuid, payment) {
     const baseUrl = LP2_DETAIL_URL.replace('/lp2-detail.html', '');
     payloadParts.push('success_url=' + encodeURIComponent(LP2_DETAIL_URL + '?session_id={CHECKOUT_SESSION_ID}'));
     payloadParts.push('cancel_url=' + encodeURIComponent(baseUrl + '/1218tst.html?canceled=true'));
+    // プロモーションコード入力を許可（初年度のみ適用されるかは、Stripe Dashboardのプロモーションコード設定の「Duration: Once」による）
     payloadParts.push('allow_promotion_codes=true');
     
     // metadata
@@ -993,7 +1008,8 @@ function handleCheckoutCompleted(session) {
       email: email,  // Stripeから取得したメールアドレス
       hasTaxObligation: hasTaxObligation,  // 課税判定
       promoCode: promoCode,  // プロモーションコード
-      discount: discountYen  // 割引額（円）
+      discount: discountYen,  // 割引額（円）
+      actualAmount: totalYen  // 実際の決済金額（プロモーションコード適用後）
     };
     
     const moveResult = moveFromPendingToMaster(uuid, paymentData);
