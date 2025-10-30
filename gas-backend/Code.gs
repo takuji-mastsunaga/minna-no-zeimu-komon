@@ -33,6 +33,12 @@ const PAYMENT_HEADERS = [
   '決済ステータス', 'UUID', '決済日時', 'Stripe Customer ID', 'Stripe Subscription ID'
 ];
 
+// CH〜CI（プロモーションコード・割引）のヘッダー
+const PROMO_HEADERS = [
+  'プロモーションコード',  // CH列
+  '割引額'                 // CI列
+];
+
 // LP2（詳細情報）のヘッダー（AG〜BZ列）
 const LP2_HEADERS = [
   // 法人情報（AG-AU）- 個人の場合は空白
@@ -592,6 +598,27 @@ function moveFromPendingToMaster(uuid, paymentData) {
     const taxStatus = paymentData.hasTaxObligation ? '課税' : '非課税';
     master.getRange(masterRowIndex, 6).setValue(taxStatus);
     logWebhookEvent('moveFromPendingToMaster', uuid, 'tax_status_saved', 'Tax Status: ' + taxStatus, '');
+    
+    // 3-4) CH列（86列目）にプロモーションコードを書き込み
+    const promoCode = paymentData.promoCode || '';
+    if (promoCode) {
+      master.getRange(masterRowIndex, 86).setValue(promoCode);  // CH列
+      logWebhookEvent('moveFromPendingToMaster', uuid, 'promo_code_saved', 'Promo Code: ' + promoCode, '');
+    }
+    
+    // 3-5) CI列（87列目）に割引額を書き込み
+    const discount = paymentData.discount || 0;
+    if (discount > 0) {
+      master.getRange(masterRowIndex, 87).setValue(discount);  // CI列
+      logWebhookEvent('moveFromPendingToMaster', uuid, 'discount_saved', 'Discount: ' + discount + '円', '');
+    }
+    
+    // 3-6) CH-CI列のヘッダーを確保
+    const promoHeaderRow = master.getRange(1, 86, 1, 2).getValues()[0];
+    if (!promoHeaderRow[0]) {
+      master.getRange(1, 86, 1, 2).setValues([PROMO_HEADERS]);
+      logWebhookEvent('moveFromPendingToMaster', uuid, 'promo_headers_added', 'Promo headers added', '');
+    }
 
     // 4) LP①データ（G〜AA列）をマスタに書き込み
     master.getRange(masterRowIndex, 7, 1, LP1_HEADERS.length).setValues([lp1Data]);
@@ -887,11 +914,16 @@ function handleCheckoutCompleted(session) {
     // Stripe Sessionから課税判定を取得
     const hasTaxObligation = session.metadata.has_tax_obligation === 'true';
     
+    // Stripe Sessionからプロモーションコード情報を取得
+    const promoCode = (session.discounts && session.discounts[0]) ? (session.discounts[0].promotion_code || '') : '';
+    const discountAmount = (session.total_details && session.total_details.amount_discount) ? session.total_details.amount_discount : 0;
+    const discountYen = Math.floor(discountAmount / 100); // セント→円変換
+    
     logWebhookEvent(
       'checkout.session.completed',
       uuid,
       'processing',
-      'Customer: ' + customerId + ', Subscription: ' + subscriptionId + ', Email: ' + email + ', Tax: ' + (hasTaxObligation ? '課税' : '非課税'),
+      'Customer: ' + customerId + ', Subscription: ' + subscriptionId + ', Email: ' + email + ', Tax: ' + (hasTaxObligation ? '課税' : '非課税') + (promoCode ? ', Promo: ' + promoCode : ''),
       ''
     );
     
@@ -903,7 +935,9 @@ function handleCheckoutCompleted(session) {
       customerId: customerId,
       subscriptionId: subscriptionId,
       email: email,  // Stripeから取得したメールアドレス
-      hasTaxObligation: hasTaxObligation  // 課税判定
+      hasTaxObligation: hasTaxObligation,  // 課税判定
+      promoCode: promoCode,  // プロモーションコード
+      discount: discountYen  // 割引額（円）
     };
     
     const moveResult = moveFromPendingToMaster(uuid, paymentData);
