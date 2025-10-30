@@ -822,6 +822,7 @@
 
         if (data.success) {
           entityType = data.entityType;
+          lp1Data.entityType = data.entityType; // LP1のentityTypeを保存（タブ切り替え制御用）
           
           if (data.lp2Completed) {
             // 入力済み：データを表示して完了画面へ
@@ -829,10 +830,26 @@
           } else {
             // 未入力：フォームを表示
             showSection('form-section');
-            // entityTypeに応じてタブとフォームを切り替え
+            
+            // LP1で選択したentityTypeに応じて、該当するタブのみ表示
+            const tabCorporate = document.getElementById('tab-corporate');
+            const tabIndividual = document.getElementById('tab-individual');
+            const tabContainer = document.querySelector('.tab-container');
+            
             if (entityType === '個人') {
+              // 個人の場合：法人タブを非表示、個人タブのみ表示
+              tabCorporate.style.display = 'none';
+              tabIndividual.style.display = 'block';
+              tabIndividual.style.width = '100%';
               switchTab('individual');
+            } else if (entityType === '法人') {
+              // 法人の場合：個人タブを非表示、法人タブのみ表示
+              tabIndividual.style.display = 'none';
+              tabCorporate.style.display = 'block';
+              tabCorporate.style.width = '100%';
+              switchTab('corporate');
             } else {
+              // entityTypeが不明な場合は両方表示（フォールバック）
               switchTab('corporate');
             }
           }
@@ -849,6 +866,13 @@
 
     // タブ切り替え
     function switchTab(type) {
+      // LP1で選択したentityTypeと一致しない場合は切り替えを拒否
+      const requestedEntityType = type === 'corporate' ? '法人' : '個人';
+      if (lp1Data.entityType && lp1Data.entityType !== requestedEntityType) {
+        console.log('タブ切り替えが拒否されました。LP1の選択:', lp1Data.entityType, '要求:', requestedEntityType);
+        return;
+      }
+      
       // 現在のフォームデータを保存
       saveCurrentFormData();
 
