@@ -11,7 +11,7 @@ const LP2_DETAIL_URL    = VERCEL_PRODUCTION + '/lp2-detail.html';  // LP2詳細�
 
 // A〜F列のヘッダー（基本情報・Googleドライブ関連）
 const BASIC_HEADERS = [
-  '採番',                    // A列: 将来的なGoogleドライブ用
+  '採番',                    // A列: 将来的なクライアント採番用（予約）
   '親ドライブURL',           // B列: 将来的なGoogleドライブ用
   '未使用C',                 // C列: Googleドライブ関連（未使用）
   '未使用D',                 // D列: Googleドライブ関連（未使用）
@@ -33,16 +33,69 @@ const PAYMENT_HEADERS = [
   '決済ステータス', 'UUID', '決済日時', 'Stripe Customer ID', 'Stripe Subscription ID'
 ];
 
-// LP2（詳細情報）のヘッダー（AG〜AW列）
+// LP2（詳細情報）のヘッダー（AG〜BZ列）
 const LP2_HEADERS = [
-  '法人名', '法人郵便番号', '法人住所',                           // AG-AI（法人のみ）
-  '代表者名/名前', 'フリガナ',                                   // AJ-AK
-  '代表者郵便番号/郵便番号', '代表者住所/住所',                   // AL-AM
-  'e-tax利用者識別番号', 'e-tax暗証番号/パスワード',             // AN-AO
-  'e-Ltax利用者ID', 'e-Ltax暗証番号',                           // AP-AQ（法人のみ）
-  '会計ソフト使用状況', '使用会計ソフト名', 'その他会計ソフト名', // AR-AT
-  'クラウド会計メールアドレス',                                  // AU
-  'LP2入力完了フラグ', 'LP2入力日時'                            // AV-AW
+  // 法人情報（AG-AU）- 個人の場合は空白
+  '法人名',                          // AG
+  '法人名フリガナ',                  // AH
+  '法人番号',                        // AI
+  '法人電話番号1',                   // AJ
+  '法人電話番号2',                   // AK
+  '法人電話番号3',                   // AL
+  '法人郵便番号1',                   // AM
+  '',                                // AN (未使用)
+  '法人郵便番号2',                   // AO
+  '',                                // AP (郵便番号検索ボタン用・データ保存なし)
+  '法人都道府県',                    // AQ
+  '法人住所1',                       // AR
+  '法人住所1フリガナ',               // AS
+  '法人住所2',                       // AT
+  '法人住所2フリガナ',               // AU
+  
+  // 共通情報（AV）
+  '所轄の税務署',                    // AV
+  
+  // 代表者情報/個人情報（AW-BI）
+  '代表者名/氏名',                   // AW
+  '代表者フリガナ/フリガナ',         // AX
+  '代表者電話番号1/電話番号1',       // AY
+  '代表者電話番号2/電話番号2',       // AZ
+  '代表者電話番号3/電話番号3',       // BA
+  '代表者郵便番号1/郵便番号1',       // BB
+  '代表者郵便番号2/郵便番号2',       // BC
+  '',                                // BD (郵便番号検索ボタン用・データ保存なし)
+  '代表者都道府県/都道府県',         // BE
+  '代表者住所1/住所1',               // BF
+  '代表者住所1フリガナ/住所1フリガナ', // BG
+  '代表者住所2/住所2',               // BH
+  '代表者住所2フリガナ/住所2フリガナ', // BI
+  
+  // e-Tax/e-Ltax情報（BJ-BM）
+  'e-tax利用者識別番号',             // BJ
+  'e-tax暗証番号',                   // BK
+  'e-Ltax利用者ID',                  // BL (法人のみ)
+  'e-Ltax暗証番号',                  // BM (法人のみ)
+  
+  // 法人追加情報（BN-BQ）- 個人の場合は空白
+  '資本金',                          // BN
+  '決算月',                          // BO
+  '役員人数',                        // BP
+  '従業員数',                        // BQ
+  
+  // 会計ソフト情報（BR-BV）
+  'クラウド会計ソフト使用状況',      // BR
+  '使用中の会計ソフト名',            // BS
+  'その他会計ソフト名',              // BT
+  'マネーフォワード事業者番号',      // BU (新規追加)
+  'メールアドレス',                  // BV (元BU)
+  
+  // Chatwork情報（BW-BX）
+  'chatwork利用有無',                // BW (元BV)
+  'chatworkメールアドレス',          // BX (元BW)
+  
+  // 完了フラグ・日時（BY-BZ）
+  'LP2入力完了フラグ',               // BY (元BX)
+  'LP2入力日時'                      // BZ (元BY)
 ];
 
 // Stripe Price ID マッピング（テスト環境用）
@@ -71,8 +124,23 @@ const OPTION_PRICES = {
 /* ========== CORS対応：OPTIONSリクエスト処理 ========== */
 function doOptions(e) {
   // プリフライトリクエスト（OPTIONS）に対応
-  return ContentService.createTextOutput('')
-    .setMimeType(ContentService.MimeType.TEXT);
+  var output = ContentService.createTextOutput('');
+  output.setMimeType(ContentService.MimeType.TEXT);
+  output.setHeader('Access-Control-Allow-Origin', '*');
+  output.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  output.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  output.setHeader('Access-Control-Max-Age', '86400');
+  return output;
+}
+
+/* ========== CORS対応レスポンス生成ヘルパー ========== */
+function createCorsResponse(data, mimeType) {
+  var output = ContentService.createTextOutput(JSON.stringify(data));
+  output.setMimeType(mimeType || ContentService.MimeType.JSON);
+  output.setHeader('Access-Control-Allow-Origin', '*');
+  output.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  output.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  return output;
 }
 
 /* ========== Vercel→GAS：LP①保存API ========== */
@@ -172,16 +240,14 @@ function doPost(e) {
       var sessionId = e.parameter.sessionId || (e.postData && JSON.parse(e.postData.contents).sessionId);
       var emailPrefix = e.parameter.emailPrefix || (e.postData && JSON.parse(e.postData.contents).emailPrefix);
       var authResult = authenticateLP2(sessionId, emailPrefix);
-      return ContentService.createTextOutput(JSON.stringify(authResult))
-        .setMimeType(ContentService.MimeType.JSON);
+      return createCorsResponse(authResult);
     }
 
     // LP2: フォームデータ取得
     if (action === 'getLP2FormData') {
       var sessionId = e.parameter.sessionId || (e.postData && JSON.parse(e.postData.contents).sessionId);
       var formDataResult = getLP2FormData(sessionId);
-      return ContentService.createTextOutput(JSON.stringify(formDataResult))
-        .setMimeType(ContentService.MimeType.JSON);
+      return createCorsResponse(formDataResult);
     }
 
     // LP2: データ保存
@@ -196,25 +262,49 @@ function doPost(e) {
         data = body.data;
       }
       var saveResult = saveLP2Data(sessionId, data);
-      return ContentService.createTextOutput(JSON.stringify(saveResult))
-        .setMimeType(ContentService.MimeType.JSON);
+      return createCorsResponse(saveResult);
     }
 
-    return ContentService.createTextOutput(JSON.stringify({success:false, error:'unknown_action'}))
-      .setMimeType(ContentService.MimeType.JSON);
+    return createCorsResponse({success:false, error:'unknown_action'});
   } catch (err) {
     Logger.log('doPost error: ' + err);
-    return ContentService.createTextOutput(JSON.stringify({success:false, error:String(err)}))
-      .setMimeType(ContentService.MimeType.JSON);
+    return createCorsResponse({success:false, error:String(err)});
   }
 }
 
 /* ========== GETエンドポイント（動作確認用） ========== */
-function doGet() {
+function doGet(e) {
+  // actionパラメータがない場合は、ステータスを返す
+  if (!e.parameter.action) {
+    return ContentService.createTextOutput(JSON.stringify({
+      status: 'ok',
+      message: '1218tst Backend API is running',
+      timestamp: new Date().toISOString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  var action = e.parameter.action;
+  
+  // LP2: 簡易認証（GET対応）
+  if (action === 'authenticateLP2') {
+    var sessionId = e.parameter.sessionId;
+    var emailPrefix = e.parameter.emailPrefix;
+    var authResult = authenticateLP2(sessionId, emailPrefix);
+    return ContentService.createTextOutput(JSON.stringify(authResult))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  // LP2: フォームデータ取得（GET対応）
+  if (action === 'getLP2FormData') {
+    var sessionId = e.parameter.sessionId;
+    var formDataResult = getLP2FormData(sessionId);
+    return ContentService.createTextOutput(JSON.stringify(formDataResult))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+  
   return ContentService.createTextOutput(JSON.stringify({
-    status: 'ok',
-    message: '1218tst Backend API is running',
-    timestamp: new Date().toISOString()
+    success: false,
+    error: 'unknown_action'
   })).setMimeType(ContentService.MimeType.JSON);
 }
 
@@ -488,8 +578,8 @@ function moveFromPendingToMaster(uuid, paymentData) {
     // 3) マスタシートに新規行を追加
     const masterRowIndex = master.getLastRow() + 1;
 
-    // 3-1) A列にUUIDを書き込み
-    master.getRange(masterRowIndex, 1).setValue(uuid);
+    // 3-1) A列は将来のクライアント採番用に予約（空のまま）
+    // master.getRange(masterRowIndex, 1).setValue(uuid); // ← 削除: UUIDはAC列に保存
     
     // 3-2) E列にメールアドレスを書き込み（Stripe Sessionから取得）
     const email = paymentData.email || '';
@@ -1136,25 +1226,67 @@ function authenticateLP2(sessionId, emailPrefix) {
 }
 
 /**
- * AG-AU列のデータを抽出
+ * AG-BX列のデータを抽出（44列分）
  */
 function extractLP2Data_(rowData, entityType) {
   const data = {
-    corpName: rowData[32] || '', // AG列: 法人名
-    corpPostal: rowData[33] || '', // AH列: 法人郵便番号
-    corpAddress: rowData[34] || '', // AI列: 法人住所
-    repName: rowData[35] || '', // AJ列: 代表者名/名前
-    repFurigana: rowData[36] || '', // AK列: フリガナ
-    repPostal: rowData[37] || '', // AL列: 代表者郵便番号/郵便番号
-    repAddress: rowData[38] || '', // AM列: 代表者住所/住所
-    etaxId: rowData[39] || '', // AN列: e-tax利用者識別番号
-    etaxPassword: rowData[40] || '', // AO列: e-tax暗証番号/パスワード
-    eltaxId: rowData[41] || '', // AP列: e-Ltax利用者ID
-    eltaxPassword: rowData[42] || '', // AQ列: e-Ltax暗証番号
-    accountingSoftware: rowData[43] || '', // AR列: 会計ソフト使用状況
-    softwareName: rowData[44] || '', // AS列: 使用会計ソフト名
-    otherSoftwareName: rowData[45] || '', // AT列: その他会計ソフト名
-    cloudEmail: rowData[46] || '' // AU列: クラウド会計メールアドレス
+    // 法人情報（AG-AU）
+    corpName: rowData[32] || '',          // AG
+    corpNameKana: rowData[33] || '',      // AH
+    corpNumber: rowData[34] || '',        // AI
+    corpTel1: rowData[35] || '',          // AJ
+    corpTel2: rowData[36] || '',          // AK
+    corpTel3: rowData[37] || '',          // AL
+    corpPostal1: rowData[38] || '',       // AM
+    // AN: 未使用
+    corpPostal2: rowData[40] || '',       // AO
+    // AP: 郵便番号検索ボタン
+    corpPrefecture: rowData[42] || '',    // AQ
+    corpAddress1: rowData[43] || '',      // AR
+    corpAddress1Kana: rowData[44] || '',  // AS
+    corpAddress2: rowData[45] || '',      // AT
+    corpAddress2Kana: rowData[46] || '',  // AU
+    
+    // 共通情報（AV）
+    taxOffice: rowData[47] || '',         // AV
+    
+    // 代表者情報/個人情報（AW-BI）
+    repName: rowData[48] || '',           // AW
+    repNameKana: rowData[49] || '',       // AX
+    repTel1: rowData[50] || '',           // AY
+    repTel2: rowData[51] || '',           // AZ
+    repTel3: rowData[52] || '',           // BA
+    repPostal1: rowData[53] || '',        // BB
+    repPostal2: rowData[54] || '',        // BC
+    // BD: 郵便番号検索ボタン
+    repPrefecture: rowData[56] || '',     // BE
+    repAddress1: rowData[57] || '',       // BF
+    repAddress1Kana: rowData[58] || '',   // BG
+    repAddress2: rowData[59] || '',       // BH
+    repAddress2Kana: rowData[60] || '',   // BI
+    
+    // e-Tax/e-Ltax情報（BJ-BM）
+    etaxId: rowData[61] || '',            // BJ
+    etaxPassword: rowData[62] || '',      // BK
+    eltaxId: rowData[63] || '',           // BL
+    eltaxPassword: rowData[64] || '',     // BM
+    
+    // 法人追加情報（BN-BQ）
+    capital: rowData[65] || '',           // BN
+    fiscalMonth: rowData[66] || '',       // BO
+    officerCount: rowData[67] || '',      // BP
+    employeeCount: rowData[68] || '',     // BQ
+    
+    // 会計ソフト情報（BR-BV）
+    accountingSoftware: rowData[69] || '', // BR
+    softwareName: rowData[70] || '',       // BS
+    otherSoftwareName: rowData[71] || '',  // BT
+    mfBusinessNumber: rowData[72] || '',   // BU (マネーフォワード事業者番号)
+    cloudEmail: rowData[73] || '',         // BV
+    
+    // Chatwork情報（BW-BX）
+    chatworkUse: rowData[74] || '',        // BW
+    chatworkEmail: rowData[75] || ''       // BX
   };
 
   return data;
@@ -1193,9 +1325,9 @@ function getLP2FormData(sessionId) {
     // 4. entityType を取得（G列 = index 6: 個人・法人）
     const entityType = rowData[6]; // G列 = index 6
 
-    // 5. LP2入力完了フラグをチェック（AV列 = index 47）
-    const lp2Completed = rowData[47]; // AV列 = 48列目 = index 47
-    const lp2CompletedAt = rowData[48]; // AW列 = 49列目 = index 48
+    // 5. LP2入力完了フラグをチェック（BY列 = index 76）
+    const lp2Completed = rowData[76]; // BY列 = 77列目 = index 76
+    const lp2CompletedAt = rowData[77]; // BZ列 = 78列目 = index 77
 
     // 6. 未入力の場合
     if (!lp2Completed) {
@@ -1231,34 +1363,69 @@ function getLP2FormData(sessionId) {
 }
 
 /**
- * LP2データを列の配列に変換
+ * LP2データを列の配列に変換（AG～BX列、44列分）
  */
 function buildLP2Values_(data, entityType) {
   const isCorporate = entityType === '法人';
   
   return [
-    // AG-AI: 法人情報（法人のみ）
-    isCorporate ? (data.corpName || '') : '',
-    isCorporate ? (data.corpPostal || '') : '',
-    isCorporate ? (data.corpAddress || '') : '',
-    // AJ-AK: 代表者名/名前、フリガナ
-    data.repName || '',
-    data.repFurigana || '',
-    // AL-AM: 代表者郵便番号/郵便番号、代表者住所/住所
-    data.repPostal || '',
-    data.repAddress || '',
-    // AN-AO: e-Tax情報
-    data.etaxId || '',
-    data.etaxPassword || '',
-    // AP-AQ: e-Ltax情報（法人のみ）
-    isCorporate ? (data.eltaxId || '') : '',
-    isCorporate ? (data.eltaxPassword || '') : '',
-    // AR-AT: 会計ソフト情報
-    data.accountingSoftware || '',
-    data.softwareName || '',
-    data.otherSoftwareName || '',
-    // AU: クラウド会計メールアドレス
-    data.cloudEmail || ''
+    // 法人情報（AG-AU）- 個人の場合は空白
+    isCorporate ? (data.corpName || '') : '',           // AG
+    isCorporate ? (data.corpNameKana || '') : '',       // AH
+    isCorporate ? (data.corpNumber || '') : '',         // AI
+    isCorporate ? (data.corpTel1 || '') : '',           // AJ
+    isCorporate ? (data.corpTel2 || '') : '',           // AK
+    isCorporate ? (data.corpTel3 || '') : '',           // AL
+    isCorporate ? (data.corpPostal1 || '') : '',        // AM
+    '',                                                 // AN (未使用)
+    isCorporate ? (data.corpPostal2 || '') : '',        // AO
+    '',                                                 // AP (郵便番号検索ボタン・データ保存なし)
+    isCorporate ? (data.corpPrefecture || '') : '',     // AQ
+    isCorporate ? (data.corpAddress1 || '') : '',       // AR
+    isCorporate ? (data.corpAddress1Kana || '') : '',   // AS
+    isCorporate ? (data.corpAddress2 || '') : '',       // AT
+    isCorporate ? (data.corpAddress2Kana || '') : '',   // AU
+    
+    // 共通情報（AV）
+    data.taxOffice || '',                               // AV
+    
+    // 代表者情報/個人情報（AW-BI）
+    data.repName || '',                                 // AW
+    data.repNameKana || '',                             // AX
+    data.repTel1 || '',                                 // AY
+    data.repTel2 || '',                                 // AZ
+    data.repTel3 || '',                                 // BA
+    data.repPostal1 || '',                              // BB
+    data.repPostal2 || '',                              // BC
+    '',                                                 // BD (郵便番号検索ボタン・データ保存なし)
+    data.repPrefecture || '',                           // BE
+    data.repAddress1 || '',                             // BF
+    data.repAddress1Kana || '',                         // BG
+    data.repAddress2 || '',                             // BH
+    data.repAddress2Kana || '',                         // BI
+    
+    // e-Tax/e-Ltax情報（BJ-BM）
+    data.etaxId || '',                                  // BJ
+    data.etaxPassword || '',                            // BK
+    isCorporate ? (data.eltaxId || '') : '',            // BL (法人のみ)
+    isCorporate ? (data.eltaxPassword || '') : '',      // BM (法人のみ)
+    
+    // 法人追加情報（BN-BQ）- 個人の場合は空白
+    isCorporate ? (data.capital || '') : '',            // BN
+    isCorporate ? (data.fiscalMonth || '') : '',        // BO
+    isCorporate ? (data.officerCount || '') : '',       // BP
+    isCorporate ? (data.employeeCount || '') : '',      // BQ
+    
+    // 会計ソフト情報（BR-BV）
+    data.accountingSoftware || '',                      // BR
+    data.softwareName || '',                            // BS
+    data.otherSoftwareName || '',                       // BT
+    data.mfBusinessNumber || '',                        // BU (マネーフォワード事業者番号)
+    data.cloudEmail || '',                              // BV
+    
+    // Chatwork情報（BW-BX）
+    data.chatworkUse || '',                             // BW
+    data.chatworkEmail || ''                            // BX
   ];
 }
 
@@ -1291,8 +1458,8 @@ function saveLP2Data(sessionId, data) {
     const masterSheet = getOrCreateMaster_();
     const rowIndex = info.rowIndex;
 
-    // 4. LP2入力完了フラグをチェック（AV列 = 48列目）
-    const lp2Completed = masterSheet.getRange(rowIndex, 48).getValue();
+    // 4. LP2入力完了フラグをチェック（BY列 = 77列目）
+    const lp2Completed = masterSheet.getRange(rowIndex, 77).getValue();
     if (lp2Completed === true || lp2Completed === 'TRUE') {
       return {
         success: false,
@@ -1304,17 +1471,17 @@ function saveLP2Data(sessionId, data) {
     // 5. entityType を取得（G列 = 7列目: 個人・法人）
     const entityType = masterSheet.getRange(rowIndex, 7).getValue();
 
-    // 6. LP2データを列に配置（AG-AU = 15列）
+    // 6. LP2データを列に配置（AG-BX = 44列）
     const lp2Values = buildLP2Values_(data, entityType);
 
-    // 7. AG-AU列（33-47列目: 15列）にデータを書き込み
-    masterSheet.getRange(rowIndex, 33, 1, 15).setValues([lp2Values]);
+    // 7. AG-BX列（33-76列目: 44列）にデータを書き込み
+    masterSheet.getRange(rowIndex, 33, 1, 44).setValues([lp2Values]);
 
-    // 8. AV列（48列目）にTRUEを設定
-    masterSheet.getRange(rowIndex, 48).setValue(true);
+    // 8. BY列（77列目）にTRUEを設定
+    masterSheet.getRange(rowIndex, 77).setValue(true);
 
-    // 9. AW列（49列目）に現在日時を記録
-    masterSheet.getRange(rowIndex, 49).setValue(new Date());
+    // 9. BZ列（78列目）に現在日時を記録
+    masterSheet.getRange(rowIndex, 78).setValue(new Date());
 
     // 10. ログ記録
     logWebhookEvent('saveLP2Data', uuid, 'success', 'LP2 data saved', '');
