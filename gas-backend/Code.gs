@@ -1364,6 +1364,14 @@ function getLP2FormData(sessionId) {
     // 3. master シートからデータ取得
     const masterSheet = getOrCreateMaster_();
     const rowIndex = info.rowIndex;
+    
+    // 3-1. CH-CI列のヘッダーを確保（LP2画面表示時に確実に追加）
+    const promoHeaderRow = masterSheet.getRange(1, 86, 1, 2).getValues()[0];
+    if (!promoHeaderRow[0]) {
+      masterSheet.getRange(1, 86, 1, 2).setValues([PROMO_HEADERS]);
+      logWebhookEvent('getLP2FormData', uuid, 'promo_headers_added', 'Promo headers added on LP2 access', '');
+    }
+    
     const rowData = masterSheet.getRange(rowIndex, 1, 1, masterSheet.getLastColumn()).getValues()[0];
     
     // 4. entityType を取得（G列 = index 6: 個人・法人）
