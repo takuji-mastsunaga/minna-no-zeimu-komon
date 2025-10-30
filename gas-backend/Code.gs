@@ -914,8 +914,46 @@ function handleCheckoutCompleted(session) {
     // Stripe Sessionから課税判定を取得
     const hasTaxObligation = session.metadata.has_tax_obligation === 'true';
     
-    // Stripe Sessionからプロモーションコード情報を取得
-    const promoCode = (session.discounts && session.discounts[0]) ? (session.discounts[0].promotion_code || '') : '';
+    // Stripe Sessionからプロモーションコード情報を取得（実際のコード名を取得）
+    let promoCode = '';
+    if (session.discounts && session.discounts[0]) {
+      const pc = session.discounts[0].promotion_code;
+      
+      // 1. オブジェクトとして展開されている場合、codeプロパティを取得
+      if (typeof pc === 'object' && pc !== null && pc.code) {
+        promoCode = pc.code;  // 例: "TEST10"
+        Logger.log('Promo code from expanded object: ' + promoCode);
+      }
+      // 2. 文字列（ID）の場合、Stripe APIで詳細取得
+      else if (typeof pc === 'string' && pc.startsWith('promo_')) {
+        try {
+          const apiKey = getStripeApiKey();
+          const url = 'https://api.stripe.com/v1/promotion_codes/' + pc;
+          const response = UrlFetchApp.fetch(url, {
+            method: 'get',
+            headers: { 'Authorization': 'Bearer ' + apiKey },
+            muteHttpExceptions: true
+          });
+          
+          if (response.getResponseCode() === 200) {
+            const pcObj = JSON.parse(response.getContentText());
+            promoCode = pcObj.code || pc;  // 例: "TEST10"
+            Logger.log('Promo code from API: ' + promoCode);
+          } else {
+            promoCode = pc;  // APIエラー時はIDのまま保存
+            Logger.log('Promo API error, using ID: ' + promoCode);
+          }
+        } catch (err) {
+          promoCode = pc;  // エラー時はIDのまま保存
+          Logger.log('Promo code fetch error: ' + err + ', using ID: ' + promoCode);
+        }
+      }
+      // 3. その他の場合
+      else if (typeof pc === 'string') {
+        promoCode = pc;
+      }
+    }
+    
     const discountAmount = (session.total_details && session.total_details.amount_discount) ? session.total_details.amount_discount : 0;
     const discountYen = Math.floor(discountAmount / 100); // セント→円変換
     
