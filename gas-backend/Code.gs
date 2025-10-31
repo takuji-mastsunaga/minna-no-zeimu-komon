@@ -104,12 +104,12 @@ const LP2_HEADERS = [
   'LP2入力日時'                      // BZ (元BY)
 ];
 
-// Stripe Price ID マッピング（テスト環境用）
+// Stripe Price ID マッピング（本番環境用）
 const STRIPE_PRICES = {
-  tax_yearly: 'price_1SLYthE9A3F57SZ7pp1p5fSA',      // 消費税あり・年払い (¥128,880/年)
-  tax_monthly: 'price_1SLYu8E9A3F57SZ7ga1zp8xm',     // 消費税あり・月額 (¥12,300/月)
-  no_tax_yearly: 'price_1SLYvAE9A3F57SZ7sJ9oTQNt',   // 消費税なし・年払い (¥99,080/年)
-  no_tax_monthly: 'price_1SLYvVE9A3F57SZ7nhwxQcUl'   // 消費税なし・月額 (¥9,800/月)
+  tax_yearly: 'price_1RyTiICcw6eshotqmv1ezW3r',      // 消費税あり・年払い (¥128,880/年)
+  tax_monthly: 'price_1RyTeiCcw6eshotqqIPkTHAz',     // 消費税あり・月額 (¥12,300/月)
+  no_tax_yearly: 'price_1RySrxCcw6eshotqNdyfeqR4',   // 消費税なし・年払い (¥99,080/年)
+  no_tax_monthly: 'price_1RySpsCcw6eshotqirRAGtRZ'   // 消費税なし・月額 (¥9,800/月)
 };
 
 // オプション料金マッピング
