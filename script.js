@@ -59,8 +59,8 @@ if (applyButton) {
             alert('利用規約への同意が必要です。');
             return;
         }
-        // 料金ページにリダイレクト
-        window.location.href = 'https://www.minzei-tax.com/cost.tax';
+        // 契約ページにリダイレクト
+        window.location.href = 'https://www.minzei-tax.com/keiyaku';
     });
 }
 
