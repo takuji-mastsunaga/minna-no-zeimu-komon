@@ -25,6 +25,14 @@
     {
       "source": "/1218tst",
       "destination": "/1218tst.html"
+    },
+    {
+      "source": "/keiyaku.html",
+      "destination": "/1218tst.html"
+    },
+    {
+      "source": "/keiyaku",
+      "destination": "/1218tst.html"
     }
   ],
   "headers": [
