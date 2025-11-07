@@ -5,7 +5,8 @@ const PENDING_SHEET_NAME = 'pending_applications'; // 決済前の仮保存シ�
 const KEYS_SHEET_NAME   = 'keys';                  // 申込IDと行番号の対応表
 const LOG_SHEET_NAME    = 'webhook_logs';          // Webhook詳細ログシート
 // Vercel Production URL（固定）を使用 - Preview URLは毎回変わるため使用しない
-const VERCEL_PRODUCTION = 'https://minna-no-zeimu-komon.vercel.app';
+// 本番環境では独自ドメインを使用
+const VERCEL_PRODUCTION = 'https://www.minzei-tax.com';
 const LP2_BASE_URL      = VERCEL_PRODUCTION + '/lp2-success.html';  // 決済完了ページ（現在未使用）
 const LP2_DETAIL_URL    = VERCEL_PRODUCTION + '/lp2-detail.html';  // LP2詳細情報入力ページ
 
@@ -101,7 +102,13 @@ const LP2_HEADERS = [
   
   // 完了フラグ・日時（BY-BZ）
   'LP2入力完了フラグ',               // BY (元BX)
-  'LP2入力日時'                      // BZ (元BY)
+  'LP2入力日時',                     // BZ (元BY)
+  
+  // 予備（CA-CI）
+  '', '', '', '', '', '', '', '', '', // CA-CI (予備列)
+  
+  // 法人追加情報2（CJ）
+  '設立年月日'                        // CJ
 ];
 
 // Stripe Price ID マッピング（本番環境用）
@@ -1474,7 +1481,10 @@ function extractLP2Data_(rowData, entityType) {
     
     // Chatwork情報（BW-BX）
     chatworkUse: rowData[74] || '',        // BW
-    chatworkEmail: rowData[75] || ''       // BX
+    chatworkEmail: rowData[75] || '',      // BX
+    
+    // 法人追加情報2（CJ）
+    establishmentDate: rowData[87] || ''   // CJ (0ベースで87番目 = 88列目)
   };
 
   return data;
@@ -1610,7 +1620,7 @@ function buildLP2Values_(data, entityType) {
     isCorporate ? (data.capital || '') : '',            // BN
     isCorporate ? (data.fiscalMonth || '') : '',        // BO
     isCorporate ? (data.officerCount || '') : '',       // BP
-    isCorporate ? (data.employeeCount || '') : '',      // BQ
+    data.employeeCount || '',                           // BQ (法人・個人共通)
     
     // 会計ソフト情報（BR-BV）
     data.accountingSoftware || '',                      // BR
@@ -1621,7 +1631,17 @@ function buildLP2Values_(data, entityType) {
     
     // Chatwork情報（BW-BX）
     data.chatworkUse || '',                             // BW
-    data.chatworkEmail || ''                            // BX
+    data.chatworkEmail || '',                           // BX
+    
+    // 完了フラグ・日時（BY-BZ）は別途saveLP2Data関数で設定
+    // ここでは空白を返す
+    '', '',                                             // BY-BZ
+    
+    // 予備（CA-CI）
+    '', '', '', '', '', '', '', '', '',                 // CA-CI (予備列)
+    
+    // 法人追加情報2（CJ）
+    isCorporate ? (data.establishmentDate || '') : ''   // CJ
   ];
 }
 
@@ -1667,16 +1687,16 @@ function saveLP2Data(sessionId, data) {
     // 5. entityType を取得（G列 = 7列目: 個人・法人）
     const entityType = masterSheet.getRange(rowIndex, 7).getValue();
 
-    // 6. LP2データを列に配置（AG-BX = 44列）
+    // 6. LP2データを列に配置（AG-CJ = 56列）
     const lp2Values = buildLP2Values_(data, entityType);
 
-    // 7. AG-BX列（33-76列目: 44列）にデータを書き込み
-    masterSheet.getRange(rowIndex, 33, 1, 44).setValues([lp2Values]);
+    // 7. AG-CJ列（33-88列目: 56列）にデータを書き込み
+    masterSheet.getRange(rowIndex, 33, 1, 56).setValues([lp2Values]);
 
-    // 8. BY列（77列目）にTRUEを設定
+    // 8. BY列（77列目）にTRUEを設定（buildLP2Values_で空白を返しているため再設定）
     masterSheet.getRange(rowIndex, 77).setValue(true);
 
-    // 9. BZ列（78列目）に現在日時を記録
+    // 9. BZ列（78列目）に現在日時を記録（buildLP2Values_で空白を返しているため再設定）
     masterSheet.getRange(rowIndex, 78).setValue(new Date());
     
     // 10. A列の採番を更新（法人名/氏名が取得できたので再生成）

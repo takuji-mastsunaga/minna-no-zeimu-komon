@@ -550,8 +550,13 @@
           <div class="section-title">法人追加情報</div>
 
           <div class="form-group">
+            <label for="establishment-date">設立年月日 <span class="required">*</span></label>
+            <input type="date" id="establishment-date" data-field="establishmentDate">
+          </div>
+
+          <div class="form-group">
             <label for="capital">資本金の額をご教示ください。 <span class="required">*</span></label>
-            <input type="number" id="capital" data-field="capital" placeholder="例: 1000000">
+            <input type="text" id="capital" data-field="capital" placeholder="例: 1,000,000" oninput="formatCapital(this)">
             <div class="help-text">単位：円</div>
           </div>
 
@@ -917,7 +922,12 @@
             formData[field] = input.value;
           }
         } else {
-          formData[field] = input.value;
+          // 資本金の場合はカンマを除去して数値のみを保存
+          if (field === 'capital') {
+            formData[field] = input.value.replace(/,/g, '');
+          } else {
+            formData[field] = input.value;
+          }
         }
       });
       console.log('フォームデータ保存:', formData);
@@ -1004,6 +1014,22 @@
       if (chatworkUse) {
         section.classList.toggle('hidden', chatworkUse.value !== 'あり');
       }
+    }
+
+    // 資本金のカンマ区切りフォーマット
+    function formatCapital(input) {
+      // カンマを除去して数値のみを取得
+      let value = input.value.replace(/,/g, '');
+      
+      // 数値以外の文字を除去
+      value = value.replace(/[^\d]/g, '');
+      
+      // カンマ区切りを追加
+      if (value) {
+        value = parseInt(value, 10).toLocaleString('ja-JP');
+      }
+      
+      input.value = value;
     }
 
     // フォーム送信
@@ -1103,7 +1129,7 @@
           'corpName', 'corpNameKana', 'corpNumber', 'corpTel1', 'corpTel2', 'corpTel3',
           'corpPostal1', 'corpPostal2', 'corpPrefecture', 'corpAddress1', 'corpAddress1Kana',
           'eltaxId', 'eltaxPassword',
-          'capital', 'fiscalMonth', 'officerCount'
+          'establishmentDate', 'capital', 'fiscalMonth', 'officerCount'
         );
       }
 
