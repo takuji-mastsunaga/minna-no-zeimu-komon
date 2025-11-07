@@ -395,17 +395,17 @@
           <div class="section-title">法人情報</div>
           
           <div class="form-group">
-            <label for="corp-name">法人名 <span class="required">*</span></label>
+            <label for="corp-name">法人名　　　記入例:株式会社〇〇 <span class="required">*</span></label>
             <input type="text" id="corp-name" data-field="corpName">
           </div>
 
           <div class="form-group">
-            <label for="corp-name-kana">法人名フリガナ <span class="required">*</span></label>
+            <label for="corp-name-kana">法人名フリガナ　記入例:カブシキガイシャ〇〇 <span class="required">*</span></label>
             <input type="text" id="corp-name-kana" data-field="corpNameKana" placeholder="カタカナで入力">
           </div>
 
           <div class="form-group">
-            <label for="corp-number">法人番号 <span class="optional">(任意)</span></label>
+            <label for="corp-number">法人番号 <span class="required">*</span></label>
             <input type="text" id="corp-number" data-field="corpNumber" maxlength="13" placeholder="13桁の法人番号">
           </div>
 
@@ -443,7 +443,7 @@
           </div>
 
           <div class="form-group">
-            <label for="corp-address1-kana">住所1フリガナ（市区町村・番地） <span class="optional">(任意)</span></label>
+            <label for="corp-address1-kana">住所1フリガナ（市区町村・番地） <span class="required">*</span></label>
             <input type="text" id="corp-address1-kana" data-field="corpAddress1Kana" placeholder="カタカナで入力">
           </div>
 
@@ -456,16 +456,6 @@
             <label for="corp-address2-kana">住所2フリガナ（建物名・部屋番号など） <span class="optional">(任意)</span></label>
             <input type="text" id="corp-address2-kana" data-field="corpAddress2Kana" placeholder="カタカナで入力">
           </div>
-        </div>
-
-        <!-- 共通情報：所轄の税務署 -->
-        <div class="section-title">所轄の税務署</div>
-        <div class="info-box">
-          必ずご確認をお願い致します。<a href="https://www.nta.go.jp/about/organization/access/map.htm" target="_blank">こちら</a>から検索が可能です。
-        </div>
-        <div class="form-group">
-          <label for="tax-office">所轄の税務署 <span class="required">*</span></label>
-          <input type="text" id="tax-office" data-field="taxOffice" placeholder="例: 麹町税務署">
         </div>
 
         <!-- 代表者情報/個人情報セクション -->
@@ -515,7 +505,7 @@
         </div>
 
         <div class="form-group">
-          <label for="rep-address1-kana"><span id="rep-address1-kana-label">代表者住所1フリガナ</span>（市区町村・番地） <span class="optional">(任意)</span></label>
+          <label for="rep-address1-kana"><span id="rep-address1-kana-label">代表者住所1フリガナ</span>（市区町村・番地） <span class="required">*</span></label>
           <input type="text" id="rep-address1-kana" data-field="repAddress1Kana" placeholder="カタカナで入力">
         </div>
 
@@ -605,6 +595,17 @@
             <input type="number" id="employee-count-ind" data-field="employeeCount" placeholder="例: 2" min="0" value="0">
             <div class="help-text"><strong>支払いがない場合は0と記入してください。</strong></div>
           </div>
+        </div>
+
+        <!-- 共通情報：所轄の税務署 -->
+        <div class="section-title">所轄の税務署</div>
+        <div class="info-box">
+          必ずご確認をお願い致します。<a href="https://www.nta.go.jp/about/organization/access/map.htm" target="_blank">こちら</a>から検索が可能です。<br>
+          <strong>※ 「税務署」の記載は不要です。税務署名のみをご記入ください。</strong>
+        </div>
+        <div class="form-group">
+          <label for="tax-office">所轄の税務署 <span class="required">*</span></label>
+          <input type="text" id="tax-office" data-field="taxOffice" placeholder="例: 東大阪">
         </div>
 
         <!-- 会計ソフト情報 -->
@@ -1090,7 +1091,7 @@
       const requiredFields = [
         'taxOffice',
         'repName', 'repNameKana', 'repTel1', 'repTel2', 'repTel3',
-        'repPostal1', 'repPostal2', 'repPrefecture', 'repAddress1',
+        'repPostal1', 'repPostal2', 'repPrefecture', 'repAddress1', 'repAddress1Kana',
         'etaxId', 'etaxPassword',
         'accountingSoftware',
         'chatworkUse'
@@ -1099,8 +1100,8 @@
       // 法人の場合の追加必須フィールド
       if (isCorporate) {
         requiredFields.push(
-          'corpName', 'corpNameKana', 'corpTel1', 'corpTel2', 'corpTel3',
-          'corpPostal1', 'corpPostal2', 'corpPrefecture', 'corpAddress1',
+          'corpName', 'corpNameKana', 'corpNumber', 'corpTel1', 'corpTel2', 'corpTel3',
+          'corpPostal1', 'corpPostal2', 'corpPrefecture', 'corpAddress1', 'corpAddress1Kana',
           'eltaxId', 'eltaxPassword',
           'capital', 'fiscalMonth', 'officerCount'
         );
