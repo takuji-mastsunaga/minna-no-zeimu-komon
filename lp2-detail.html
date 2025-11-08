@@ -115,6 +115,13 @@
       font-size: 12px;
     }
 
+    .info-icon {
+      display: inline-block;
+      margin-left: 6px;
+      cursor: help;
+      font-size: 14px;
+    }
+
     .form-group .info-icon {
       display: inline-block;
       margin-left: 4px;
@@ -461,6 +468,54 @@
         <!-- 代表者情報/個人情報セクション -->
         <div class="section-title" id="rep-section-title">代表者情報</div>
 
+        <!-- 個人追加情報（個人のみ） -->
+        <div id="individual-extra-section" class="hidden">
+          <div class="form-group">
+            <label for="business-name">屋号 <span class="optional">(任意)</span> <span class="info-icon" title="ある方のみご記入ください">❓</span></label>
+            <input type="text" id="business-name" data-field="businessName" placeholder="例: 山田商店">
+          </div>
+
+          <div class="form-group">
+            <label for="birth-date">生年月日 <span class="required">*</span></label>
+            <input type="date" id="birth-date" data-field="birthDate">
+          </div>
+
+          <div class="form-group">
+            <label for="gender">性別 <span class="required">*</span></label>
+            <select id="gender" data-field="gender">
+              <option value="">選択してください</option>
+              <option value="男性">男性</option>
+              <option value="女性">女性</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="household-relation">世帯主との続柄 <span class="required">*</span></label>
+            <input type="text" id="household-relation" data-field="householdRelation" placeholder="例: 本人、妻、夫、子">
+          </div>
+
+          <div class="form-group">
+            <label for="household-last-name">世帯主の氏名（姓） <span class="required">*</span></label>
+            <input type="text" id="household-last-name" data-field="householdLastName" placeholder="例: 山田">
+          </div>
+
+          <div class="form-group">
+            <label for="household-first-name">世帯主の氏名（名） <span class="required">*</span></label>
+            <input type="text" id="household-first-name" data-field="householdFirstName" placeholder="例: 太郎">
+          </div>
+
+          <div class="form-group">
+            <label>電話番号 <span class="required">*</span></label>
+            <div class="split-input">
+              <input type="text" id="individual-tel1" data-field="individualTel1" maxlength="4" placeholder="090">
+              <span>-</span>
+              <input type="text" id="individual-tel2" data-field="individualTel2" maxlength="4" placeholder="1234">
+              <span>-</span>
+              <input type="text" id="individual-tel3" data-field="individualTel3" maxlength="4" placeholder="5678">
+            </div>
+          </div>
+        </div>
+
         <div class="form-group">
           <label for="rep-name"><span id="rep-name-label">代表者名</span> <span class="required">*</span></label>
           <input type="text" id="rep-name" data-field="repName">
@@ -600,6 +655,46 @@
             <input type="number" id="employee-count-ind" data-field="employeeCount" placeholder="例: 2" min="0" value="0">
             <div class="help-text"><strong>支払いがない場合は0と記入してください。</strong></div>
           </div>
+        </div>
+
+        <!-- 還付先金融機関（個人・法人共通） -->
+        <div class="section-title">還付先金融機関</div>
+        <div class="info-box">
+          ※ 還付がある方は少ないですが、該当する方はご記入ください。
+        </div>
+
+        <div class="form-group">
+          <label for="refund-bank-name">金融機関名 <span class="optional">(任意)</span></label>
+          <input type="text" id="refund-bank-name" data-field="refundBankName" placeholder="例: 三井住友銀行">
+        </div>
+
+        <div class="form-group">
+          <label for="refund-branch-name">支店名 <span class="optional">(任意)</span></label>
+          <input type="text" id="refund-branch-name" data-field="refundBranchName" placeholder="例: 渋谷支店">
+        </div>
+
+        <div class="form-group">
+          <label for="refund-deposit-type">預金種類 <span class="optional">(任意)</span></label>
+          <select id="refund-deposit-type" data-field="refundDepositType">
+            <option value="">選択してください</option>
+            <option value="普通">普通</option>
+            <option value="当座">当座</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="refund-account-number">口座番号 <span class="optional">(任意)</span></label>
+          <input type="text" id="refund-account-number" data-field="refundAccountNumber" maxlength="8" placeholder="例: 1234567">
+        </div>
+
+        <div class="form-group">
+          <label for="refund-post-office-name">郵便局名 <span class="optional">(任意)</span></label>
+          <input type="text" id="refund-post-office-name" data-field="refundPostOfficeName" placeholder="例: 渋谷郵便局">
+        </div>
+
+        <div class="form-group">
+          <label for="refund-postal-symbol">貯金記号番号 <span class="optional">(任意)</span></label>
+          <input type="text" id="refund-postal-symbol" data-field="refundPostalSymbol" placeholder="例: 12345-1-12345678">
         </div>
 
         <!-- 共通情報：所轄の税務署 -->
@@ -894,6 +989,7 @@
       document.getElementById('corporate-section').classList.toggle('hidden', !isCorporate);
       document.getElementById('eltax-section').classList.toggle('hidden', !isCorporate);
       document.getElementById('corporate-extra-section').classList.toggle('hidden', !isCorporate);
+      document.getElementById('individual-extra-section').classList.toggle('hidden', isCorporate);
       document.getElementById('individual-employee-section').classList.toggle('hidden', isCorporate);
 
       // ラベルを変更
@@ -1130,6 +1226,14 @@
           'corpPostal1', 'corpPostal2', 'corpPrefecture', 'corpAddress1', 'corpAddress1Kana',
           'eltaxId', 'eltaxPassword',
           'establishmentDate', 'capital', 'fiscalMonth', 'officerCount'
+        );
+      }
+
+      // 個人の場合の追加必須フィールド
+      if (!isCorporate) {
+        requiredFields.push(
+          'birthDate', 'gender', 'householdRelation', 'householdLastName', 'householdFirstName',
+          'individualTel1', 'individualTel2', 'individualTel3'
         );
       }
 
