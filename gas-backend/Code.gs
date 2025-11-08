@@ -108,7 +108,26 @@ const LP2_HEADERS = [
   '', '', '', '', '', '', '', '', '', // CA-CI (予備列)
   
   // 法人追加情報2（CJ）
-  '設立年月日'                        // CJ
+  '設立年月日',                      // CJ
+  
+  // 個人追加情報（CK-CS）
+  '屋号',                            // CK
+  '生年月日',                        // CL
+  '性別',                            // CM
+  '世帯主との続柄',                  // CN
+  '世帯主の氏名（姓）',              // CO
+  '世帯主の氏名（名）',              // CP
+  '個人電話番号1',                   // CQ
+  '個人電話番号2',                   // CR
+  '個人電話番号3',                   // CS
+  
+  // 還付先金融機関（CT-CY）- 個人・法人共通
+  '還付先金融機関名',                // CT
+  '還付先金融機関支店名',            // CU
+  '還付先金融機関預金種類',          // CV
+  '還付先金融機関口座番号',          // CW
+  '還付先金融機関郵便局名',          // CX
+  '還付先金融機関貯金記号番号'       // CY
 ];
 
 // Stripe Price ID マッピング（本番環境用）
@@ -1484,7 +1503,26 @@ function extractLP2Data_(rowData, entityType) {
     chatworkEmail: rowData[75] || '',      // BX
     
     // 法人追加情報2（CJ）
-    establishmentDate: rowData[87] || ''   // CJ (0ベースで87番目 = 88列目)
+    establishmentDate: rowData[87] || '',  // CJ (0ベースで87番目 = 88列目)
+    
+    // 個人追加情報（CK-CS）
+    businessName: rowData[88] || '',       // CK 屋号
+    birthDate: rowData[89] || '',          // CL 生年月日
+    gender: rowData[90] || '',             // CM 性別
+    householdRelation: rowData[91] || '',  // CN 世帯主との続柄
+    householdLastName: rowData[92] || '',  // CO 世帯主の氏名（姓）
+    householdFirstName: rowData[93] || '', // CP 世帯主の氏名（名）
+    individualTel1: rowData[94] || '',     // CQ 個人電話番号1
+    individualTel2: rowData[95] || '',     // CR 個人電話番号2
+    individualTel3: rowData[96] || '',     // CS 個人電話番号3
+    
+    // 還付先金融機関（CT-CY）
+    refundBankName: rowData[97] || '',     // CT 還付先金融機関名
+    refundBranchName: rowData[98] || '',   // CU 還付先金融機関支店名
+    refundDepositType: rowData[99] || '',  // CV 還付先金融機関預金種類
+    refundAccountNumber: rowData[100] || '',// CW 還付先金融機関口座番号
+    refundPostOfficeName: rowData[101] || '',// CX 還付先金融機関郵便局名
+    refundPostalSymbol: rowData[102] || '' // CY 還付先金融機関貯金記号番号
   };
 
   return data;
@@ -1641,7 +1679,26 @@ function buildLP2Values_(data, entityType) {
     '', '', '', '', '', '', '', '', '',                 // CA-CI (予備列)
     
     // 法人追加情報2（CJ）
-    isCorporate ? (data.establishmentDate || '') : ''   // CJ
+    isCorporate ? (data.establishmentDate || '') : '',  // CJ
+    
+    // 個人追加情報（CK-CS）- 法人の場合は空白
+    !isCorporate ? (data.businessName || '') : '',      // CK 屋号
+    !isCorporate ? (data.birthDate || '') : '',         // CL 生年月日
+    !isCorporate ? (data.gender || '') : '',            // CM 性別
+    !isCorporate ? (data.householdRelation || '') : '', // CN 世帯主との続柄
+    !isCorporate ? (data.householdLastName || '') : '', // CO 世帯主の氏名（姓）
+    !isCorporate ? (data.householdFirstName || '') : '',// CP 世帯主の氏名（名）
+    !isCorporate ? (data.individualTel1 || '') : '',    // CQ 個人電話番号1
+    !isCorporate ? (data.individualTel2 || '') : '',    // CR 個人電話番号2
+    !isCorporate ? (data.individualTel3 || '') : '',    // CS 個人電話番号3
+    
+    // 還付先金融機関（CT-CY）- 個人・法人共通
+    data.refundBankName || '',                          // CT 還付先金融機関名
+    data.refundBranchName || '',                        // CU 還付先金融機関支店名
+    data.refundDepositType || '',                       // CV 還付先金融機関預金種類
+    data.refundAccountNumber || '',                     // CW 還付先金融機関口座番号
+    data.refundPostOfficeName || '',                    // CX 還付先金融機関郵便局名
+    data.refundPostalSymbol || ''                       // CY 還付先金融機関貯金記号番号
   ];
 }
 
@@ -1687,11 +1744,11 @@ function saveLP2Data(sessionId, data) {
     // 5. entityType を取得（G列 = 7列目: 個人・法人）
     const entityType = masterSheet.getRange(rowIndex, 7).getValue();
 
-    // 6. LP2データを列に配置（AG-CJ = 56列）
+    // 6. LP2データを列に配置（AG-CY = 71列）
     const lp2Values = buildLP2Values_(data, entityType);
 
-    // 7. AG-CJ列（33-88列目: 56列）にデータを書き込み
-    masterSheet.getRange(rowIndex, 33, 1, 56).setValues([lp2Values]);
+    // 7. AG-CY列（33-103列目: 71列）にデータを書き込み
+    masterSheet.getRange(rowIndex, 33, 1, 71).setValues([lp2Values]);
 
     // 8. BY列（77列目）にTRUEを設定（buildLP2Values_で空白を返しているため再設定）
     masterSheet.getRange(rowIndex, 77).setValue(true);
