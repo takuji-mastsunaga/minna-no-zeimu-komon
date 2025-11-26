@@ -672,8 +672,8 @@ eLTAXのウェブサイトから利用者IDを取得できます。
   </div>
 
   <script>
-    // ========== GAS Web App URL (v46 - 個人追加情報・還付先金融機関追加) ==========
-        const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbx0FlBY4gw_9_DRKGB8Bi-v4dJcs7o_gJqgD3I6StJ_IH4MuwCEwa-BEk8ViUlppc76/exec'; // v46 (個人追加情報・還付先金融機関追加)
+    // ========== GAS Web App URL (v47 - 医療費控除追加・CJ列拡張・BO列形式変更) ==========
+        const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbx0FlBY4gw_9_DRKGB8Bi-v4dJcs7o_gJqgD3I6StJ_IH4MuwCEwa-BEk8ViUlppc76/exec'; // v47 (医療費控除追加・CJ列拡張・BO列形式変更)
 
     const appState = {
       currentStep: 0, stepHistory: [],
@@ -1059,6 +1059,13 @@ eLTAXのウェブサイトから利用者IDを取得できます。
             </div>
             <div class="info-btn" onclick="showInfo(this)">?</div>
             <div class="info-tooltip"><h4>住宅ローン控除（2年目以降）</h4><p>初年度は原則として税務署/住宅取得時の手続きが必要です。</p></div>
+          </div>
+
+          <div class="option-card"><div class="checkbox-wrapper">
+            <input type="checkbox" id="opt-medical" onchange="updatePriceSummary()">
+            <label for="opt-medical">医療費控除（¥10,000）</label></div>
+            <div class="info-btn" onclick="showInfo(this)">?</div>
+            <div class="info-tooltip"><h4>医療費控除</h4><p>年間の医療費が一定額を超えた場合に適用される控除です。</p></div>
           </div>`;
 
         if(appState.hasDependent){
@@ -1189,6 +1196,7 @@ eLTAXのウェブサイトから利用者IDを取得できます。
         if(document.getElementById('opt-realestate')?.checked){ optionsTotal+=50000; items.push({name:'不動産所得',price:50000}); }
         if(document.getElementById('opt-furusato')?.checked){ optionsTotal+=5000; items.push({name:'ふるさと納税',price:5000}); }
         if(document.getElementById('opt-mortgage')?.checked){ optionsTotal+=20000; items.push({name:'住宅ローン控除（2年目以降）', price:20000}); }
+        if(document.getElementById('opt-medical')?.checked){ optionsTotal+=10000; items.push({name:'医療費控除',price:10000}); }
         if(document.getElementById('opt-yearend-personal')?.checked){ optionsTotal+=20000; items.push({name:'法定調書・年末調整セット',price:20000}); }
         if(document.getElementById('opt-withholding-personal')?.checked){ optionsTotal+=6000; items.push({name:'源泉納付書（特例）',price:6000}); }
         if(document.getElementById('opt-fx')?.checked){
@@ -1289,6 +1297,7 @@ eLTAXのウェブサイトから利用者IDを取得できます。
       realestate: document.getElementById('opt-realestate')?.checked || false,
       furusato:   document.getElementById('opt-furusato')?.checked   || false,
       mortgage:   document.getElementById('opt-mortgage')?.checked   || false,
+      medical:    document.getElementById('opt-medical')?.checked    || false,
       yearendPersonal:     document.getElementById('opt-yearend-personal')?.checked || false,
       withholdingPersonal: document.getElementById('opt-withholding-personal')?.checked || false,
       yearend:            document.getElementById('opt-yearend')?.checked || false,
@@ -1327,6 +1336,7 @@ eLTAXのウェブサイトから利用者IDを取得できます。
       '不動産所得':        yn(!!opt.realestate),
       'ふるさと納税':      yn(!!opt.furusato),
       '住宅ローン控除の申請': yn(!!opt.mortgage),
+      '医療費控除':        yn(!!opt.medical),
       '法定調書・年末調整セット': yn(hasYearendSet),
       '源泉納付（特例）': yn(hasWithholdingSpecial),
       '源泉納付（普通）': yn(!!opt.withholdingNormal),
@@ -1366,6 +1376,11 @@ eLTAXのウェブサイトから利用者IDを取得できます。
     // 住宅ローン控除
     if (opt.mortgage) {
       options.push({ name: '住宅ローン控除（2年目以降）', amount: 20000 });
+    }
+    
+    // 医療費控除
+    if (opt.medical) {
+      options.push({ name: '医療費控除', amount: 10000 });
     }
     
     // 法定調書・年末調整

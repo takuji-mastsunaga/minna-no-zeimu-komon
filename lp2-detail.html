@@ -605,33 +605,15 @@
           <div class="section-title">法人追加情報</div>
 
           <div class="form-group">
-            <label for="establishment-date">設立年月日 <span class="required">*</span></label>
-            <input type="date" id="establishment-date" data-field="establishmentDate">
-          </div>
-
-          <div class="form-group">
             <label for="capital">資本金の額をご教示ください。 <span class="required">*</span></label>
             <input type="text" id="capital" data-field="capital" placeholder="例: 1,000,000" oninput="formatCapital(this)">
             <div class="help-text">単位：円</div>
           </div>
 
           <div class="form-group">
-            <label for="fiscal-month">決算月 <span class="required">*</span></label>
-            <select id="fiscal-month" data-field="fiscalMonth">
-              <option value="">選択してください</option>
-              <option value="1">1月</option>
-              <option value="2">2月</option>
-              <option value="3">3月</option>
-              <option value="4">4月</option>
-              <option value="5">5月</option>
-              <option value="6">6月</option>
-              <option value="7">7月</option>
-              <option value="8">8月</option>
-              <option value="9">9月</option>
-              <option value="10">10月</option>
-              <option value="11">11月</option>
-              <option value="12">12月</option>
-            </select>
+            <label for="fiscal-month">決算日（MM-DD形式） <span class="required">*</span></label>
+            <input type="text" id="fiscal-month" data-field="fiscalMonth" placeholder="例: 03-31" maxlength="5" pattern="[0-1][0-9]-[0-3][0-9]">
+            <div class="help-text">月-日の形式で入力してください（例: 3月31日の場合は「03-31」）</div>
           </div>
 
           <div class="form-group">
@@ -655,6 +637,14 @@
             <input type="number" id="employee-count-ind" data-field="employeeCount" placeholder="例: 2" min="0" value="0">
             <div class="help-text"><strong>支払いがない場合は0と記入してください。</strong></div>
           </div>
+        </div>
+
+        <!-- 設立年月日/開業日（個人・法人共通） -->
+        <div class="section-title" id="establishment-section-title">設立年月日/開業日</div>
+        <div class="form-group">
+          <label for="establishment-date" id="establishment-date-label">設立年月日/開業日 <span class="required">*</span></label>
+          <input type="date" id="establishment-date" data-field="establishmentDate">
+          <div class="help-text" id="establishment-help-text">法人の場合は設立年月日、個人の場合は開業日を入力してください。</div>
         </div>
 
         <!-- 還付先金融機関（個人・法人共通） -->
@@ -789,7 +779,7 @@
   </div>
 
   <script>
-    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbx0FlBY4gw_9_DRKGB8Bi-v4dJcs7o_gJqgD3I6StJ_IH4MuwCEwa-BEk8ViUlppc76/exec'; // v46 (個人追加情報・還付先金融機関追加)
+    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbx0FlBY4gw_9_DRKGB8Bi-v4dJcs7o_gJqgD3I6StJ_IH4MuwCEwa-BEk8ViUlppc76/exec'; // v47 (医療費控除追加・CJ列拡張・BO列形式変更)
 
     let sessionId = '';
     let entityType = '法人'; // デフォルトは法人
@@ -1003,6 +993,11 @@
       document.getElementById('rep-address1-kana-label').textContent = isCorporate ? '代表者住所1フリガナ' : '住所1フリガナ';
       document.getElementById('rep-address2-label').textContent = isCorporate ? '代表者住所2' : '住所2';
       document.getElementById('rep-address2-kana-label').textContent = isCorporate ? '代表者住所2フリガナ' : '住所2フリガナ';
+      
+      // 設立年月日/開業日のラベルを変更
+      document.getElementById('establishment-section-title').textContent = isCorporate ? '設立年月日' : '開業日';
+      document.getElementById('establishment-date-label').innerHTML = (isCorporate ? '設立年月日' : '開業日') + ' <span class="required">*</span>';
+      document.getElementById('establishment-help-text').textContent = isCorporate ? '法人の設立年月日を入力してください。' : '事業を開始した日を入力してください。';
 
       // 保存しておいたデータを復元
       restoreFormData();
@@ -1225,7 +1220,7 @@
           'corpName', 'corpNameKana', 'corpNumber', 'corpTel1', 'corpTel2', 'corpTel3',
           'corpPostal1', 'corpPostal2', 'corpPrefecture', 'corpAddress1', 'corpAddress1Kana',
           'eltaxId', 'eltaxPassword',
-          'establishmentDate', 'capital', 'fiscalMonth', 'officerCount'
+          'capital', 'fiscalMonth', 'officerCount'
         );
       }
 
@@ -1237,8 +1232,8 @@
         );
       }
 
-      // 従業員数は法人・個人共に必須
-      requiredFields.push('employeeCount');
+      // 設立年月日/開業日・従業員数は法人・個人共に必須
+      requiredFields.push('establishmentDate', 'employeeCount');
 
       // 会計ソフト使用している場合
       if (formData.accountingSoftware === '使用している') {

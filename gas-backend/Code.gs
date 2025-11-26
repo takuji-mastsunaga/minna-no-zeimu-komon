@@ -1,4 +1,7 @@
 // ========== 設定 ==========
+// v47: 医療費控除オプション追加（個人のみ、¥10,000、CA列）
+//      CJ列を個人・法人共通フィールドに拡張（開業日/設立年月日）
+//      BO列を MM-DD 形式に変更（決算日）
 const SPREADSHEET_ID   = '19YI0cjUlgznSX-T3KA8AuknTjNlmHMuQHBfoXKZTBdg';
 const MASTER_SHEET_NAME = 'マスタ';                // 決済完了後のデータ保存先
 const PENDING_SHEET_NAME = 'pending_applications'; // 決済前の仮保存シート
@@ -85,7 +88,7 @@ const LP2_HEADERS = [
   
   // 法人追加情報（BN-BQ）- 個人の場合は空白
   '資本金',                          // BN
-  '決算月',                          // BO
+  '決算日（MM-DD）',                 // BO (法人のみ、例: 03-31)
   '役員人数',                        // BP
   '従業員数',                        // BQ
   
@@ -104,11 +107,12 @@ const LP2_HEADERS = [
   'LP2入力完了フラグ',               // BY (元BX)
   'LP2入力日時',                     // BZ (元BY)
   
-  // 予備（CA-CI）
-  '', '', '', '', '', '', '', '', '', // CA-CI (予備列)
+  // LP1オプション・予備（CA-CI）
+  '医療費控除',                      // CA (個人のみ、あり・なし)
+  '', '', '', '', '', '', '', '',    // CB-CI (予備列)
   
-  // 法人追加情報2（CJ）
-  '設立年月日',                      // CJ
+  // 法人追加情報2・個人基本情報（CJ）
+  '設立年月日/開業日',               // CJ (法人=設立年月日、個人=開業日、yyyy-MM-dd)
   
   // 個人追加情報（CK-CS）
   '屋号',                            // CK
@@ -150,7 +154,8 @@ const OPTION_PRICES = {
   fx_base: 50000,            // FX基本料金
   fx_per_unit: 50000,        // FX追加料金（千万円あたり）
   crypto_base: 100000,       // 暗号資産基本料金
-  crypto_per_unit: 100000    // 暗号資産追加料金（千万円あたり）
+  crypto_per_unit: 100000,   // 暗号資産追加料金（千万円あたり）
+  medical: 10000             // 医療費控除（個人のみ）
 };
 
 /* ========== CORS対応：OPTIONSリクエスト処理 ========== */
@@ -489,6 +494,11 @@ function saveApplicationDataLP1(record) {
       return String(v);
     });
     pending.getRange(rowIndex, 7, 1, ordered.length).setValues([ordered]);
+    
+    // 2-1) CA列に医療費控除を書き込む（個人のみ）
+    if (record['医療費控除']) {
+      pending.getRange(rowIndex, 79).setValue(record['医療費控除']); // CA列 = 79列目
+    }
 
     // 3) UUID払い出し & keysに紐づけ保存（sheetType='pending'を記録）
     const uuid = Utilities.getUuid();
@@ -699,6 +709,13 @@ function moveFromPendingToMaster(uuid, paymentData) {
     const taxStatus = paymentData.hasTaxObligation ? '課税' : '非課税';
     master.getRange(masterRowIndex, 6).setValue(taxStatus);
     logWebhookEvent('moveFromPendingToMaster', uuid, 'tax_status_saved', 'Tax Status: ' + taxStatus, '');
+    
+    // 3-3-1) CA列に医療費控除を書き込み（pendingからコピー）
+    const medicalDeduction = pending.getRange(pendingRowIndex, 79).getValue(); // CA列 = 79列目
+    if (medicalDeduction) {
+      master.getRange(masterRowIndex, 79).setValue(medicalDeduction);
+      logWebhookEvent('moveFromPendingToMaster', uuid, 'medical_deduction_saved', 'Medical Deduction: ' + medicalDeduction, '');
+    }
     
     // 3-4) CH列（86列目）にプロモーションコードを書き込み
     const promoCode = paymentData.promoCode || '';
@@ -1675,11 +1692,11 @@ function buildLP2Values_(data, entityType) {
     // ここでは空白を返す
     '', '',                                             // BY-BZ
     
-    // 予備（CA-CI）
-    '', '', '', '', '', '', '', '', '',                 // CA-CI (予備列)
+    // LP1オプション・予備（CA-CI）
+    '', '', '', '', '', '', '', '', '',                 // CA-CI (LP1データとして保存されるため空白)
     
-    // 法人追加情報2（CJ）
-    isCorporate ? (data.establishmentDate || '') : '',  // CJ
+    // 法人追加情報2・個人基本情報（CJ）
+    data.establishmentDate || '',                       // CJ (法人=設立年月日、個人=開業日)
     
     // 個人追加情報（CK-CS）- 法人の場合は空白
     !isCorporate ? (data.businessName || '') : '',      // CK 屋号
