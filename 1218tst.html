@@ -369,7 +369,7 @@
       <!-- Step 11: 業種選択 -->
       <div class="step" id="step11-industry">
         <div class="question">業種を選択してください</div>
-        <p class="sub-text">上記の業種はカッコ内の条件を満たす場合のみ対象となります</p>
+        <p class="sub-text">該当する項目を一つ選択してください</p>
         <div class="industry-grid">
           <div class="industry-item" onclick="toggleIndustry(this,'IT')"><strong>IT</strong></div>
           <div class="industry-item" onclick="toggleIndustry(this,'サービス業')"><strong>サービス業</strong></div>
@@ -831,10 +831,29 @@ eLTAXのウェブサイトから利用者IDを取得できます。
       showStep('step11-industry');
     }
 
-    // 業種
-    function toggleIndustry(el,ind){ el.classList.toggle('selected'); const i=appState.industries.indexOf(ind); if(i>-1) appState.industries.splice(i,1); else appState.industries.push(ind); }
+    // 業種（1つまで選択可能）
+    function toggleIndustry(el,ind){ 
+      // 既に同じ業種が選択されている場合は選択解除
+      const i=appState.industries.indexOf(ind); 
+      if(i>-1) {
+        appState.industries.splice(i,1);
+        el.classList.remove('selected');
+      } else {
+        // 他の業種が選択されている場合は先に解除
+        if(appState.industries.length > 0) {
+          // 既存の選択を解除
+          document.querySelectorAll('.industry-item.selected').forEach(item => {
+            item.classList.remove('selected');
+          });
+          appState.industries = [];
+        }
+        // 新しい業種を選択
+        appState.industries.push(ind);
+        el.classList.add('selected');
+      }
+    }
     function confirmIndustry(){
-      if(appState.industries.length===0){ alert('少なくとも1つの業種を選択してください。'); return; }
+      if(appState.industries.length===0){ alert('業種を1つ選択してください。'); return; }
       appState.stepHistory.push('step11-industry');
       if(appState.entityType==='individual') showStep('step12-dependent'); else showStep('step12-director');
     }
