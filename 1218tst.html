@@ -1050,9 +1050,9 @@ eLTAXのウェブサイトから利用者IDを取得できます。
         if(appState.isYearEndPeriod && appState.hasDependent){ yearEndDisabled='disabled'; yearEndMessage='（12月契約のため選択不可）'; }
 
         html+=`
-          <div class="option-card"><div class="checkbox-wrapper">
-            <input type="checkbox" id="opt-salary" onchange="updatePriceSummary()" ${appState.hasSalaryIncome?'checked':''}>
-            <label for="opt-salary">給与所得（会社員等・副業）（¥5,000）</label></div>
+          <div class="option-card ${appState.hasSalaryIncome?'disabled':''}"><div class="checkbox-wrapper">
+            <input type="checkbox" id="opt-salary" onchange="updatePriceSummary()" ${appState.hasSalaryIncome?'checked disabled':''}>
+            <label for="opt-salary" style="${appState.hasSalaryIncome?'opacity:0.8;':''}">給与所得（会社員等・副業）（¥5,000）${appState.hasSalaryIncome?' <strong style="color:#26A69A;">【必須】</strong>':''}</label></div>
             <div class="info-btn" onclick="showInfo(this)">?</div>
             <div class="info-tooltip"><h4>給与所得</h4><p>勤務先から受け取る給与</p></div>
           </div>
@@ -1189,8 +1189,8 @@ eLTAXのウェブサイトから利用者IDを取得できます。
       if(appState.entityType==='individual' && appState.hasSalaryIncome){
         html+=`
           <div class="success-box" style="margin-top:20px;">
-            <strong>✅ 給与所得オプション自動追加</strong><br>
-            給与所得があるため、給与所得オプション（¥5,000）が自動追加されています。
+            <strong>✅ 給与所得オプション【必須】</strong><br>
+            会社員の方は給与所得の申告が必須のため、給与所得オプション（¥5,000）が固定で含まれます。
           </div>`;
       }
 
@@ -1211,7 +1211,7 @@ eLTAXのウェブサイトから利用者IDを取得できます。
       items.push({name: appState.selectedPlan==='yearly'?'年間一括払いプラン':'月額払いプラン', price: appState.basePrice});
 
       if(appState.entityType==='individual'){
-        if(document.getElementById('opt-salary')?.checked){ optionsTotal+=5000; items.push({name:'給与所得',price:5000}); }
+        if(appState.hasSalaryIncome || document.getElementById('opt-salary')?.checked){ optionsTotal+=5000; items.push({name:'給与所得',price:5000}); }
         if(document.getElementById('opt-realestate')?.checked){ optionsTotal+=50000; items.push({name:'不動産所得',price:50000}); }
         if(document.getElementById('opt-furusato')?.checked){ optionsTotal+=5000; items.push({name:'ふるさと納税',price:5000}); }
         if(document.getElementById('opt-mortgage')?.checked){ optionsTotal+=20000; items.push({name:'住宅ローン控除（2年目以降）', price:20000}); }
