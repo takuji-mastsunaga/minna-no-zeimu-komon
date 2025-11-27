@@ -75,6 +75,20 @@
     .option-with-input{display:flex;align-items:center;gap:15px;margin-left:35px;margin-top:10px}
     .option-with-input input[type="number"]{width:100px;padding:8px;border:2px solid #E0F2F1;border-radius:6px}
     @media (max-width:640px){.content{padding:25px}.industry-grid{grid-template-columns:1fr}.info-tooltip{width:250px;right:40px}}
+    
+    /* カスタム確認モーダル */
+    .confirm-modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:10000;animation:fadeIn 0.3s ease}
+    .confirm-modal-overlay.show{display:flex}
+    .confirm-modal{background:#fff;border-radius:16px;padding:30px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:modalSlideIn 0.3s ease}
+    .confirm-modal-title{font-size:20px;font-weight:600;color:#1F2937;margin-bottom:12px;text-align:center}
+    .confirm-modal-message{font-size:15px;color:#6B7280;line-height:1.6;text-align:center;margin-bottom:30px}
+    .confirm-modal-buttons{display:flex;gap:12px;justify-content:center}
+    .confirm-modal-btn{padding:12px 28px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:.3s ease;min-width:120px}
+    .confirm-modal-btn-cancel{background:#E5E7EB;color:#374151}
+    .confirm-modal-btn-cancel:hover{background:#D1D5DB}
+    .confirm-modal-btn-confirm{background:#26A69A;color:#fff}
+    .confirm-modal-btn-confirm:hover{background:#00897B;transform:translateY(-2px);box-shadow:0 8px 20px rgba(38,166,154,.3)}
+    @keyframes modalSlideIn{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
   </style>
 </head>
 <body>
@@ -1366,13 +1380,65 @@ eLTAXのウェブサイトから利用者IDを取得できます。
       '初年度合計金額':    Number(appState.totalPrice || 0)
     };
 
-    // 表示（任意）
-    const text = Object.entries(record)
-      .map(([k,v]) => `${k}：${(typeof v === 'number') ? `¥${v.toLocaleString()}` : v}`)
-      .join('\n');
-    if (!confirm('申込内容（LP①）を保存します。\n\n' + text + '\n\nよろしければOKを押してください。')) {
+    // recordをappStateに保存（モーダル確認後に使用）
+    appState.pendingRecord = record;
+
+    // カスタムモーダルを表示
+    showConfirmModal();
+  }
+
+  // モーダル表示関数
+  function showConfirmModal() {
+    document.getElementById('confirmModal').classList.add('show');
+  }
+
+  // モーダルを閉じる関数
+  function closeConfirmModal() {
+    document.getElementById('confirmModal').classList.remove('show');
+  }
+
+  // 確認後の処理を実行
+  function confirmAndProceed() {
+    closeConfirmModal();
+    proceedToStripeCheckout();
+  }
+
+  // Stripe決済処理を実行
+  function proceedToStripeCheckout() {
+    // 保存されたrecordを取得
+    const record = appState.pendingRecord;
+    if (!record) {
+      alert('データが見つかりません。再度お試しください。');
       return;
     }
+
+    // オプション情報を再取得
+    const opt = {
+      realestate: document.getElementById('opt-realestate')?.checked || false,
+      furusato:   document.getElementById('opt-furusato')?.checked   || false,
+      mortgage:   document.getElementById('opt-mortgage')?.checked   || false,
+      medical:    document.getElementById('opt-medical')?.checked    || false,
+      yearendPersonal:     document.getElementById('opt-yearend-personal')?.checked || false,
+      withholdingPersonal: document.getElementById('opt-withholding-personal')?.checked || false,
+      yearend:            document.getElementById('opt-yearend')?.checked || false,
+      withholdingSpecial: document.getElementById('opt-withholding-special')?.checked || false,
+      withholdingNormal:  document.getElementById('opt-withholding-normal')?.checked  || false,
+      fx: (document.getElementById('opt-fx')?.checked || document.getElementById('opt-fx-corp')?.checked) || false,
+      fxAmount: (()=>{
+        const v1 = document.getElementById('fx-millions')?.value;
+        const v2 = document.getElementById('fx-millions-corp')?.value;
+        return parseInt(v1 ?? v2 ?? '0') || 0;
+      })(),
+      crypto: (document.getElementById('opt-crypto')?.checked || document.getElementById('opt-crypto-corp')?.checked) || false,
+      cryptoAmount: (()=>{
+        const v1 = document.getElementById('crypto-millions')?.value;
+        const v2 = document.getElementById('crypto-millions-corp')?.value;
+        return parseInt(v1 ?? v2 ?? '0') || 0;
+      })()
+    };
+
+    const hasYearendSet = opt.yearend || opt.yearendPersonal;
+    const hasWithholdingSpecial = opt.withholdingSpecial || opt.withholdingPersonal;
 
     // === オプション料金配列を構築 ===
     const options = [];
@@ -1445,10 +1511,12 @@ eLTAXのウェブサイトから利用者IDを取得できます。
     params.append('record', JSON.stringify(record));
     params.append('payment', JSON.stringify(payment));
     
-    // ローディング表示
-    const submitBtn = event.target;
-    submitBtn.disabled = true;
-    submitBtn.textContent = '処理中...';
+    // ローディング表示用に申込ボタンを取得
+    const submitBtn = document.querySelector('#step17-final .btn-primary');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = '処理中...';
+    }
     
     fetch(GAS_API_URL, {
       method: 'POST',
@@ -1457,8 +1525,10 @@ eLTAXのウェブサイトから利用者IDを取得できます。
     .then(res => res.json())
     .then(data => {
       if (!data || !data.success) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = '申込を完了する';
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = '申込を完了する';
+        }
         alert('保存に失敗しました。\n' + (data && data.error ? data.error : '不明なエラー'));
         return;
       }
@@ -1467,14 +1537,18 @@ eLTAXのウェブサイトから利用者IDを取得できます。
       if (data.checkoutUrl) {
         window.location.href = data.checkoutUrl;
       } else {
-        submitBtn.disabled = false;
-        submitBtn.textContent = '申込を完了する';
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = '申込を完了する';
+        }
         alert('決済ページの作成に失敗しました。');
       }
     })
     .catch(err => {
-      submitBtn.disabled = false;
-      submitBtn.textContent = '申込を完了する';
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '申込を完了する';
+      }
       alert('通信エラーが発生しました。\n再度お試しください。\n\nエラー詳細：' + err);
     });
   }
@@ -1506,5 +1580,17 @@ eLTAXのウェブサイトから利用者IDを取得できます。
     }
   });
   </script>
+
+  <!-- カスタム確認モーダル -->
+  <div class="confirm-modal-overlay" id="confirmModal">
+    <div class="confirm-modal">
+      <div class="confirm-modal-title">決済画面へ進みます</div>
+      <div class="confirm-modal-message">記入頂いた内容は、決済されない場合は削除されます。</div>
+      <div class="confirm-modal-buttons">
+        <button class="confirm-modal-btn confirm-modal-btn-cancel" onclick="closeConfirmModal()">キャンセル</button>
+        <button class="confirm-modal-btn confirm-modal-btn-confirm" onclick="confirmAndProceed()">決済へ進む</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
