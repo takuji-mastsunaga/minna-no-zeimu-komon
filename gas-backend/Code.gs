@@ -1,6 +1,6 @@
 // ========== 設定 ==========
 // v47: 医療費控除オプション追加（個人のみ、¥10,000、CA列）
-//      CJ列を個人・法人共通フィールドに拡張（開業日/設立年月日）
+//      CJ列を個人・法人共通フィールドに拡張（事業を開始した日付/設立年月日）
 //      BO列を MM-DD 形式に変更（決算日）
 const SPREADSHEET_ID   = '19YI0cjUlgznSX-T3KA8AuknTjNlmHMuQHBfoXKZTBdg';
 const MASTER_SHEET_NAME = 'マスタ';                // 決済完了後のデータ保存先
@@ -112,7 +112,7 @@ const LP2_HEADERS = [
   '', '', '', '', '', '', '', '',    // CB-CI (予備列)
   
   // 法人追加情報2・個人基本情報（CJ）
-  '設立年月日/開業日',               // CJ (法人=設立年月日、個人=開業日、yyyy-MM-dd)
+  '設立年月日/事業を開始した日付',    // CJ (法人=設立年月日、個人=事業を開始した日付、yyyy-MM-dd)
   
   // 個人追加情報（CK-CS）
   '屋号',                            // CK
@@ -1696,7 +1696,7 @@ function buildLP2Values_(data, entityType) {
     '', '', '', '', '', '', '', '', '',                 // CA-CI (LP1データとして保存されるため空白)
     
     // 法人追加情報2・個人基本情報（CJ）
-    data.establishmentDate || '',                       // CJ (法人=設立年月日、個人=開業日)
+    data.establishmentDate || '',                       // CJ (法人=設立年月日、個人=事業を開始した日付)
     
     // 個人追加情報（CK-CS）- 法人の場合は空白
     !isCorporate ? (data.businessName || '') : '',      // CK 屋号
