@@ -577,6 +577,22 @@
           正確な決算・申告のため、以下の期限を厳守ください。
         </div>
 
+        <!-- リスクヘッジチェック（個人・法人共通） -->
+        <div class="option-card">
+          <div class="checkbox-wrapper">
+            <input type="checkbox" id="final-risk-hedge">
+            <label for="final-risk-hedge">
+              以下の全ての条件に該当しないことを確認しました。<br>
+              <small style="color:#6B7280;">
+                ・士業（弁護士、税理士、司法書士、行政書士等）<br>
+                ・金などの資産を年間200万円以上購入している<br>
+                ・ペーパーカンパニー（実態のない会社）<br>
+                ・資産管理会社
+              </small>
+            </label>
+          </div>
+        </div>
+
         <div class="option-card">
           <div class="checkbox-wrapper">
             <input type="checkbox" id="final1">
@@ -1298,6 +1314,13 @@ eLTAXのウェブサイトから利用者IDを取得できます。
 
     // 最終確認 → 最終オプションへ
     function proceedToFinal(){
+      // リスクヘッジチェックを最優先で確認
+      const riskHedgeCheck = document.getElementById('final-risk-hedge');
+      if(!riskHedgeCheck || !riskHedgeCheck.checked){
+        alert('サービス利用条件の確認項目にチェックを入れてください。\n\n該当する場合は、大変申し訳ございませんが、サービスをご利用いただけません。');
+        return;
+      }
+
       const requiredIds = ['final1','final5','final7'];
       if(appState.entityType==='individual') requiredIds.push('final2');
       else requiredIds.push('final3','final4');
