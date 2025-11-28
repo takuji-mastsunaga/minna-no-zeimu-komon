@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>詳細情報入力 - みんなの税務顧問</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background: #F0F4F8;
+      min-height: 100vh;
+      color: #1F2937;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      background: #fff;
+      min-height: 100vh;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .header {
+      background: #fff;
+      padding: 24px 20px;
+      text-align: center;
+      border-bottom: 2px solid #26A69A;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header h1 {
+      font-size: 22px;
+      color: #1F2937;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: #6B7280;
+    }
+
+    /* セクション */
+    .section {
+      padding: 24px 20px;
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    /* タブ切り替え（法人/個人） */
+    .tab-container {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      border-bottom: 2px solid #E5E7EB;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 12px;
+      background: #F9FAFB;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      color: #6B7280;
+      transition: all 0.3s;
+    }
+
+    .tab.active {
+      background: #fff;
+      color: #26A69A;
+      border-bottom-color: #26A69A;
+    }
+
+    .tab:hover:not(.active) {
+      background: #F3F4F6;
+    }
+
+    /* フォームグループ */
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+
+    .form-group label .required {
+      color: #EF4444;
+      margin-left: 4px;
+    }
+
+    .form-group label .optional {
+      color: #9CA3AF;
+      font-weight: 400;
+      margin-left: 4px;
+      font-size: 12px;
+    }
+
+    .info-icon {
+      display: inline-block;
+      margin-left: 6px;
+      cursor: help;
+      font-size: 14px;
+    }
+
+    .form-group .info-icon {
+      display: inline-block;
+      margin-left: 4px;
+      color: #26A69A;
+      cursor: help;
+      font-weight: bold;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="number"],
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #D1D5DB;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #26A69A;
+      box-shadow: 0 0 0 3px rgba(38, 166, 154, 0.1);
+    }
+
+    .form-group input:disabled {
+      background: #F3F4F6;
+      cursor: not-allowed;
+    }
+
+    .form-group .help-text {
+      font-size: 12px;
+      color: #6B7280;
+      margin-top: 4px;
+    }
+
+    /* 電話番号・郵便番号（3分割） */
+    .split-input {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .split-input input {
+      flex: 1;
+    }
+
+    .split-input span {
+      color: #9CA3AF;
+      font-weight: bold;
+    }
+
+    .split-input .search-btn {
+      padding: 12px 20px;
+      background: #26A69A;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: background 0.3s;
+    }
+
+    .split-input .search-btn:hover {
+      background: #00897B;
+    }
+
+    /* セクションタイトル */
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #26A69A;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #26A69A;
+    }
+
+    /* ラジオボタン */
+    .radio-group {
+      display: flex;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      font-weight: 400 !important;
+      margin-bottom: 0 !important;
+      cursor: pointer;
+    }
+
+    .radio-group input[type="radio"] {
+      margin-right: 6px;
+      cursor: pointer;
+    }
+
+    /* ボタン */
+    .button {
+      width: 100%;
+      padding: 16px;
+      background: #26A69A;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 32px;
+    }
+
+    .button:hover:not(:disabled) {
+      background: #00897B;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(38, 166, 154, 0.3);
+    }
+
+    .button:disabled {
+      background: #D1D5DB;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* エラーメッセージ */
+    .error-message {
+      display: none;
+      background: #FEE2E2;
+      border: 1px solid #FCA5A5;
+      color: #DC2626;
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    /* 成功メッセージ */
+    .success-message {
+      text-align: center;
+      padding: 48px 20px;
+    }
+
+    .success-message h2 {
+      font-size: 24px;
+      color: #065F46;
+      margin-bottom: 16px;
+    }
+
+    .success-message p {
+      font-size: 16px;
+      color: #6B7280;
+      line-height: 1.6;
+    }
+
+    /* インフォボックス */
+    .info-box {
+      background: #F0FDF9;
+      border: 1px solid #A7F3D0;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #065F46;
+    }
+
+    .info-box a {
+      color: #26A69A;
+      text-decoration: underline;
+    }
+
+    /* ローディング */
+    .loading {
+      text-align: center;
+      padding: 48px 20px;
+    }
+
+    .spinner {
+      border: 3px solid #E5E7EB;
+      border-top: 3px solid #26A69A;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* 非表示 */
+    .hidden {
+      display: none !important;
+    }
+
+    /* レスポンシブ */
+    @media (max-width: 768px) {
+      .container {
+        box-shadow: none;
+      }
+
+      .header h1 {
+        font-size: 18px;
+      }
+
+      .section {
+        padding: 20px 16px;
+      }
+
+      .tab {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      .split-input {
+        flex-wrap: wrap;
+      }
+
+      .split-input .search-btn {
+        width: 100%;
+        margin-top: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- ヘッダー -->
+    <div class="header">
+      <h1>📋 詳細情報入力</h1>
+      <p>お申し込みありがとうございます。追加情報のご入力をお願いいたします。</p>
+    </div>
+
+    <!-- 認証セクション -->
+    <section id="auth-section" class="section active">
+      <div class="section-title">簡易認証</div>
+      <div class="info-box">
+        決済時にご使用されたメールアドレスの<strong>最初の3文字</strong>を入力してください。
+      </div>
+      <div class="error-message" id="auth-error"></div>
+      <div class="form-group">
+        <label for="email-prefix">メールアドレスの最初の3文字 <span class="required">*</span></label>
+        <input type="text" id="email-prefix" maxlength="3" placeholder="例: tes" autocomplete="off">
+      </div>
+      <button class="button" onclick="authenticate()">認証する</button>
+    </section>
+
+    <!-- ローディングセクション -->
+    <section id="loading-section" class="section">
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>データを読み込んでいます...</p>
+      </div>
+    </section>
+
+    <!-- フォームセクション -->
+    <section id="form-section" class="section">
+      <div class="error-message" id="form-error"></div>
+
+      <!-- タブ切り替え -->
+      <div class="tab-container">
+        <button class="tab active" id="tab-corporate" onclick="switchTab('corporate')">法人</button>
+        <button class="tab" id="tab-individual" onclick="switchTab('individual')">個人</button>
+      </div>
+
+      <form id="lp2-form">
+        <!-- 法人情報セクション（法人のみ） -->
+        <div id="corporate-section" class="hidden">
+          <div class="section-title">法人情報</div>
+          
+          <div class="form-group">
+            <label for="corp-name">法人名　　　記入例:株式会社〇〇 <span class="required">*</span></label>
+            <input type="text" id="corp-name" data-field="corpName">
+          </div>
+
+          <div class="form-group">
+            <label for="corp-name-kana">法人名フリガナ　記入例:カブシキガイシャ〇〇 <span class="required">*</span></label>
+            <input type="text" id="corp-name-kana" data-field="corpNameKana" placeholder="カタカナで入力">
+          </div>
+
+          <div class="form-group">
+            <label for="corp-number">法人番号 <span class="required">*</span></label>
+            <input type="text" id="corp-number" data-field="corpNumber" maxlength="13" placeholder="13桁の法人番号">
+          </div>
+
+          <div class="form-group">
+            <label>法人電話番号 <span class="required">*</span></label>
+            <div class="split-input">
+              <input type="text" id="corp-tel1" data-field="corpTel1" maxlength="4" placeholder="03">
+              <span>-</span>
+              <input type="text" id="corp-tel2" data-field="corpTel2" maxlength="4" placeholder="1234">
+              <span>-</span>
+              <input type="text" id="corp-tel3" data-field="corpTel3" maxlength="4" placeholder="5678">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>法人郵便番号 <span class="required">*</span></label>
+            <div class="split-input">
+              <input type="text" id="corp-postal1" data-field="corpPostal1" maxlength="3" placeholder="100">
+              <span>-</span>
+              <input type="text" id="corp-postal2" data-field="corpPostal2" maxlength="4" placeholder="0001">
+              <button type="button" class="search-btn" onclick="searchAddress('corp')">郵便番号で検索</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="corp-prefecture">都道府県 <span class="required">*</span></label>
+            <select id="corp-prefecture" data-field="corpPrefecture">
+              <option value="">選択してください</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="corp-address1">住所1（市区町村・番地） <span class="required">*</span></label>
+            <input type="text" id="corp-address1" data-field="corpAddress1" placeholder="例: 千代田区千代田1-1">
+          </div>
+
+          <div class="form-group">
+            <label for="corp-address1-kana">住所1フリガナ（市区町村・番地） <span class="required">*</span></label>
+            <input type="text" id="corp-address1-kana" data-field="corpAddress1Kana" placeholder="カタカナで入力">
+          </div>
+
+          <div class="form-group">
+            <label for="corp-address2">住所2（建物名・部屋番号など） <span class="optional">(任意)</span></label>
+            <input type="text" id="corp-address2" data-field="corpAddress2" placeholder="例: ○○ビル3F">
+          </div>
+
+          <div class="form-group">
+            <label for="corp-address2-kana">住所2フリガナ（建物名・部屋番号など） <span class="optional">(任意)</span></label>
+            <input type="text" id="corp-address2-kana" data-field="corpAddress2Kana" placeholder="カタカナで入力">
+          </div>
+        </div>
+
+        <!-- 代表者情報/個人情報セクション -->
+        <div class="section-title" id="rep-section-title">代表者情報</div>
+
+        <!-- 個人追加情報（個人のみ） -->
+        <div id="individual-extra-section" class="hidden">
+          <div class="form-group">
+            <label for="business-name">屋号 <span class="optional">(任意)</span> <span class="info-icon" title="ある方のみご記入ください">❓</span></label>
+            <input type="text" id="business-name" data-field="businessName" placeholder="例: 山田商店">
+          </div>
+
+          <div class="form-group">
+            <label for="birth-date">生年月日 <span class="required">*</span></label>
+            <input type="date" id="birth-date" data-field="birthDate">
+          </div>
+
+          <div class="form-group">
+            <label for="gender">性別 <span class="required">*</span></label>
+            <select id="gender" data-field="gender">
+              <option value="">選択してください</option>
+              <option value="男性">男性</option>
+              <option value="女性">女性</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="household-relation">世帯主との続柄 <span class="required">*</span></label>
+            <input type="text" id="household-relation" data-field="householdRelation" placeholder="例: 本人、妻、夫、子">
+          </div>
+
+          <div class="form-group">
+            <label for="household-last-name">世帯主の氏名（姓） <span class="required">*</span></label>
+            <input type="text" id="household-last-name" data-field="householdLastName" placeholder="例: 山田">
+          </div>
+
+          <div class="form-group">
+            <label for="household-first-name">世帯主の氏名（名） <span class="required">*</span></label>
+            <input type="text" id="household-first-name" data-field="householdFirstName" placeholder="例: 太郎">
+          </div>
+
+          <div class="form-group">
+            <label>電話番号 <span class="required">*</span></label>
+            <div class="split-input">
+              <input type="text" id="individual-tel1" data-field="individualTel1" maxlength="4" placeholder="090">
+              <span>-</span>
+              <input type="text" id="individual-tel2" data-field="individualTel2" maxlength="4" placeholder="1234">
+              <span>-</span>
+              <input type="text" id="individual-tel3" data-field="individualTel3" maxlength="4" placeholder="5678">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="rep-name"><span id="rep-name-label">代表者名</span> <span class="required">*</span></label>
+          <input type="text" id="rep-name" data-field="repName">
+        </div>
+
+        <div class="form-group">
+          <label for="rep-name-kana"><span id="rep-name-kana-label">代表者フリガナ</span> <span class="required">*</span></label>
+          <input type="text" id="rep-name-kana" data-field="repNameKana" placeholder="カタカナで入力">
+        </div>
+
+        <div class="form-group">
+          <label><span id="rep-tel-label">代表者電話番号</span> <span class="required">*</span></label>
+          <div class="split-input">
+            <input type="text" id="rep-tel1" data-field="repTel1" maxlength="4" placeholder="090">
+            <span>-</span>
+            <input type="text" id="rep-tel2" data-field="repTel2" maxlength="4" placeholder="1234">
+            <span>-</span>
+            <input type="text" id="rep-tel3" data-field="repTel3" maxlength="4" placeholder="5678">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><span id="rep-postal-label">代表者郵便番号</span> <span class="required">*</span></label>
+          <div class="split-input">
+            <input type="text" id="rep-postal1" data-field="repPostal1" maxlength="3" placeholder="100">
+            <span>-</span>
+            <input type="text" id="rep-postal2" data-field="repPostal2" maxlength="4" placeholder="0001">
+            <button type="button" class="search-btn" onclick="searchAddress('rep')">郵便番号で検索</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="rep-prefecture"><span id="rep-prefecture-label">代表者都道府県</span> <span class="required">*</span></label>
+          <select id="rep-prefecture" data-field="repPrefecture">
+            <option value="">選択してください</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="rep-address1"><span id="rep-address1-label">代表者住所1</span>（市区町村・番地） <span class="required">*</span></label>
+          <input type="text" id="rep-address1" data-field="repAddress1" placeholder="例: 千代田区千代田1-1">
+        </div>
+
+        <div class="form-group">
+          <label for="rep-address1-kana"><span id="rep-address1-kana-label">代表者住所1フリガナ</span>（市区町村・番地） <span class="required">*</span></label>
+          <input type="text" id="rep-address1-kana" data-field="repAddress1Kana" placeholder="カタカナで入力">
+        </div>
+
+        <div class="form-group">
+          <label for="rep-address2"><span id="rep-address2-label">代表者住所2</span>（建物名・部屋番号など） <span class="optional">(任意)</span></label>
+          <input type="text" id="rep-address2" data-field="repAddress2" placeholder="例: ○○マンション101">
+        </div>
+
+        <div class="form-group">
+          <label for="rep-address2-kana"><span id="rep-address2-kana-label">代表者住所2フリガナ</span>（建物名・部屋番号など） <span class="optional">(任意)</span></label>
+          <input type="text" id="rep-address2-kana" data-field="repAddress2Kana" placeholder="カタカナで入力">
+        </div>
+
+        <!-- e-Tax/e-Ltax情報 -->
+        <div class="section-title">e-Tax / e-Ltax情報</div>
+
+        <div class="form-group">
+          <label for="etax-id">e-tax利用者識別番号 <span class="required">*</span></label>
+          <input type="text" id="etax-id" data-field="etaxId" maxlength="16" placeholder="16桁の番号">
+        </div>
+
+        <div class="form-group">
+          <label for="etax-password">e-tax暗証番号 <span class="required">*</span></label>
+          <input type="text" id="etax-password" data-field="etaxPassword" placeholder="暗証番号">
+        </div>
+
+        <!-- e-Ltax（法人のみ） -->
+        <div id="eltax-section" class="hidden">
+          <div class="form-group">
+            <label for="eltax-id">e-Ltax利用者ID <span class="required">*</span></label>
+            <input type="text" id="eltax-id" data-field="eltaxId">
+          </div>
+
+          <div class="form-group">
+            <label for="eltax-password">e-Ltax暗証番号 <span class="required">*</span></label>
+            <input type="text" id="eltax-password" data-field="eltaxPassword">
+          </div>
+        </div>
+
+        <!-- 法人追加情報（法人のみ） -->
+        <div id="corporate-extra-section" class="hidden">
+          <div class="section-title">法人追加情報</div>
+
+          <div class="form-group">
+            <label for="establishment-date">設立年月日 <span class="required">*</span></label>
+            <input type="date" id="establishment-date" data-field="establishmentDate">
+          </div>
+
+          <div class="form-group">
+            <label for="capital">資本金の額をご教示ください。 <span class="required">*</span></label>
+            <input type="text" id="capital" data-field="capital" placeholder="例: 1,000,000" oninput="formatCapital(this)">
+            <div class="help-text">単位：円</div>
+          </div>
+
+          <div class="form-group">
+            <label for="fiscal-month">決算月 <span class="required">*</span></label>
+            <select id="fiscal-month" data-field="fiscalMonth">
+              <option value="">選択してください</option>
+              <option value="1">1月</option>
+              <option value="2">2月</option>
+              <option value="3">3月</option>
+              <option value="4">4月</option>
+              <option value="5">5月</option>
+              <option value="6">6月</option>
+              <option value="7">7月</option>
+              <option value="8">8月</option>
+              <option value="9">9月</option>
+              <option value="10">10月</option>
+              <option value="11">11月</option>
+              <option value="12">12月</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="officer-count">役員人数 <span class="required">*</span></label>
+            <input type="number" id="officer-count" data-field="officerCount" placeholder="例: 2" min="0">
+            <div class="help-text">例：役員、非常勤役員１名ずつの場合、人数は２と入力してください。</div>
+          </div>
+
+          <div class="form-group">
+            <label for="employee-count-corp">従業員数（役員以外の人数） <span class="required">*</span></label>
+            <input type="number" id="employee-count-corp" data-field="employeeCount" placeholder="例: 5" min="0" value="0">
+            <div class="help-text"><strong>従業員がいない場合は0と記入してください。</strong></div>
+          </div>
+        </div>
+
+        <!-- 個人：従業員数 -->
+        <div id="individual-employee-section" class="hidden">
+          <div class="section-title">従業員情報</div>
+          <div class="form-group">
+            <label for="employee-count-ind">従業員数（専従者給与、または従業員を雇用している人数） <span class="required">*</span></label>
+            <input type="number" id="employee-count-ind" data-field="employeeCount" placeholder="例: 2" min="0" value="0">
+            <div class="help-text"><strong>支払いがない場合は0と記入してください。</strong></div>
+          </div>
+        </div>
+
+        <!-- 還付先金融機関（個人・法人共通） -->
+        <div class="section-title">還付先金融機関</div>
+        <div class="info-box">
+          ※ 還付がある方は少ないですが、該当する方はご記入ください。
+        </div>
+
+        <div class="form-group">
+          <label for="refund-bank-name">金融機関名 <span class="optional">(任意)</span></label>
+          <input type="text" id="refund-bank-name" data-field="refundBankName" placeholder="例: 三井住友銀行">
+        </div>
+
+        <div class="form-group">
+          <label for="refund-branch-name">支店名 <span class="optional">(任意)</span></label>
+          <input type="text" id="refund-branch-name" data-field="refundBranchName" placeholder="例: 渋谷支店">
+        </div>
+
+        <div class="form-group">
+          <label for="refund-deposit-type">預金種類 <span class="optional">(任意)</span></label>
+          <select id="refund-deposit-type" data-field="refundDepositType">
+            <option value="">選択してください</option>
+            <option value="普通">普通</option>
+            <option value="当座">当座</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="refund-account-number">口座番号 <span class="optional">(任意)</span></label>
+          <input type="text" id="refund-account-number" data-field="refundAccountNumber" maxlength="8" placeholder="例: 1234567">
+        </div>
+
+        <div class="form-group">
+          <label for="refund-post-office-name">郵便局名 <span class="optional">(任意)</span></label>
+          <input type="text" id="refund-post-office-name" data-field="refundPostOfficeName" placeholder="例: 渋谷郵便局">
+        </div>
+
+        <div class="form-group">
+          <label for="refund-postal-symbol">貯金記号番号 <span class="optional">(任意)</span></label>
+          <input type="text" id="refund-postal-symbol" data-field="refundPostalSymbol" placeholder="例: 12345-1-12345678">
+        </div>
+
+        <!-- 共通情報：所轄の税務署 -->
+        <div class="section-title">所轄の税務署</div>
+        <div class="info-box">
+          必ずご確認をお願い致します。<a href="https://www.nta.go.jp/about/organization/access/map.htm" target="_blank">こちら</a>から検索が可能です。<br>
+          <strong>※ 「税務署」の記載は不要です。税務署名のみをご記入ください。</strong>
+        </div>
+        <div class="form-group">
+          <label for="tax-office">所轄の税務署 <span class="required">*</span></label>
+          <input type="text" id="tax-office" data-field="taxOffice" placeholder="例: 東大阪">
+        </div>
+
+        <!-- 会計ソフト情報 -->
+        <div class="section-title">会計ソフト情報</div>
+
+        <div class="form-group">
+          <label for="accounting-software">クラウド会計ソフト使用状況 <span class="required">*</span></label>
+          <select id="accounting-software" data-field="accountingSoftware" onchange="toggleAccountingSoftware()">
+            <option value="">選択してください</option>
+            <option value="使用している">使用している</option>
+            <option value="使用していない">使用していない</option>
+          </select>
+          <div class="help-text">プルダウンには無いものはその他に記載して下さい。</div>
+        </div>
+
+        <div id="software-detail-section" class="hidden">
+          <div class="form-group">
+            <label for="software-name">使用中の会計ソフト名 <span class="required">*</span></label>
+            <select id="software-name" data-field="softwareName" onchange="toggleMfBusinessNumber()">
+              <option value="">選択してください</option>
+              <option value="マネーフォワード">マネーフォワード</option>
+              <option value="freee">freee</option>
+              <option value="その他">その他</option>
+            </select>
+          </div>
+
+          <div id="other-software-section" class="hidden">
+            <div class="form-group">
+              <label for="other-software-name">その他会計ソフト名 <span class="required">*</span></label>
+              <input type="text" id="other-software-name" data-field="otherSoftwareName" placeholder="ソフト名を入力">
+            </div>
+          </div>
+
+          <div id="mf-business-number-section" class="hidden">
+            <div class="form-group">
+              <label for="mf-business-number">マネーフォワード事業者番号 <span class="required">*</span></label>
+              <input type="text" id="mf-business-number" data-field="mfBusinessNumber" placeholder="事業者番号を入力">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cloud-email">メールアドレス <span class="optional">(任意)</span></label>
+            <input type="email" id="cloud-email" data-field="cloudEmail" placeholder="クラウド会計に登録されている方は、使用しているアドレス">
+          </div>
+        </div>
+
+        <!-- Chatwork情報 -->
+        <div class="section-title">Chatwork情報</div>
+
+        <div class="form-group">
+          <label>chatworkのご利用 <span class="required">*</span></label>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="chatwork-use" value="あり" data-field="chatworkUse" onchange="toggleChatworkEmail()"> あり
+            </label>
+            <label>
+              <input type="radio" name="chatwork-use" value="なし" data-field="chatworkUse" onchange="toggleChatworkEmail()"> なし
+            </label>
+          </div>
+        </div>
+
+        <div id="chatwork-email-section" class="hidden">
+          <div class="form-group">
+            <label for="chatwork-email">Chatworkをご利用されているメールアドレス <span class="required">*</span></label>
+            <input type="email" id="chatwork-email" data-field="chatworkEmail" placeholder="Chatworkに登録しているメールアドレス">
+          </div>
+        </div>
+
+        <button type="submit" class="button">保存する</button>
+      </form>
+    </section>
+
+    <!-- 完了セクション -->
+    <section id="complete-section" class="section">
+      <div class="success-message">
+        <h2>✅ 入力完了</h2>
+        <p>詳細情報のご入力ありがとうございました。</p>
+        <p style="margin-top: 16px;">担当者より3営業日以内にご連絡させていただきます。</p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbx0FlBY4gw_9_DRKGB8Bi-v4dJcs7o_gJqgD3I6StJ_IH4MuwCEwa-BEk8ViUlppc76/exec'; // v46 (個人追加情報・還付先金融機関追加)
+
+    let sessionId = '';
+    let entityType = '法人'; // デフォルトは法人
+    let formData = {}; // タブ切り替え時にデータを保持
+    let lp1Data = {}; // LP1のデータ（専従者給与の判定用）
+
+    // 都道府県リスト
+    const prefectures = [
+      '北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県',
+      '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県',
+      '新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県',
+      '岐阜県', '静岡県', '愛知県', '三重県',
+      '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県',
+      '鳥取県', '島根県', '岡山県', '広島県', '山口県',
+      '徳島県', '香川県', '愛媛県', '高知県',
+      '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県'
+    ];
+
+    // ページ読み込み時
+    window.addEventListener('DOMContentLoaded', () => {
+      // URLからsession_idを取得
+      const params = new URLSearchParams(window.location.search);
+      sessionId = params.get('session_id');
+
+      if (!sessionId) {
+        showError('auth-error', 'セッションIDが見つかりません。もう一度メールのリンクからアクセスしてください。');
+        return;
+      }
+
+      console.log('Session ID:', sessionId);
+
+      // 都道府県プルダウンを初期化
+      initPrefectureSelects();
+    });
+
+    // 都道府県プルダウンを初期化
+    function initPrefectureSelects() {
+      const corpPrefecture = document.getElementById('corp-prefecture');
+      const repPrefecture = document.getElementById('rep-prefecture');
+
+      prefectures.forEach(pref => {
+        const option1 = document.createElement('option');
+        option1.value = pref;
+        option1.textContent = pref;
+        corpPrefecture.appendChild(option1);
+
+        const option2 = document.createElement('option');
+        option2.value = pref;
+        option2.textContent = pref;
+        repPrefecture.appendChild(option2);
+      });
+    }
+
+    // セクション表示切り替え
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(sectionId).classList.add('active');
+    }
+
+    // エラー表示
+    function showError(elementId, message) {
+      const errorElement = document.getElementById(elementId);
+      errorElement.textContent = message;
+      errorElement.classList.add('show');
+    }
+
+    // エラー非表示
+    function hideError(elementId) {
+      const errorElement = document.getElementById(elementId);
+      errorElement.classList.remove('show');
+    }
+
+    // 認証処理
+    async function authenticate() {
+      const emailPrefix = document.getElementById('email-prefix').value.trim();
+
+      if (!emailPrefix || emailPrefix.length !== 3) {
+        showError('auth-error', 'メールアドレスの最初の3文字を入力してください。');
+        return;
+      }
+
+      hideError('auth-error');
+      showSection('loading-section');
+
+      console.log('認証処理開始');
+
+      try {
+        // GETリクエストに変更（CORSエラー回避）
+        const url = `${GAS_API_URL}?action=authenticateLP2&sessionId=${encodeURIComponent(sessionId)}&emailPrefix=${encodeURIComponent(emailPrefix)}`;
+        const response = await fetch(url, {
+          method: 'GET'
+        });
+
+        const data = await response.json();
+        console.log('認証レスポンス:', data);
+
+        if (data.success) {
+          if (data.authenticated) {
+            console.log('認証成功 - entityType:', data.entityType);
+            entityType = data.entityType;
+            // フォームデータ取得
+            await loadFormData();
+          } else {
+            showSection('auth-section');
+            showError('auth-error', data.message || '認証に失敗しました。');
+          }
+        } else {
+          showSection('auth-section');
+          showError('auth-error', data.message || '認証に失敗しました。');
+        }
+      } catch (error) {
+        console.error('認証エラー:', error);
+        showSection('auth-section');
+        showError('auth-error', '通信エラーが発生しました。');
+      }
+    }
+
+    // フォームデータ取得
+    async function loadFormData() {
+      try {
+        // GETリクエストに変更（CORSエラー回避）
+        const url = `${GAS_API_URL}?action=getLP2FormData&sessionId=${encodeURIComponent(sessionId)}`;
+        const response = await fetch(url, {
+          method: 'GET'
+        });
+
+        const data = await response.json();
+        console.log('フォームデータ:', data);
+
+        if (data.success) {
+          entityType = data.entityType;
+          lp1Data.entityType = data.entityType; // LP1のentityTypeを保存（タブ切り替え制御用）
+          
+          if (data.lp2Completed) {
+            // 入力済み：データを表示して完了画面へ
+            showSection('complete-section');
+          } else {
+            // 未入力：フォームを表示
+            showSection('form-section');
+            
+            // LP1で選択したentityTypeに応じて、該当するタブのみ表示
+            const tabCorporate = document.getElementById('tab-corporate');
+            const tabIndividual = document.getElementById('tab-individual');
+            const tabContainer = document.querySelector('.tab-container');
+            
+            if (entityType === '個人') {
+              // 個人の場合：法人タブを非表示、個人タブのみ表示
+              tabCorporate.style.display = 'none';
+              tabIndividual.style.display = 'block';
+              tabIndividual.style.width = '100%';
+              switchTab('individual');
+            } else if (entityType === '法人') {
+              // 法人の場合：個人タブを非表示、法人タブのみ表示
+              tabIndividual.style.display = 'none';
+              tabCorporate.style.display = 'block';
+              tabCorporate.style.width = '100%';
+              switchTab('corporate');
+            } else {
+              // entityTypeが不明な場合は両方表示（フォールバック）
+              switchTab('corporate');
+            }
+          }
+        } else {
+          showSection('auth-section');
+          showError('auth-error', data.message || 'データの取得に失敗しました。');
+        }
+      } catch (error) {
+        console.error('データ取得エラー:', error);
+        showSection('auth-section');
+        showError('auth-error', '通信エラーが発生しました。');
+      }
+    }
+
+    // タブ切り替え
+    function switchTab(type) {
+      // LP1で選択したentityTypeと一致しない場合は切り替えを拒否
+      const requestedEntityType = type === 'corporate' ? '法人' : '個人';
+      if (lp1Data.entityType && lp1Data.entityType !== requestedEntityType) {
+        console.log('タブ切り替えが拒否されました。LP1の選択:', lp1Data.entityType, '要求:', requestedEntityType);
+        return;
+      }
+      
+      // 現在のフォームデータを保存
+      saveCurrentFormData();
+
+      // タブの見た目を切り替え
+      document.getElementById('tab-corporate').classList.toggle('active', type === 'corporate');
+      document.getElementById('tab-individual').classList.toggle('active', type === 'individual');
+
+      // entityTypeを更新
+      const newEntityType = type === 'corporate' ? '法人' : '個人';
+
+      // 法人/個人でセクションの表示を切り替え
+      const isCorporate = type === 'corporate';
+      document.getElementById('corporate-section').classList.toggle('hidden', !isCorporate);
+      document.getElementById('eltax-section').classList.toggle('hidden', !isCorporate);
+      document.getElementById('corporate-extra-section').classList.toggle('hidden', !isCorporate);
+      document.getElementById('individual-extra-section').classList.toggle('hidden', isCorporate);
+      document.getElementById('individual-employee-section').classList.toggle('hidden', isCorporate);
+
+      // ラベルを変更
+      document.getElementById('rep-section-title').textContent = isCorporate ? '代表者情報' : '個人情報';
+      document.getElementById('rep-name-label').textContent = isCorporate ? '代表者名' : '氏名';
+      document.getElementById('rep-name-kana-label').textContent = isCorporate ? '代表者フリガナ' : 'フリガナ';
+      document.getElementById('rep-tel-label').textContent = isCorporate ? '代表者電話番号' : '電話番号';
+      document.getElementById('rep-postal-label').textContent = isCorporate ? '代表者郵便番号' : '郵便番号';
+      document.getElementById('rep-prefecture-label').textContent = isCorporate ? '代表者都道府県' : '都道府県';
+      document.getElementById('rep-address1-label').textContent = isCorporate ? '代表者住所1' : '住所1';
+      document.getElementById('rep-address1-kana-label').textContent = isCorporate ? '代表者住所1フリガナ' : '住所1フリガナ';
+      document.getElementById('rep-address2-label').textContent = isCorporate ? '代表者住所2' : '住所2';
+      document.getElementById('rep-address2-kana-label').textContent = isCorporate ? '代表者住所2フリガナ' : '住所2フリガナ';
+
+      // 保存しておいたデータを復元
+      restoreFormData();
+    }
+
+    // 現在のフォームデータを保存
+    function saveCurrentFormData() {
+      const inputs = document.querySelectorAll('[data-field]');
+      inputs.forEach(input => {
+        const field = input.dataset.field;
+        if (input.type === 'radio') {
+          if (input.checked) {
+            formData[field] = input.value;
+          }
+        } else {
+          // 資本金の場合はカンマを除去して数値のみを保存
+          if (field === 'capital') {
+            formData[field] = input.value.replace(/,/g, '');
+          } else {
+            formData[field] = input.value;
+          }
+        }
+      });
+      console.log('フォームデータ保存:', formData);
+    }
+
+    // フォームデータを復元
+    function restoreFormData() {
+      const inputs = document.querySelectorAll('[data-field]');
+      inputs.forEach(input => {
+        const field = input.dataset.field;
+        if (formData[field] !== undefined) {
+          if (input.type === 'radio') {
+            input.checked = (input.value === formData[field]);
+          } else {
+            input.value = formData[field];
+          }
+        }
+      });
+
+      // 条件分岐UIも更新
+      toggleAccountingSoftware();
+      toggleMfBusinessNumber();
+      toggleChatworkEmail();
+
+      console.log('フォームデータ復元:', formData);
+    }
+
+    // 郵便番号検索
+    async function searchAddress(type) {
+      const postal1Id = type === 'corp' ? 'corp-postal1' : 'rep-postal1';
+      const postal2Id = type === 'corp' ? 'corp-postal2' : 'rep-postal2';
+      const prefectureId = type === 'corp' ? 'corp-prefecture' : 'rep-prefecture';
+      const address1Id = type === 'corp' ? 'corp-address1' : 'rep-address1';
+
+      const postal1 = document.getElementById(postal1Id).value;
+      const postal2 = document.getElementById(postal2Id).value;
+
+      if (!postal1 || !postal2) {
+        alert('郵便番号を入力してください。');
+        return;
+      }
+
+      const postalCode = postal1 + postal2;
+
+      try {
+        const response = await fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${postalCode}`);
+        const data = await response.json();
+
+        if (data.status === 200 && data.results) {
+          const result = data.results[0];
+          document.getElementById(prefectureId).value = result.address1;
+          document.getElementById(address1Id).value = result.address2 + result.address3;
+          alert('住所を自動入力しました。');
+        } else {
+          alert('郵便番号が見つかりませんでした。');
+        }
+      } catch (error) {
+        console.error('郵便番号検索エラー:', error);
+        alert('郵便番号検索に失敗しました。');
+      }
+    }
+
+    // 会計ソフト使用状況による表示切り替え
+    function toggleAccountingSoftware() {
+      const value = document.getElementById('accounting-software').value;
+      const section = document.getElementById('software-detail-section');
+      section.classList.toggle('hidden', value !== '使用している');
+    }
+
+    // マネーフォワード事業者番号の表示切り替え
+    function toggleMfBusinessNumber() {
+      const softwareName = document.getElementById('software-name').value;
+      const otherSection = document.getElementById('other-software-section');
+      const mfSection = document.getElementById('mf-business-number-section');
+
+      otherSection.classList.toggle('hidden', softwareName !== 'その他');
+      mfSection.classList.toggle('hidden', softwareName !== 'マネーフォワード');
+    }
+
+    // Chatworkメールの表示切り替え
+    function toggleChatworkEmail() {
+      const chatworkUse = document.querySelector('input[name="chatwork-use"]:checked');
+      const section = document.getElementById('chatwork-email-section');
+      if (chatworkUse) {
+        section.classList.toggle('hidden', chatworkUse.value !== 'あり');
+      }
+    }
+
+    // 資本金のカンマ区切りフォーマット
+    function formatCapital(input) {
+      // カンマを除去して数値のみを取得
+      let value = input.value.replace(/,/g, '');
+      
+      // 数値以外の文字を除去
+      value = value.replace(/[^\d]/g, '');
+      
+      // カンマ区切りを追加
+      if (value) {
+        value = parseInt(value, 10).toLocaleString('ja-JP');
+      }
+      
+      input.value = value;
+    }
+
+    // フォーム送信
+    document.getElementById('lp2-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // 現在のフォームデータを保存
+      saveCurrentFormData();
+
+      hideError('form-error');
+
+      // バリデーション
+      if (!validateForm()) {
+        showError('form-error', '必須項目をすべて入力してください。');
+        return;
+      }
+
+      // ボタン無効化
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = '保存中...';
+
+      try {
+        // POSTリクエスト（application/x-www-form-urlencoded）
+        const response = await fetch(GAS_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            action: 'saveLP2Data',
+            sessionId: sessionId,
+            data: JSON.stringify(formData)
+          })
+        });
+
+        const data = await response.json();
+        console.log('保存レスポンス:', data);
+
+        if (data.success) {
+          showSection('complete-section');
+        } else {
+          showError('form-error', data.message || '保存に失敗しました。');
+          submitBtn.disabled = false;
+          submitBtn.textContent = '保存する';
+        }
+      } catch (error) {
+        console.error('保存エラー（レスポンス確認中）:', error);
+        
+        // CORSエラーでもデータは保存されている可能性があるため、確認リクエストを送信
+        console.log('保存確認リクエストを送信...');
+        
+        try {
+          // 2秒待ってからデータが保存されたか確認
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          
+          const checkUrl = `${GAS_API_URL}?action=getLP2FormData&sessionId=${encodeURIComponent(sessionId)}`;
+          const checkResponse = await fetch(checkUrl, { method: 'GET' });
+          const checkData = await checkResponse.json();
+          
+          console.log('保存確認結果:', checkData);
+          
+          if (checkData.success && checkData.lp2Completed) {
+            // 保存が確認できた → 完了画面へ
+            console.log('✅ データ保存確認成功');
+            showSection('complete-section');
+          } else {
+            // まだ保存されていない → エラー表示
+            showError('form-error', '保存に失敗しました。もう一度お試しください。');
+            submitBtn.disabled = false;
+            submitBtn.textContent = '保存する';
+          }
+        } catch (checkError) {
+          console.error('保存確認エラー:', checkError);
+          showError('form-error', '保存の確認中にエラーが発生しました。ページを再読み込みしてください。');
+          submitBtn.disabled = false;
+          submitBtn.textContent = '保存する';
+        }
+      }
+    });
+
+    // バリデーション
+    function validateForm() {
+      const isCorporate = document.getElementById('tab-corporate').classList.contains('active');
+
+      // 必須フィールドのチェック
+      const requiredFields = [
+        'taxOffice',
+        'repName', 'repNameKana', 'repTel1', 'repTel2', 'repTel3',
+        'repPostal1', 'repPostal2', 'repPrefecture', 'repAddress1', 'repAddress1Kana',
+        'etaxId', 'etaxPassword',
+        'accountingSoftware',
+        'chatworkUse'
+      ];
+
+      // 法人の場合の追加必須フィールド
+      if (isCorporate) {
+        requiredFields.push(
+          'corpName', 'corpNameKana', 'corpNumber', 'corpTel1', 'corpTel2', 'corpTel3',
+          'corpPostal1', 'corpPostal2', 'corpPrefecture', 'corpAddress1', 'corpAddress1Kana',
+          'eltaxId', 'eltaxPassword',
+          'establishmentDate', 'capital', 'fiscalMonth', 'officerCount'
+        );
+      }
+
+      // 個人の場合の追加必須フィールド
+      if (!isCorporate) {
+        requiredFields.push(
+          'birthDate', 'gender', 'householdRelation', 'householdLastName', 'householdFirstName',
+          'individualTel1', 'individualTel2', 'individualTel3'
+        );
+      }
+
+      // 従業員数は法人・個人共に必須
+      requiredFields.push('employeeCount');
+
+      // 会計ソフト使用している場合
+      if (formData.accountingSoftware === '使用している') {
+        requiredFields.push('softwareName');
+        if (formData.softwareName === 'その他') {
+          requiredFields.push('otherSoftwareName');
+        }
+        if (formData.softwareName === 'マネーフォワード') {
+          requiredFields.push('mfBusinessNumber');
+        }
+      }
+
+      // Chatwork使用している場合
+      if (formData.chatworkUse === 'あり') {
+        requiredFields.push('chatworkEmail');
+      }
+
+      for (const field of requiredFields) {
+        const value = formData[field];
+        
+        // 数値型フィールドの場合は0も有効
+        if (field === 'employeeCount' || field === 'capital' || field === 'officerCount') {
+          if (value === undefined || value === null || value === '') {
+            console.log('Missing field:', field);
+            return false;
+          }
+        } else {
+          // 文字列フィールド
+          if (!value || value.trim() === '') {
+            console.log('Missing field:', field);
+            return false;
+          }
+        }
+      }
+
+      return true;
+    }
+  </script>
+</body>
+</html>
+
