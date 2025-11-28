@@ -1,4 +1,5 @@
 // ========== 設定 ==========
+// v49: CX列（郵便局名）を削除、CY列（貯金記号番号）のみ使用（13桁）
 // v48: CQ-CS列（個人電話番号）を削除、個人は代表者電話番号（AY-BA列）のみ使用
 // v47: 医療費控除オプション追加（個人のみ、¥10,000、CA列）
 //      CJ列を個人・法人共通フィールドに拡張（事業を開始した日付/設立年月日）
@@ -129,7 +130,7 @@ const LP2_HEADERS = [
   '還付先金融機関支店名',            // CU
   '還付先金融機関預金種類',          // CV
   '還付先金融機関口座番号',          // CW
-  '還付先金融機関郵便局名',          // CX
+  '（削除）郵便局名',                // CX (削除済み - 貯金記号番号のみで特定可能)
   '還付先金融機関貯金記号番号'       // CY
 ];
 
@@ -1535,7 +1536,7 @@ function extractLP2Data_(rowData, entityType) {
     refundBranchName: rowData[98] || '',   // CU 還付先金融機関支店名
     refundDepositType: rowData[99] || '',  // CV 還付先金融機関預金種類
     refundAccountNumber: rowData[100] || '',// CW 還付先金融機関口座番号
-    refundPostOfficeName: rowData[101] || '',// CX 還付先金融機関郵便局名
+    // CX 郵便局名は削除（貯金記号番号のみで特定可能）
     refundPostalSymbol: rowData[102] || '' // CY 還付先金融機関貯金記号番号
   };
 
@@ -1710,7 +1711,7 @@ function buildLP2Values_(data, entityType) {
     data.refundBranchName || '',                        // CU 還付先金融機関支店名
     data.refundDepositType || '',                       // CV 還付先金融機関預金種類
     data.refundAccountNumber || '',                     // CW 還付先金融機関口座番号
-    data.refundPostOfficeName || '',                    // CX 還付先金融機関郵便局名
+    '',                                                 // CX 郵便局名（削除済み - 空白保存）
     data.refundPostalSymbol || ''                       // CY 還付先金融機関貯金記号番号
   ];
 }

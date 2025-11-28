@@ -669,13 +669,9 @@
         </div>
 
         <div class="form-group">
-          <label for="refund-post-office-name">郵便局名 <span class="optional">(任意)</span></label>
-          <input type="text" id="refund-post-office-name" data-field="refundPostOfficeName" placeholder="例: 渋谷郵便局">
-        </div>
-
-        <div class="form-group">
-          <label for="refund-postal-symbol">貯金記号番号 <span class="optional">(任意)</span></label>
-          <input type="text" id="refund-postal-symbol" data-field="refundPostalSymbol" placeholder="例: 12345-1-12345678">
+          <label for="refund-postal-symbol">郵便局　貯金記号番号 <span class="optional">(任意)</span></label>
+          <input type="text" id="refund-postal-symbol" data-field="refundPostalSymbol" maxlength="14" placeholder="例: 12345-1234567（5桁-7桁）">
+          <div class="help-text">還付がある場合のみ使用いたします。XXXXXYYYYYYYYの形で詰めて記載してください（ハイフンなしの13桁でも可）</div>
         </div>
 
         <!-- 共通情報：所轄の税務署 -->
