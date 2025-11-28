@@ -121,7 +121,7 @@ const LP2_HEADERS = [
   '性別',                            // CM
   '世帯主との続柄',                  // CN
   '世帯主の氏名（姓）',              // CO
-  '世帯主の氏名（名）'               // CP
+  '世帯主の氏名（名）',              // CP
   // CQ-CS列（個人電話番号）は削除済み - 代表者電話番号（AY-BA列）を使用
   
   // 還付先金融機関（CT-CY）- 個人・法人共通
@@ -1527,7 +1527,7 @@ function extractLP2Data_(rowData, entityType) {
     gender: rowData[90] || '',             // CM 性別
     householdRelation: rowData[91] || '',  // CN 世帯主との続柄
     householdLastName: rowData[92] || '',  // CO 世帯主の氏名（姓）
-    householdFirstName: rowData[93] || ''  // CP 世帯主の氏名（名）
+    householdFirstName: rowData[93] || '', // CP 世帯主の氏名（名）
     // CQ-CS列（個人電話番号）は削除 - 代表者電話番号（AY-BA列）を使用
     
     // 還付先金融機関（CT-CY）
