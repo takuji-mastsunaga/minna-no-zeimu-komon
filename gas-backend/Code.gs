@@ -1,4 +1,5 @@
 // ========== 設定 ==========
+// v48: CQ-CS列（個人電話番号）を削除、個人は代表者電話番号（AY-BA列）のみ使用
 // v47: 医療費控除オプション追加（個人のみ、¥10,000、CA列）
 //      CJ列を個人・法人共通フィールドに拡張（事業を開始した日付/設立年月日）
 //      BO列を MM-DD 形式に変更（決算日）
@@ -114,16 +115,14 @@ const LP2_HEADERS = [
   // 法人追加情報2・個人基本情報（CJ）
   '設立年月日/事業を開始した日付',    // CJ (法人=設立年月日、個人=事業を開始した日付、yyyy-MM-dd)
   
-  // 個人追加情報（CK-CS）
+  // 個人追加情報（CK-CP）
   '屋号',                            // CK
   '生年月日',                        // CL
   '性別',                            // CM
   '世帯主との続柄',                  // CN
   '世帯主の氏名（姓）',              // CO
-  '世帯主の氏名（名）',              // CP
-  '個人電話番号1',                   // CQ
-  '個人電話番号2',                   // CR
-  '個人電話番号3',                   // CS
+  '世帯主の氏名（名）'               // CP
+  // CQ-CS列（個人電話番号）は削除済み - 代表者電話番号（AY-BA列）を使用
   
   // 還付先金融機関（CT-CY）- 個人・法人共通
   '還付先金融機関名',                // CT
@@ -1522,16 +1521,14 @@ function extractLP2Data_(rowData, entityType) {
     // 法人追加情報2（CJ）
     establishmentDate: rowData[87] || '',  // CJ (0ベースで87番目 = 88列目)
     
-    // 個人追加情報（CK-CS）
+    // 個人追加情報（CK-CP）
     businessName: rowData[88] || '',       // CK 屋号
     birthDate: rowData[89] || '',          // CL 生年月日
     gender: rowData[90] || '',             // CM 性別
     householdRelation: rowData[91] || '',  // CN 世帯主との続柄
     householdLastName: rowData[92] || '',  // CO 世帯主の氏名（姓）
-    householdFirstName: rowData[93] || '', // CP 世帯主の氏名（名）
-    individualTel1: rowData[94] || '',     // CQ 個人電話番号1
-    individualTel2: rowData[95] || '',     // CR 個人電話番号2
-    individualTel3: rowData[96] || '',     // CS 個人電話番号3
+    householdFirstName: rowData[93] || ''  // CP 世帯主の氏名（名）
+    // CQ-CS列（個人電話番号）は削除 - 代表者電話番号（AY-BA列）を使用
     
     // 還付先金融機関（CT-CY）
     refundBankName: rowData[97] || '',     // CT 還付先金融機関名
@@ -1698,16 +1695,15 @@ function buildLP2Values_(data, entityType) {
     // 法人追加情報2・個人基本情報（CJ）
     data.establishmentDate || '',                       // CJ (法人=設立年月日、個人=事業を開始した日付)
     
-    // 個人追加情報（CK-CS）- 法人の場合は空白
+    // 個人追加情報（CK-CP）- 法人の場合は空白
     !isCorporate ? (data.businessName || '') : '',      // CK 屋号
     !isCorporate ? (data.birthDate || '') : '',         // CL 生年月日
     !isCorporate ? (data.gender || '') : '',            // CM 性別
     !isCorporate ? (data.householdRelation || '') : '', // CN 世帯主との続柄
     !isCorporate ? (data.householdLastName || '') : '', // CO 世帯主の氏名（姓）
     !isCorporate ? (data.householdFirstName || '') : '',// CP 世帯主の氏名（名）
-    !isCorporate ? (data.individualTel1 || '') : '',    // CQ 個人電話番号1
-    !isCorporate ? (data.individualTel2 || '') : '',    // CR 個人電話番号2
-    !isCorporate ? (data.individualTel3 || '') : '',    // CS 個人電話番号3
+    // CQ-CS列（個人電話番号）は削除 - 代表者電話番号（AY-BA列）を個人の電話番号として使用
+    '', '', '',                                         // CQ-CS 空白（今後使用しない）
     
     // 還付先金融機関（CT-CY）- 個人・法人共通
     data.refundBankName || '',                          // CT 還付先金融機関名

@@ -504,16 +504,7 @@
             <input type="text" id="household-first-name" data-field="householdFirstName" placeholder="例: 太郎">
           </div>
 
-          <div class="form-group">
-            <label>電話番号 <span class="required">*</span></label>
-            <div class="split-input">
-              <input type="text" id="individual-tel1" data-field="individualTel1" maxlength="4" placeholder="090">
-              <span>-</span>
-              <input type="text" id="individual-tel2" data-field="individualTel2" maxlength="4" placeholder="1234">
-              <span>-</span>
-              <input type="text" id="individual-tel3" data-field="individualTel3" maxlength="4" placeholder="5678">
-            </div>
-          </div>
+          <!-- 個人の電話番号は代表者電話番号（AY-BA列）を使用するため、ここでは削除 -->
         </div>
 
         <div class="form-group">
@@ -779,7 +770,7 @@
   </div>
 
   <script>
-    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbx0FlBY4gw_9_DRKGB8Bi-v4dJcs7o_gJqgD3I6StJ_IH4MuwCEwa-BEk8ViUlppc76/exec'; // v47 (医療費控除追加・CJ列拡張・BO列形式変更)
+    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbx0FlBY4gw_9_DRKGB8Bi-v4dJcs7o_gJqgD3I6StJ_IH4MuwCEwa-BEk8ViUlppc76/exec'; // v48 (個人電話番号CQ-CS列削除)
 
     let sessionId = '';
     let entityType = '法人'; // デフォルトは法人
@@ -1227,8 +1218,8 @@
       // 個人の場合の追加必須フィールド
       if (!isCorporate) {
         requiredFields.push(
-          'birthDate', 'gender', 'householdRelation', 'householdLastName', 'householdFirstName',
-          'individualTel1', 'individualTel2', 'individualTel3'
+          'birthDate', 'gender', 'householdRelation', 'householdLastName', 'householdFirstName'
+          // 個人の電話番号は代表者電話番号（repTel1-3）を使用するため、individualTel1-3は不要
         );
       }
 
