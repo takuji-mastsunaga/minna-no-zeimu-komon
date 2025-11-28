@@ -1,4 +1,5 @@
 // ========== 設定 ==========
+// v50: メール送信者ヘッダー設定、還付先説明文変更、役員人数ヘルプテキスト修正
 // v49: CX列（郵便局名）を削除、CY列（貯金記号番号）のみ使用（13桁）
 // v48: CQ-CS列（個人電話番号）を削除、個人は代表者電話番号（AY-BA列）のみ使用
 // v47: 医療費控除オプション追加（個人のみ、¥10,000、CA列）
@@ -1895,7 +1896,10 @@ function sendLP2Email(uuid, sessionId) {
     const body = buildLP2EmailBody_(recipientName, lp2Url);
 
     // 6. メール送信
-    GmailApp.sendEmail(email, subject, body);
+    GmailApp.sendEmail(email, subject, body, {
+      name: 'みんなの税務顧問',
+      replyTo: 'minzei@solvis-group.com'
+    });
 
     // 7. ログ記録
     logWebhookEvent('sendLP2Email', uuid, 'success', 'Email sent to: ' + email, '');
