@@ -1,4 +1,5 @@
 // ========== 設定 ==========
+// v51: LP2案内メール本文変更（連絡先をChatworkに統一、今後の流れを更新）
 // v50: メール送信者ヘッダー設定、還付先説明文変更、役員人数ヘルプテキスト修正
 // v49: CX列（郵便局名）を削除、CY列（貯金記号番号）のみ使用（13桁）
 // v48: CQ-CS列（個人電話番号）を削除、個人は代表者電話番号（AY-BA列）のみ使用
@@ -874,7 +875,8 @@ function createStripeCheckoutSession(uuid, payment) {
       quantity: 1
     }];
 
-    // オプション追加（サブスクリプションで毎年継続）
+    // オプション追加（基本プランと同じ請求間隔で継続請求）
+    // 注意: Stripeの制限により、同じCheckout Session内で異なる請求間隔は混在できない
     if (payment.options && payment.options.length > 0) {
       payment.options.forEach(function(option) {
         lineItems.push({
@@ -912,7 +914,6 @@ function createStripeCheckoutSession(uuid, payment) {
         payloadParts.push('line_items[' + index + '][price_data][currency]=' + encodeURIComponent(item.price_data.currency));
         payloadParts.push('line_items[' + index + '][price_data][product_data][name]=' + encodeURIComponent(item.price_data.product_data.name));
         payloadParts.push('line_items[' + index + '][price_data][unit_amount]=' + encodeURIComponent(item.price_data.unit_amount));
-        // recurring設定を追加（オプションを毎年継続）
         if (item.price_data.recurring) {
           payloadParts.push('line_items[' + index + '][price_data][recurring][interval]=' + encodeURIComponent(item.price_data.recurring.interval));
         }
@@ -1815,6 +1816,7 @@ function saveLP2Data(sessionId, data) {
 
 /**
  * LP2案内メール本文を作成
+ * v51: 連絡先をChatworkに統一、今後の流れを更新
  */
 function buildLP2EmailBody_(fullName, lp2Url) {
   return fullName + ' 様\n\n' +
@@ -1832,19 +1834,18 @@ function buildLP2EmailBody_(fullName, lp2Url) {
     '━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
     '・このリンクはお客様専用です。他の方と共有しないでください。\n' +
     '・詳細情報は一度入力されると、変更ができません。\n' +
-    '・入力内容に変更が必要な場合は、minzei@solvis-group.com までご連絡ください。\n\n' +
+    '・入力内容に変更が必要な場合は、Chatworkにてご連絡ください。\n\n' +
     '━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' +
     '■ 今後の流れ\n' +
     '━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
     '1. 詳細情報のご入力（本メールのリンクから）\n' +
-    '2. 担当者より3営業日以内にご連絡\n' +
+    '2. Googleドライブの連携\n' +
     '3. 必要書類のご案内\n' +
-    '4. オンライン面談の日程調整\n' +
+    '4. Chatworkの連携\n' +
     '5. サービス開始\n\n' +
     '━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-    'ご不明な点がございましたら、お気軽にお問い合わせください。\n\n' +
-    'みんなの税務顧問 運営事務局\n' +
-    'メール：minzei@solvis-group.com\n\n' +
+    'ご不明な点がございましたら、Chatworkにてご連絡をお願いいたします。\n\n' +
+    'みんなの税務顧問 運営事務局\n\n' +
     '━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
 }
 
