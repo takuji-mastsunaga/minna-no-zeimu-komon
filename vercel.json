@@ -1,6 +1,19 @@
 {
   "version": 2,
   "outputDirectory": ".",
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "https://minzei-tax.jp/",
+      "statusCode": 301,
+      "has": [
+        {
+          "type": "host",
+          "value": "(www\\.)?minzei-tax\\.com"
+        }
+      ]
+    }
+  ],
   "rewrites": [
     {
       "source": "/terms",
