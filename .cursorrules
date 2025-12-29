@@ -1,0 +1,220 @@
+# みんなの税務顧問 - Cursorプロジェクトルール
+
+## 🎯 このファイルについて
+
+このファイルはCursorが自動的に読み込むプロジェクトルールです。
+新しいセッションを開始した際も、この内容が適用されます。
+
+---
+
+## 📁 プロジェクト構成
+
+```
+minna-no-zeimu-komon/
+├── 1218tst.html          # LP1（申し込みフォーム）- Vercel
+├── lp2-detail.html       # LP2（詳細情報入力）- Vercel
+├── lp2-success.html      # 決済完了ページ
+├── styles.css            # スタイルシート
+├── script.js             # JavaScript
+├── vercel.json           # Vercel設定
+├── gas-backend/
+│   └── Code.gs           # Google Apps Script（バックエンド）
+├── 秘密情報/              # ⚠️ 機密ドキュメント（Git除外）
+│   ├── docs/             # デプロイ状態・チェックリスト
+│   ├── gas-backend/      # GASデプロイ手順
+│   └── *.md              # API情報・Webhook設定など
+└── images/               # 画像ファイル
+```
+
+---
+
+## 🔐 機密情報の取り扱い
+
+### ⚠️ 絶対にGitにコミットしないもの
+
+1. **秘密情報フォルダ全体** - `.gitignore`で除外済み
+2. **APIキー・シークレット** - Stripe, GAS URLなど
+3. **Webhook署名シークレット** - `whsec_...`
+4. **スプレッドシートID** - 本番データへのアクセス情報
+
+### ✅ .gitignoreの設定
+
+```
+秘密情報/        # 機密ドキュメント除外
+*.md             # MDファイル除外（機密情報含む可能性）
+*.token          # トークンファイル除外
+.env.*           # 環境変数ファイル除外
+```
+
+### 📝 機密情報の保管場所
+
+- **秘密情報/docs/** - デプロイ状態、チェックリスト
+- **秘密情報/gas-backend/** - GASデプロイ手順、Stripe連携
+- **GAS Script Properties** - Stripeキー、Webhook署名
+
+---
+
+## 🚀 デプロイフロー
+
+### パターンA: HTML/CSS/JSのみ変更
+
+```bash
+# 1. コード変更
+# 2. コミット & プッシュ
+cd /Users/takujimatsunaga/minna-no-zeimu-komon
+git add .
+git commit -m "feat(vXX): 変更内容"
+git push origin main
+# → Vercel自動デプロイ（GitHubと連携済み）
+```
+
+### パターンB: Code.gs変更あり
+
+```
+ステップ1: GASコード変更
+  - Cursorで gas-backend/Code.gs を編集
+
+ステップ2: GAS新規デプロイ（⚠️ 毎回新規デプロイが必要）
+  - GASエディタを開く
+  - Code.gsを貼り付け → 保存
+  - 「デプロイ」→「新しいデプロイ」
+  - 種類: ウェブアプリ / 説明: vXX / アクセス: 全員
+  - 新しいURLをコピー
+
+ステップ3: Stripe Webhook URL更新
+  - Stripe Dashboard → 開発者 → Webhooks
+  - エンドポイントURLを新しいGAS URLに更新
+
+ステップ4: フロントエンド更新
+  - 1218tst.html の GAS_API_URL を更新
+  - lp2-detail.html の GAS_API_URL を更新
+
+ステップ5: Vercelデプロイ & Git記録
+  - git add . && git commit -m "feat(vXX): 変更内容"
+  - git push origin main
+
+ステップ6: 動作確認
+  - LP1 → Stripe決済 → LP2 → データ保存
+```
+
+### ⚠️ 重要: GASデプロイについて
+
+- **「バージョン更新」では反映されないことがある**
+- **毎回「新規デプロイ」を作成** → URLが毎回変わる
+- **新規デプロイ後は必ずStripe WebhookとフロントエンドのURLを更新**
+
+---
+
+## 📊 システム構成
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  フロントエンド（Vercel）                                    │
+│  - 1218tst.html, lp2-detail.html                            │
+│  - 本番: https://www.minzei-tax.com                         │
+│  - GitHubプッシュで自動デプロイ                              │
+└───────────────────────┬─────────────────────────────────────┘
+                        │ HTTPS POST
+                        ↓
+┌─────────────────────────────────────────────────────────────┐
+│  バックエンド（Google Apps Script）                          │
+│  - gas-backend/Code.gs                                       │
+│  - 毎回「新規デプロイ」→ URLが変わる                          │
+│  - ⚠️ URLはGitにコミットしない                               │
+└───────────────────────┬─────────────────────────────────────┘
+                        │
+          ┌─────────────┼─────────────┐
+          ↓             ↓             ↓
+     Google Sheets   Stripe       Gmail
+     (データ保存)    (決済)       (メール)
+```
+
+---
+
+## 📝 コミットメッセージ規約
+
+```
+feat(vXX): 新機能追加の説明
+fix(vXX): バグ修正の説明
+chore: その他の変更（ドキュメント、設定など）
+docs: ドキュメントのみの変更
+```
+
+例:
+- `feat(v52): LP2に新しいフィールドを追加`
+- `fix(v52): 決済エラー時のハンドリング修正`
+- `chore: .gitignore更新`
+
+---
+
+## 🔗 重要なリンク
+
+### 本番環境
+
+- **Vercel（フロントエンド）**: https://www.minzei-tax.com
+- **LP1**: https://www.minzei-tax.com/1218tst.html
+- **LP2**: https://www.minzei-tax.com/lp2-detail.html
+
+### 開発ツール
+
+- **GASプロジェクト**: 秘密情報/docs/CURRENT-SETUP.md を参照
+- **Google Sheets**: 秘密情報/docs/CURRENT-SETUP.md を参照
+- **Stripe Dashboard**: https://dashboard.stripe.com
+- **GitHub**: https://github.com/takuji-mastsunaga/minna-no-zeimu-komon
+
+---
+
+## 📚 ドキュメント参照先
+
+デプロイや設定の詳細は以下を参照:
+
+| 内容 | ファイル |
+|------|---------|
+| 現在の環境設定 | 秘密情報/docs/CURRENT-SETUP.md |
+| デプロイチェックリスト | 秘密情報/docs/DEPLOYMENT-CHECKLIST.md |
+| Webhook設定 | 秘密情報/STRIPE-WEBHOOK-SETUP-GUIDE.md |
+| URL更新手順 | 秘密情報/UPDATE-WEBHOOK-URL.md |
+| トラブルシューティング | 秘密情報/docs/TROUBLESHOOTING.md |
+
+---
+
+## ⚡ クイックリファレンス
+
+### コード変更後のデプロイ
+
+1. **HTMLのみ変更**: `git push` → 自動デプロイ
+2. **Code.gs変更**: 上記「パターンB」の全ステップを実行
+
+### 確認用テストカード（Stripeテストモード）
+
+- カード番号: 4242 4242 4242 4242
+- 有効期限: 任意の未来日
+- CVC: 任意の3桁
+
+### 動作確認チェックリスト
+
+- [ ] LP1フォーム表示
+- [ ] Stripe決済ページへのリダイレクト
+- [ ] 決済完了 → LP2へのリダイレクト
+- [ ] LP2フォーム入力 → 保存
+- [ ] Google Sheetsへのデータ保存
+- [ ] LP2案内メール送信
+
+---
+
+## 🛡️ セキュリティ注意事項
+
+1. **GAS API URL** - Gitにコミットしない（フロントエンドに含まれるが、秘密情報フォルダで管理）
+2. **Stripeキー** - GAS Script Propertiesで管理
+3. **Webhook署名シークレット** - GAS Script Propertiesで管理
+4. **スプレッドシートID** - 秘密情報フォルダで管理
+
+---
+
+## 📞 最終更新
+
+- **現在のバージョン**: v51
+- **最終デプロイ**: 2025年12月25日
+- **次回更新時**: このファイルのバージョン番号も更新すること
+
+
