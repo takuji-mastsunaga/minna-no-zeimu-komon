@@ -1,4 +1,5 @@
 // ========== 設定 ==========
+// v53: 月額プランのオプション料金を12で按分（年額ベース→月額按分）
 // v51: LP2案内メール本文変更（連絡先をChatworkに統一、今後の流れを更新）
 // v50: メール送信者ヘッダー設定、還付先説明文変更、役員人数ヘルプテキスト修正
 // v49: CX列（郵便局名）を削除、CY列（貯金記号番号）のみ使用（13桁）
@@ -877,15 +878,21 @@ function createStripeCheckoutSession(uuid, payment) {
 
     // オプション追加（基本プランと同じ請求間隔で継続請求）
     // 注意: Stripeの制限により、同じCheckout Session内で異なる請求間隔は混在できない
+    // v53: 月額プランの場合、オプション料金を12で割って按分
     if (payment.options && payment.options.length > 0) {
       payment.options.forEach(function(option) {
+        // 月額プランの場合は年額を12で割って按分
+        const optionAmount = payment.planType === 'yearly' 
+          ? option.amount 
+          : Math.round(option.amount / 12);
+        
         lineItems.push({
           price_data: {
             currency: 'jpy',
             product_data: {
               name: option.name
             },
-            unit_amount: option.amount,
+            unit_amount: optionAmount,
             recurring: {
               interval: payment.planType === 'yearly' ? 'year' : 'month'
             }
