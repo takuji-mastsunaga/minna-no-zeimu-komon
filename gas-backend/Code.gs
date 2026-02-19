@@ -1,4 +1,5 @@
 // ========== 設定 ==========
+// v55: 行削除耐性（findRowIndexByUUIDをAC列動的検索に変更）+ Webhook排他制御（LockService）
 // v54: プロモーションコード自動取得修正 - Webhook受信時にStripe APIでSession再取得
 // v53: 月額プランのオプション料金を12で按分（年額ベース→月額按分）
 // v51: LP2案内メール本文変更（連絡先をChatworkに統一、今後の流れを更新）
@@ -199,8 +200,18 @@ function doPost(e) {
         if (body.id && body.type && body.type.indexOf('.') > 0) {
           logWebhookEvent('webhook_detected', body.id, 'processing', 'Event type: ' + body.type, '');
           Logger.log('Stripe Webhook detected: ' + body.type);
-          var webhookResult = handleStripeWebhook(e);
-          logWebhookEvent('webhook_processed', body.id, 'success', 'Result: ' + JSON.stringify(webhookResult), '');
+
+          // v55: LockServiceで排他制御（同時Webhook処理による行番号競合を防止）
+          // ユーザー側(LP1/LP2)には影響なし。Webhook処理のみ直列化。
+          var lock = LockService.getScriptLock();
+          lock.waitLock(15000); // 最大15秒待機（1件の処理は3-5秒）
+          try {
+            var webhookResult = handleStripeWebhook(e);
+            logWebhookEvent('webhook_processed', body.id, 'success', 'Result: ' + JSON.stringify(webhookResult), '');
+          } finally {
+            lock.releaseLock();
+          }
+
           return ContentService.createTextOutput(JSON.stringify(webhookResult))
             .setMimeType(ContentService.MimeType.JSON);
         }
@@ -524,19 +535,39 @@ function saveApplicationDataLP1(record) {
 
 /* ========== LP②：UUIDでAB以降を更新するための下準備 ========== */
 /**
- * uuid → {rowIndex, sheetType} を引く（keysシート）
+ * uuid → {rowIndex, sheetType} を引く
+ * v55: masterの場合はAC列(29列目)のUUID値で実際の行番号を動的取得
+ *      （行削除・並べ替えによる行番号ずれを防止）
  */
 function findRowIndexByUUID(uuid) {
   const sh = getOrCreateKeys_();
   const lastRow = sh.getLastRow();
   if (lastRow < 2) return null;
-  
+
   const values = sh.getRange(2, 1, lastRow - 1, 5).getValues(); // [uuid, rowIndex, createdAt, status, sheetType]
   for (let i = 0; i < values.length; i++) {
     if (values[i][0] === uuid) {
+      const sheetType = values[i][4] || 'pending';
+      let rowIndex = Number(values[i][1]);
+
+      // v55: masterシートの場合、AC列(29列目)のUUIDで実際の行番号を動的取得
+      if (sheetType === 'master') {
+        const master = getOrCreateMaster_();
+        const masterLastRow = master.getLastRow();
+        if (masterLastRow >= 2) {
+          const acValues = master.getRange(2, 29, masterLastRow - 1, 1).getValues(); // AC列
+          for (let j = 0; j < acValues.length; j++) {
+            if (acValues[j][0] === uuid) {
+              rowIndex = j + 2; // ヘッダー行(1) + offset
+              break;
+            }
+          }
+        }
+      }
+
       return {
-        rowIndex: Number(values[i][1]),
-        sheetType: values[i][4] || 'pending',
+        rowIndex: rowIndex,
+        sheetType: sheetType,
         keysRow: i + 2 // keysシート上の行番号
       };
     }
