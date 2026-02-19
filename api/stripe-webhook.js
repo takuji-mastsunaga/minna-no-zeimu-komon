@@ -1,8 +1,8 @@
 // Vercel Serverless Function: Stripe Webhook 中間プロキシ
 // 目的: GASの302リダイレクト問題を回避し、Stripeに200を返す
 
-// GAS Web App URL (v53)
-const GAS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwqW2piUBJOcOHdqv0GMCX1u_qJveJsHyuYW7GW2oF2DMecqsvLwEuvoHd3ZUrQ-nzI/exec';
+// GAS Web App URL (v54 - プロモーションコード自動取得修正)
+const GAS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzuWvqhQw4U1_roRc2W5pYQUQiU_J2cDQRJvj4IhA9jrHjYHCLZMRnSZXCzjUV7AZyP/exec';
 
 export default async function handler(req, res) {
   // POSTリクエストのみ受け付け

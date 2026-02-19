@@ -1,4 +1,5 @@
 // ========== 設定 ==========
+// v54: プロモーションコード自動取得修正 - Webhook受信時にStripe APIでSession再取得
 // v53: 月額プランのオプション料金を12で按分（年額ベース→月額按分）
 // v51: LP2案内メール本文変更（連絡先をChatworkに統一、今後の流れを更新）
 // v50: メール送信者ヘッダー設定、還付先説明文変更、役員人数ヘルプテキスト修正
@@ -1042,17 +1043,48 @@ function handleStripeWebhook(e) {
  */
 function handleCheckoutCompleted(session) {
   try {
+    // ── v54追加: Stripe APIでSession再取得（プロモーションコード情報補完） ──
+    // Webhookペイロードにはdiscounts情報が含まれないため、
+    // Stripe APIでCheckout Sessionを再取得して補完する
+    try {
+      const _apiKey = getStripeApiKey();
+      if (_apiKey && session.id) {
+        const _url = 'https://api.stripe.com/v1/checkout/sessions/' + session.id;
+        const _resp = UrlFetchApp.fetch(_url, {
+          method: 'get',
+          headers: { 'Authorization': 'Bearer ' + _apiKey },
+          muteHttpExceptions: true
+        });
+        if (_resp.getResponseCode() === 200) {
+          const _full = JSON.parse(_resp.getContentText());
+          if (_full.discounts && _full.discounts.length > 0) {
+            session.discounts = _full.discounts;
+            Logger.log('v54: Session discounts updated from API: ' + JSON.stringify(_full.discounts));
+          }
+          if (_full.total_details) {
+            session.total_details = _full.total_details;
+            Logger.log('v54: Session total_details updated from API');
+          }
+        } else {
+          Logger.log('v54: Session re-fetch failed with status: ' + _resp.getResponseCode());
+        }
+      }
+    } catch (_e) {
+      Logger.log('v54: Session re-fetch error (continuing with webhook data): ' + _e);
+    }
+    // ── v54追加ここまで ──
+
     const uuid = session.metadata.uuid;
     const customerId = session.customer;
     const subscriptionId = session.subscription;
     const paymentIntentId = session.payment_intent;
-    
+
     // Stripe Sessionからメールアドレスを取得
     const email = session.customer_details?.email || session.customer_email || '';
-    
+
     // Stripe Sessionから課税判定を取得
     const hasTaxObligation = session.metadata.has_tax_obligation === 'true';
-    
+
     // Stripe Sessionからプロモーションコード情報を取得（実際のコード名を取得）
     let promoCode = '';
     if (session.discounts && session.discounts[0]) {
@@ -1939,10 +1971,65 @@ function sendLP2Email(uuid, sessionId) {
  * 使い方：実際のSession IDとメールアドレスの最初の3文字を設定して実行
  */
 function testAuthenticateLP2() {
-  // ⚠️ 実際の値に置き換えてください
-  const sessionId = 'cs_test_b1mNe5oGk0runPJ7yVgGuNFnBhznL5rfRgX6ms5fSRXElz1TSsNyJbIJpJ'; // 実際のSession ID
-  const emailPrefix = 'tes'; // テスト用メールアドレスの最初の3文字
+  // 🔍 デバッグ用：問題のsession_idで認証テスト
+  const sessionId = 'cs_live_b10i0nGGNe8ZZsbkodXfObp5LNupzprBeYb3fs3PAxTbng9VDbGueSmLva';
+  const emailPrefix = 't78';
   
+  Logger.log('=== テスト開始 ===');
+  Logger.log('Session ID: ' + sessionId);
+  Logger.log('入力した3文字: ' + emailPrefix);
+  
+  // 1. Session IDからUUIDを取得
+  const uuid = getUuidBySessionId_(sessionId);
+  Logger.log('取得したUUID: ' + uuid);
+  
+  if (!uuid) {
+    Logger.log('❌ UUIDが見つかりません');
+    return;
+  }
+  
+  // 2. UUIDからmasterシートの行を検索
+  const info = findRowIndexByUUID(uuid);
+  Logger.log('findRowIndexByUUID結果: ' + JSON.stringify(info));
+  
+  if (!info || info.sheetType !== 'master') {
+    Logger.log('❌ masterシートでデータが見つかりません');
+    return;
+  }
+  
+  // 3. masterシートから行データを取得
+  const masterSheet = getOrCreateMaster_();
+  const rowIndex = info.rowIndex;
+  Logger.log('参照する行番号: ' + rowIndex);
+  
+  const rowData = masterSheet.getRange(rowIndex, 1, 1, masterSheet.getLastColumn()).getValues()[0];
+  
+  // 4. 各列のデータを確認
+  Logger.log('A列 (rowData[0]): ' + rowData[0]);
+  Logger.log('B列 (rowData[1]): ' + rowData[1]);
+  Logger.log('C列 (rowData[2]): ' + rowData[2]);
+  Logger.log('D列 (rowData[3]): ' + rowData[3]);
+  Logger.log('E列 (rowData[4]): ' + rowData[4]);
+  Logger.log('F列 (rowData[5]): ' + rowData[5]);
+  
+  // 5. E列のメールアドレスを取得
+  const email = rowData[4];
+  Logger.log('E列のメールアドレス: ' + email);
+  
+  if (!email) {
+    Logger.log('❌ メールアドレスが空です');
+    return;
+  }
+  
+  // 6. 最初の3文字を比較
+  const actualPrefix = email.substring(0, 3).toLowerCase();
+  const inputPrefix = emailPrefix.toLowerCase();
+  
+  Logger.log('E列の最初の3文字: ' + actualPrefix);
+  Logger.log('入力した3文字: ' + inputPrefix);
+  Logger.log('一致するか: ' + (actualPrefix === inputPrefix));
+  
+  // 7. 認証関数を実行
   const result = authenticateLP2(sessionId, emailPrefix);
   Logger.log('=== authenticateLP2 Result ===');
   Logger.log(JSON.stringify(result, null, 2));
